@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../Header/Header';
+import { Link} from "react-router-dom"
 
 class Navigation extends React.Component {
   constructor(props) {
@@ -13,104 +14,104 @@ class Navigation extends React.Component {
       <div className="sidebar" data-color="white" data-active-color="danger">
       <div className="logo">
        
-        <a href="https://www.creative-tim.com" className="simple-text logo-normal">
+        <Link to="https://www.creative-tim.com" className="simple-text logo-normal">
           
            <div className="logo-image-big">
             <img src="assets/img/logo.png"/>
           </div> 
-        </a>
+        </Link>
       </div>
       <div className="sidebar-wrapper">
         <ul className="nav">
           <li className="active ">
-            <a href="/dashboard">
+            <Link to="/dashboard">
               <i className="nc-icon nc-bank"></i>
               <p>Tableau de bord</p>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/typesubs">
+            <Link to="/typesubs">
               <i className="nc-icon nc-diamond"></i>
               <p>Type d'adhésion</p>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/groupe">
+            <Link to="/groupe">
               <i className="nc-icon nc-pin-3"></i>
               <p>Groupe</p>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/course">
+            <Link to="/course">
               <i className="nc-icon nc-bell-55"></i>
               <p>Cours</p>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/staff">
+            <Link to="/staff">
               <i className="nc-icon nc-single-02"></i>
               <p>Staff</p>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/activity">
+            <Link to="/activity">
               <i className="nc-icon nc-tile-56"></i>
               <p>Activité</p>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/member">
+            <Link to="/member">
               <i className="nc-icon nc-caps-small"></i>
               <p>Membres</p>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/exercice">
+            <Link to="/exercice">
               <i className="nc-icon nc-caps-small"></i>
               <p>Exercices</p>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/product">
+            <Link to="/product">
               <i className="nc-icon nc-caps-small"></i>
               <p>Produit</p>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/event">
+            <Link to="/event">
               <i className="nc-icon nc-caps-small"></i>
               <p>Evenements</p>
-            </a>
+            </Link>
           </li>
            <li>
-            <a href="/presence">
+            <Link to="/presence">
               <i className="nc-icon nc-caps-small"></i>
               <p>Présences</p>
-            </a>
+            </Link>
           </li>
            <li>
-            <a href="/payment">
+            <Link to="/payment">
               <i className="nc-icon nc-caps-small"></i>
               <p>Paiements</p>
-            </a>
+            </Link>
           </li>
            <li>
-            <a href="/revenue">
+            <Link to="/revenue">
               <i className="nc-icon nc-caps-small"></i>
               <p>Revenus</p>
-            </a>
+            </Link>
           </li>
            <li>
-            <a href="/expense">
+            <Link to="/expense">
               <i className="nc-icon nc-caps-small"></i>
               <p>Dépenses</p>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/configuration">
+            <Link to="/configuration">
               <i className="nc-icon nc-caps-small"></i>
               <p>Paramètres</p>
-            </a>
+            </Link>
           </li>
 
         </ul>

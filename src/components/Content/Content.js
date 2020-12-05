@@ -20,14 +20,18 @@ import Course from '../Course/Course';
 import Booking from '../Booking/Booking';
 import Event from '../Event/Event';
 import TypeSubs from '../TypeSubs/TypeSubs';
-
-
+import Navigation from '../Navigation/Navigation';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 
 const Content = () => (
-  
+
     <Router>
+          <Navigation/>
+      <div className="main-panel">
         
-        <Route exact path="/" component={Dashbord} />
+       <Header/>
+       <Route exact path="/" component={Dashbord} />
         <Route exact path="/activity" component={Activity} />
         <Route exact path="/booking" component={Booking} />
         <Route exact path="/course" component={Course} />
@@ -42,13 +46,18 @@ const Content = () => (
         <Route exact path="/revenue" component={Revenue} />
         <Route exact path="/staff" component={Staff} />
         <Route exact path="/type" component={TypeSubs} />
-         
-          <Route exact path="/configuration" component={Configuration} />
-         
-          
+
+        <Route exact path="/configuration" component={Configuration} />
+    
+      
+        <Footer/>
+      </div>
         
-      </Router>
-   
+
+
+
+    </Router>
+
 );
 
 Content.propTypes = {};
