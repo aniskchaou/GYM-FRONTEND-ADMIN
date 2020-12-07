@@ -13,7 +13,7 @@ const Header = () => (
             <span className="navbar-toggler-bar bar3"></span>
           </button>
         </div>
-        <a className="navbar-brand" href="javascript:;">Paper Dashboard 2</a>
+        <a className="navbar-brand" href="javascript:;"></a>
       </div>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-bar navbar-kebab"></span>
@@ -23,7 +23,7 @@ const Header = () => (
       <div className="collapse navbar-collapse justify-content-end" id="navigation">
         <form>
           <div className="input-group no-border">
-            <input type="text" value="" className="form-control" placeholder="Search..."/>
+            <input type="text" value="" className="form-control" placeholder="Rechercher..."/>
             <div className="input-group-append">
               <div className="input-group-text">
                 <i className="nc-icon nc-zoom-split"></i>

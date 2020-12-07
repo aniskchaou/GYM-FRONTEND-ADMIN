@@ -8,7 +8,7 @@ const Member = () => (
       <div className="col-md-12">
         <div className="card">
           <div className="card-header">
-            <h4 className="card-title"> Cours</h4>
+            <h4 className="card-title"> Membres</h4>
           </div>
           <div className="card-body">
             <div className="table-responsive">

@@ -3,30 +3,111 @@ import PropTypes from 'prop-types';
 import './DashBoard.css';
 
 const DashBoard = () => (
-  <div className="content">
-  <div className="row">
-    <div className="col-md-12">
-      <div className="card">
-        <div className="card-header">
-          <h4 className="card-title"> Revenus</h4>
+  <div classNameName="content">
+  <div classNameName="row">
+    <div classNameName="col-md-12">
+      <div classNameName="card">
+        <div classNameName="card-header">
+          <h4 classNameName="card-title"> Tableau de bord</h4>
         </div>
-        <div className="card-body">
-          <div className="table-responsive">
-            <table className="table">
-              <thead className=" text-primary">
-                <th>Nom</th>
-                <th>Montant</th>
-                
-              </thead>
-              <tbody>
-                <tr>
-                  <td>course</td>
-                  <td>3435</td>
-                          
-                </tr>
-              </tbody>
-            </table>
+        <div classNameName="card-body">
+         
+        <div className="row">
+          <div className="col-lg-3 col-md-6 col-sm-6">
+            <div className="card card-stats">
+              <div className="card-body ">
+                <div className="row">
+                  <div className="col-5 col-md-4">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-globe text-warning"></i>
+                    </div>
+                  </div>
+                  <div className="col-7 col-md-8">
+                    <div className="numbers">
+                      <p className="card-category">Membres</p>
+                      <p className="card-title">3</p><p>
+                    </p></div>
+                  </div>
+                </div>
+              </div>
+             
+            </div>
           </div>
+          <div className="col-lg-3 col-md-6 col-sm-6">
+            <div className="card card-stats">
+              <div className="card-body ">
+                <div className="row">
+                  <div className="col-5 col-md-4">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-money-coins text-success"></i>
+                    </div>
+                  </div>
+                  <div className="col-7 col-md-8">
+                    <div className="numbers">
+                      <p className="card-category">Résérvations</p>
+                      <p className="card-title">23</p><p>
+                    </p></div>
+                  </div>
+                </div>
+              </div>
+           
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 col-sm-6">
+            <div className="card card-stats">
+              <div className="card-body ">
+                <div className="row">
+                  <div className="col-5 col-md-4">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-vector text-danger"></i>
+                    </div>
+                  </div>
+                  <div className="col-7 col-md-8">
+                    <div className="numbers">
+                      <p className="card-category">Exercices</p>
+                      <p className="card-title">23</p><p>
+                    </p></div>
+                  </div>
+                </div>
+              </div>
+        
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 col-sm-6">
+            <div className="card card-stats">
+              <div className="card-body ">
+                <div className="row">
+                  <div className="col-5 col-md-4">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-favourite-28 text-primary"></i>
+                    </div>
+                  </div>
+                  <div className="col-7 col-md-8">
+                    <div className="numbers">
+                      <p className="card-category">Activités</p>
+                      <p className="card-title">4</p><p>
+                    </p></div>
+                  </div>
+                </div>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
       </div>
     </div>

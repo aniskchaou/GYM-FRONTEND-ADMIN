@@ -32,6 +32,7 @@ const Content = () => (
         
        <Header/>
        <Route exact path="/" component={Dashbord} />
+       <Route exact path="/dashboard" component={Dashbord} />
         <Route exact path="/activity" component={Activity} />
         <Route exact path="/booking" component={Booking} />
         <Route exact path="/course" component={Course} />
@@ -45,7 +46,7 @@ const Content = () => (
         <Route exact path="/product" component={Product} />
         <Route exact path="/revenue" component={Revenue} />
         <Route exact path="/staff" component={Staff} />
-        <Route exact path="/type" component={TypeSubs} />
+        <Route exact path="/typesubs" component={TypeSubs} />
 
         <Route exact path="/configuration" component={Configuration} />
     
