@@ -7,3 +7,4 @@
 [1205/230721.152:ERROR:exception_snapshot_win.cc(99)] thread ID 7052 not found in process
 [1205/230721.152:ERROR:exception_snapshot_win.cc(99)] thread ID 2736 not found in process
 [1205/230721.152:ERROR:exception_snapshot_win.cc(99)] thread ID 6904 not found in process
+[1228/063814.462:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d’accès spécifié est introuvable. (0x3)

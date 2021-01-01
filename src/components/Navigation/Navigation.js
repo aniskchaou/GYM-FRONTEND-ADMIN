@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../Header/Header';
-import { Link} from "react-router-dom"
-
+import { NavLink} from "react-router-dom"
+import './Navigation.css'
 class Navigation extends React.Component {
   constructor(props) {
     super(props);
@@ -14,104 +14,104 @@ class Navigation extends React.Component {
       <div className="sidebar" data-color="white" data-active-color="danger">
       <div className="logo">
        
-        <Link to="https://www.creative-tim.com" className="simple-text logo-normal">
+        <NavLink to="https://www.creative-tim.com" className="simple-text logo-normal">
           
            <div className="logo-image-big">
             <img src="assets/img/logo.png"/>
           </div> 
-        </Link>
+        </NavLink>
       </div>
       <div className="sidebar-wrapper">
         <ul className="nav">
-          <li className="active ">
-            <Link to="/dashboard">
+          <li>
+            <NavLink activeClassName="activeLink" to="/dashboard">
               <i className="nc-icon nc-bank"></i>
               <p>Tableau de bord</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/typesubs">
-              <i className="nc-icon nc-diamond"></i>
+            <NavLink activeClassName="activeLink"  to="/typesubs">
+              <i className="nc-icon nc-bullet-list-67"></i>
               <p>Type d'adhésion</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/groupe">
-              <i className="nc-icon nc-pin-3"></i>
+            <NavLink activeClassName="activeLink" to="/groupe">
+              <i className="nc-icon nc-badge"></i>
               <p>Groupe</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/course">
+            <NavLink activeClassName="activeLink" to="/course">
               <i className="nc-icon nc-bell-55"></i>
               <p>Cours</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/staff">
+            <NavLink activeClassName="activeLink" to="/staff">
               <i className="nc-icon nc-single-02"></i>
               <p>Staff</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/activity">
+            <NavLink activeClassName="activeLink" to="/activity">
               <i className="nc-icon nc-tile-56"></i>
               <p>Activité</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/member">
-              <i className="nc-icon nc-caps-small"></i>
+            <NavLink activeClassName="activeLink" to="/member">
+              <i className="nc-icon nc-single-02"></i>
               <p>Membres</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/exercice">
-              <i className="nc-icon nc-caps-small"></i>
+            <NavLink activeClassName="activeLink" to="/exercice">
+              <i className="nc-icon nc-user-run"></i>
               <p>Exercices</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/product">
-              <i className="nc-icon nc-caps-small"></i>
+            <NavLink activeClassName="activeLink" to="/product">
+              <i className="nc-icon nc-box-2"></i>
               <p>Produit</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/event">
-              <i className="nc-icon nc-caps-small"></i>
+            <NavLink activeClassName="activeLink" to="/event">
+              <i className="nc-icon nc-bulb-63"></i>
               <p>Evenements</p>
-            </Link>
+            </NavLink>
           </li>
            <li>
-            <Link to="/presence">
-              <i className="nc-icon nc-caps-small"></i>
+            <NavLink activeClassName="activeLink" to="/presence">
+              <i className="nc-icon nc-paper"></i>
               <p>Présences</p>
-            </Link>
+            </NavLink>
           </li>
            <li>
-            <Link to="/payment">
-              <i className="nc-icon nc-caps-small"></i>
+            <NavLink activeClassName="activeLink" to="/payment">
+              <i className="nc-icon nc-basket"></i>
               <p>Paiements</p>
-            </Link>
+            </NavLink>
           </li>
            <li>
-            <Link to="/revenue">
-              <i className="nc-icon nc-caps-small"></i>
+            <NavLink activeClassName="activeLink" to="/revenue">
+              <i className="nc-icon nc-refresh-69"></i>
               <p>Revenus</p>
-            </Link>
+            </NavLink>
           </li>
            <li>
-            <Link to="/expense">
-              <i className="nc-icon nc-caps-small"></i>
+            <NavLink activeClassName="activeLink" to="/expense">
+              <i className="nc-icon nc-money-coins"></i>
               <p>Dépenses</p>
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/configuration">
-              <i className="nc-icon nc-caps-small"></i>
+            <NavLink activeClassName="activeLink" to="/configuration">
+              <i className="nc-icon nc-settings-gear-65"></i>
               <p>Paramètres</p>
-            </Link>
+            </NavLink>
           </li>
 
         </ul>
