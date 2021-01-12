@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './Presence.css';
+import { LoadJS } from './../init';
 
-const Presence = () => (
+const Presence = ()  => {
+  
+  useEffect(() => {
+    // Runs ONCE after initial rendering
+    LoadJS()
+    console.log('hello')
+  }, []);
+  
+  return(
   <div className="content">
   <div className="row">
     <div className="col-md-12">
@@ -12,9 +21,33 @@ const Presence = () => (
         </div>
         <div className="card-body">
           <div className="table-responsive">
-            <table className="table">
-              
-            </table>
+          <table className="table">
+                <thead class=" text-primary">
+                  <tr> <th>Nom membre</th>
+                  <th>Date</th>
+                  <th>jour</th>
+                  <th>Statut</th></tr>
+                 
+                
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>anis</td>
+                    <td>22/10/2020</td>
+                    <td>lundi</td>
+                    <td>absent</td>
+                  
+                  </tr>
+                </tbody>
+                <tfoot class=" text-primary">
+                  <tr> <th>Nom membre</th>
+                  <th>Date</th>
+                  <th>jour</th>
+                  <th>Statut</th></tr>
+                 
+                
+                </tfoot>
+              </table>
           </div>
         </div>
       </div>
@@ -22,7 +55,7 @@ const Presence = () => (
   
   </div>
 </div>
-);
+)};
 
 Presence.propTypes = {};
 

@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './TypeSubs.css';
 import AddTypeSubs from './../AddTypeSubs/AddTypeSubs';
+import { LoadJS } from './../init';
+import EditTypeSubs from './../EditTypeSubs/EditTypeSubs';
 
-const TypeSubs = () => (
+const TypeSubs = () => {
+  
+  useEffect(() => {
+    // Runs ONCE after initial rendering
+    LoadJS()
+    console.log('hello')
+  }, []);
+  
+  return(
   <div className="content">
   <div className="row">
     <div className="col-md-12">
@@ -14,20 +24,22 @@ const TypeSubs = () => (
         <div className="card-body">
           <div className="table-responsive">
             <table className="table">
-            <thead class=" text-primary">
+            <thead class=" text-primary"><tr>
                       <th>Nom</th>
                       <th>Période </th>
                       <th>Plan de versement</th>
                       <th>Frais d'inscription</th>
-                     
-                    </thead>
+                      <th>Actions</th>
+                      </tr></thead>
                     <tbody>
                       <tr>
                         <td>fitness</td>
                         <td>4 mois</td>
                         <td>cash</td>
                         <td>232</td>
-                       
+                        <td>
+                        <button  data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+                        <button  type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
                       </tr>
                     </tbody>
             </table>
@@ -56,6 +68,26 @@ const TypeSubs = () => (
 </div>
 
 
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <EditTypeSubs/>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
           </div>
         </div>
       </div>
@@ -63,7 +95,7 @@ const TypeSubs = () => (
   
   </div>
 </div>
-);
+)};
 
 TypeSubs.propTypes = {};
 

@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './Activity.css';
 import AddActivity from './../AddActivity/AddActivity';
+import { LoadJS } from './../init';
+import EditActivity from './../EditActivity/EditActivity';
 const deleteTask = () => {
   return window.confirm("Êtes-vous sûr de vouloir supprimer cette tache ?")
 }
-const Activity = () => (
+const Activity = () => {
+  
+  useEffect(() => {
+    // Runs ONCE after initial rendering
+    LoadJS()
+    console.log('hello')
+  }, []);
+  
+  return(
   <div className="content">
     <div className="row">
       <div className="col-md-12">
@@ -17,18 +27,19 @@ const Activity = () => (
             <div className="table-responsive">
               <table className="table">
                 <thead class=" text-primary">
+                  <tr>
                   <th>Nom de l'activité</th>
                   <th>Categorie</th>
                   <th>Formateur</th>
                   <th>Actions</th>
-
+                 </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>fitness</td>
                     <td>sport</td>
                     <td>Anis</td>
-                    <td><button type="button" data-toggle="modal" data-target="#viewActivity" class="btn btn-primary btn-sm"><i class="fas fa-address-book"></i></button>
+                    <td>
                       <button type="button" data-toggle="modal" data-target="#editActivity" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
                       <button type="button" class="btn btn-danger btn-sm" onClick={deleteTask}><i class="fas fa-trash-alt"></i></button></td>
                   </tr>
@@ -68,7 +79,7 @@ const Activity = () => (
                       </button>
                     </div>
                     <div class="modal-body">
-
+                      <EditActivity/>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -84,7 +95,7 @@ const Activity = () => (
 
     </div>
   </div>
-);
+)};
 
 Activity.propTypes = {};
 

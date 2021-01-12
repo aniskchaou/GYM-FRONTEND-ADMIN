@@ -41,12 +41,7 @@ class Navigation extends React.Component {
               <p>Groupe</p>
             </NavLink>
           </li>
-          <li>
-            <NavLink activeClassName="activeLink" to="/course">
-              <i className="nc-icon nc-bell-55"></i>
-              <p>Cours</p>
-            </NavLink>
-          </li>
+        
           <li>
             <NavLink activeClassName="activeLink" to="/staff">
               <i className="nc-icon nc-single-02"></i>

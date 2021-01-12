@@ -10,7 +10,7 @@ class Root extends React.Component {
   render() {
     return (
       
-      <div className="wrapper ">
+      <div id="root"  className="wrapper ">
        
       <Content/>
       

@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './Booking.css';
 import AddBooking from './../AddBooking/AddBooking';
+import { LoadJS } from './../init';
 
-const Booking = () => (
+const Booking = () => {
+  
+  useEffect(() => {
+    // Runs ONCE after initial rendering
+    LoadJS()
+    console.log('hello')
+  }, []);
+  
+  return(
   <div className="content">
           <div className="row">
             <div className="col-md-12">
@@ -45,7 +54,7 @@ const Booking = () => (
           
           </div>
         </div>
-);
+)};
 
 Booking.propTypes = {};
 

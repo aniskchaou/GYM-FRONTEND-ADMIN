@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './DashBoard.css';
+import { drawChart } from './../chart';
+import Revenue from './../Revenue/Revenue';
 
-const DashBoard = () => (
+const DashBoard = () => {
+
+  useEffect(() => {
+    // Runs ONCE after initial rendering
+    drawChart()
+     
+  }, []);
+
+  return(
   <div classNameName="content">
   <div classNameName="row">
     <div classNameName="col-md-12">
@@ -93,6 +103,36 @@ const DashBoard = () => (
              
             </div>
           </div>
+
+
+          <div className="col-md-6">
+          <div className="card">
+              <div className="card-body">
+         
+                                <h4 className="mb-3">Revenus</h4>
+                                <canvas  height="225"  width="450" className="revenue-chart chartjs-render-monitor"></canvas>
+           </div>
+           </div>
+           </div>
+
+           <div className="col-md-6">
+          <div className="card">
+              <div className="card-body">
+         
+                                <h4 className="mb-3">Dépenses</h4>
+                                <canvas  height="225"  width="450" className="expense-chart chartjs-render-monitor"></canvas>
+           </div>
+           </div>
+           </div>
+
+
+
+
+
+
+
+
+
         </div>
 
 
@@ -114,7 +154,7 @@ const DashBoard = () => (
   
   </div>
 </div>
-);
+)};
 
 DashBoard.propTypes = {};
 
