@@ -10,7 +10,7 @@ $(function() {
             'pdf','csvHtml5','excel','print'
         ],
         initComplete: function () {
-            this.api().columns([0,4,5]).every( function () {
+            this.api().columns([0,1,2,3,4,5]).every( function () {
                 var column = this;
                 var select = $('<select style="width:60px" ><option value=""></option></select>')
                     .appendTo( $(column.footer()).empty() )
