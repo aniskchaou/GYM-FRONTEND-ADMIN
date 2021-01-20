@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './Activity.css';
 import AddActivity from '../AddActivity/AddActivity';
-import { LoadJS } from '../../init';
-import EditActivity from '../../EditActivity/EditActivity';
+import { LoadJS } from '../../../libraries/datatables/datatables';
+import EditActivity from '../EditActivity/EditActivity';
 const deleteTask = () => {
   return window.confirm("Êtes-vous sûr de vouloir supprimer cette tache ?")
 }
@@ -81,8 +81,8 @@ const Activity = () => {
                             <AddActivity/>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        
                     </div>
                   </div>
                 </div>
@@ -102,8 +102,8 @@ const Activity = () => {
                       <EditActivity/>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        
                     </div>
                   </div>
                 </div>

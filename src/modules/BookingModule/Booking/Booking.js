@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './Booking.css';
-import AddBooking from '../../AddBooking/AddBooking';
-import { LoadJS } from '../../init';
+import AddBooking from '../AddBooking/AddBooking';
+import { LoadJS } from '../../../libraries/datatables/datatables';
 
 const Booking = () => {
   
@@ -41,8 +41,8 @@ const Booking = () => {
         <AddBooking/>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          
       </div>
     </div>
   </div>

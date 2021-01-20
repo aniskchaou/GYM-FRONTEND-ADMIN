@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './AddActivity.css';
+import './EditActivity.css';
 
-const AddActivity = () => (
-
-<div className="AddActivity">
-<form>
+const EditActivity = () => (
+  <div className="EditActivity">
+   <form>
   <div class="form-group row">
     <label for="select" class="col-4 col-form-label">Catégorie</label> 
     <div class="col-8">
@@ -45,13 +44,11 @@ const AddActivity = () => (
     </div>
   </div>
 </form>
-</div>
-
-
+  </div>
 );
 
-AddActivity.propTypes = {};
+EditActivity.propTypes = {};
 
-AddActivity.defaultProps = {};
+EditActivity.defaultProps = {};
 
-export default AddActivity;
+export default EditActivity;
