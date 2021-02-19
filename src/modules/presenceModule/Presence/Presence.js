@@ -1,15 +1,78 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+
+import React, { useEffect, useState } from 'react';
 import './Presence.css';
-import { LoadJS } from './../../../libraries/datatables/datatables';
+import { LoadJS } from '../../../libraries/datatables/datatables';
+import EditPresence from '../EditPresence/EditPresence';
+import AddPresence from '../AddPresence/AddPresence';
+import useForceUpdate from 'use-force-update';
+import showMessage from '../../../libraries/messages/messages';
+import presenceMessage from '../../../main/messages/presenceMessage';
+import PresenceTestService from '../../../main/mocks/PresenceTestService';
+import HTTPService from '../../../main/services/HTTPService';
 
 const Presence = () => {
 
+  const [presences, setPresences] = useState([]);
+  const [updatedItem, setUpdatedItem] = useState({});
+  const forceUpdate = useForceUpdate();
+
+
   useEffect(() => {
-    // Runs ONCE after initial rendering
     LoadJS()
-    console.log('hello')
+    retrievePresences()
   }, []);
+
+
+  const getAll = () => {
+    HTTPService.getAll()
+      .then(response => {
+        setPresences(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const removeOne = (data) => {
+    HTTPService.remove(data)
+      .then(response => {
+
+      })
+      .catch(e => {
+
+      });
+  }
+
+
+
+  const retrievePresences = () => {
+    var presences = PresenceTestService.getAll();
+    setPresences(presences);
+  };
+
+  const resfresh = () => {
+    retrievePresences()
+    forceUpdate()
+  }
+
+  const remove = (e, data) => {
+    e.preventDefault();
+    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
+    if (r) {
+      showMessage('Confirmation', presenceMessage.delete, 'success')
+      PresenceTestService.remove(data)
+      //removeOne(data)
+      resfresh()
+    }
+
+  }
+
+  const update = (e, data) => {
+    e.preventDefault();
+    setUpdatedItem(data)
+    resfresh()
+  }
+
 
   return (
     <div className="content">
@@ -31,11 +94,22 @@ const Presence = () => {
 
                   </thead>
                   <tbody>
+
+                    {presences.map(item =>
+                      <tr>
+                        <td>Christophe Marceau</td>
+                        <td>08/01/2021</td>
+                        <td>vendredi</td>
+                        <td class="badge badge-success">absent</td>
+                      </tr>
+                    )}
+
                     <tr>
                       <td>Christophe Marceau</td>
                       <td>08/01/2021</td>
                       <td>vendredi</td>
-                      <td class="badge badge-success">absent</td></tr>
+                      <td class="badge badge-success">absent</td>
+                    </tr>
 
                     <tr>
                       <td>Musette Gervais</td>

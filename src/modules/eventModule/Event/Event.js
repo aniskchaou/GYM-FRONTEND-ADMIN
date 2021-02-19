@@ -1,17 +1,78 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+
+import React, { useEffect, useState } from 'react';
 import './Event.css';
-import AddEvent from './../AddEvent/AddEvent';
-import { LoadJS } from './../../../libraries/datatables/datatables';
-import EditEvent from './../EditEvent/EditEvent';
+import { LoadJS } from '../../../libraries/datatables/datatables';
+import EditEvent from '../EditEvent/EditEvent';
+import AddEvent from '../AddEvent/AddEvent';
+import useForceUpdate from 'use-force-update';
+import showMessage from '../../../libraries/messages/messages';
+import eventMessage from '../../../main/messages/eventMessage';
+import EventTestService from '../../../main/mocks/EventTestService';
+import HTTPService from '../../../main/services/HTTPService';
 
 const Event = () => {
 
+  const [events, setEvents] = useState([]);
+  const [updatedItem, setUpdatedItem] = useState({});
+  const forceUpdate = useForceUpdate();
+
+
   useEffect(() => {
-    // Runs ONCE after initial rendering
     LoadJS()
-    console.log('hello')
+    retrieveEvents()
   }, []);
+
+
+  const getAll = () => {
+    HTTPService.getAll()
+      .then(response => {
+        setEvents(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const removeOne = (data) => {
+    HTTPService.remove(data)
+      .then(response => {
+
+      })
+      .catch(e => {
+
+      });
+  }
+
+
+
+  const retrieveEvents = () => {
+    var events = EventTestService.getAll();
+    setEvents(events);
+  };
+
+  const resfresh = () => {
+    retrieveEvents()
+    forceUpdate()
+  }
+
+  const remove = (e, data) => {
+    e.preventDefault();
+    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
+    if (r) {
+      showMessage('Confirmation', eventMessage.delete, 'success')
+      EventTestService.remove(data)
+      //removeOne(data)
+      resfresh()
+    }
+
+  }
+
+  const update = (e, data) => {
+    e.preventDefault();
+    setUpdatedItem(data)
+    resfresh()
+  }
+
 
   return (
     <div className="content">
@@ -41,15 +102,19 @@ const Event = () => {
                       <th>Actions</th></tr>
                   </thead>
                   <tbody>
-                    <tr><td>Cours de musculation</td>
-                      <td>15/03/2021</td>
-                      <td>93, avenue de Bouvines
-89100 SENS </td>
-                      <td>17:00</td>
-                      <td>19:00</td><td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>         </tr>
 
+
+                    {events.map(item =>
+                      <tr><td>{item.event_name}</td>
+                        <td>{item.event_date}</td>
+                        <td>93, avenue de Bouvines 89100 SENS </td>
+                        <td>{item.starttime}</td>
+                        <td>{item.endtime}</td><td>
+                          <button onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+                          <button onClick={e => remove(e, events.indexOf(item))} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                      </tr>
+                    )}
 
                     <tr><td>Cours de muscilation</td>
                       <td>15/03/2021</td>
@@ -90,15 +155,15 @@ const Event = () => {
                       <th>Actions</th></tr>
                   </tfoot>
                 </table>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addEvent">Ajouter</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addEvent"><i class="far fa-plus-square"></i>  Ajouter</button>
 
 
                 <div class="modal fade" id="addEvent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Nouveau</h5>
+                        <button onClick={resfresh} type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
@@ -106,8 +171,8 @@ const Event = () => {
                         <AddEvent />
                       </div>
                       <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                          
+                        <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+
                       </div>
                     </div>
                   </div>
@@ -119,17 +184,17 @@ const Event = () => {
                   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>
+                        <button onClick={resfresh} type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        <EditEvent />
+                        <EditEvent event={updatedItem} />
                       </div>
                       <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                          
+                        <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+
                       </div>
                     </div>
                   </div>
