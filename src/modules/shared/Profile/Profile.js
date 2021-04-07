@@ -16,7 +16,7 @@ const Profile = () => (
               <img class="img-fluid" src="https://images.pexels.com/photos/946351/pexels-photo-946351.jpeg?w=950&h=650&auto=compress&cs=tinysrgb" alt="Card image cap" />
             </div>
             <div class="card-body pt-5">
-              <img src="images/admin.png" alt="profile-image" class="profile" />
+              <img src="images/admin.jpg" alt="profile-image" class="profile" />
               <h5 class="card-title">Landon Hunt</h5>
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
               <div class="icon-block">
