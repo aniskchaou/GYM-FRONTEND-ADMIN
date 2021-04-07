@@ -105,22 +105,6 @@ const Groupe = () => {
                       </tr>
                     )}
 
-                    <tr>
-                      <td>Groupe salsa</td>
-                      <td>4</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-
-                    </tr>
-                    <tr>
-                      <td>Groupe fitness</td>
-                      <td>14</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-
-                    </tr>
                   </tbody>
                   <tfoot class=" text-primary">
                     <tr> <th>Nom</th>

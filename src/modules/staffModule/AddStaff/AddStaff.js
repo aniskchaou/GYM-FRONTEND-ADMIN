@@ -82,7 +82,7 @@ const AddStaff = () => {
           <label for="text2" class="col-4 col-form-label">Date de naissance</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={staff.date} ref={register({ required: true })}
-              id="text2" name="date" type="text" class="form-control" />
+              id="text2" name="date" type="dare" class="form-control" />
             <div className="error text-danger">
               {errors.date && staffValidation.date}
             </div>
@@ -96,8 +96,8 @@ const AddStaff = () => {
           <div class="col-8">
             <select onChange={handleInputChange} value={staff.role} ref={register({ required: true })}
               id="select" name="role" class="custom-select">
-              <option value="rabbit">Yoga</option>
-              <option value="duck">Fitness</option>
+              <option value="Yoga">Yoga</option>
+              <option value="Fitness">Fitness</option>
             </select>
             <div className="error text-danger">
               {errors.role && staffValidation.role}
@@ -135,7 +135,7 @@ const AddStaff = () => {
           <label for="text5" class="col-4 col-form-label">Mobile</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={staff.mobile} ref={register({ required: true })}
-              id="text5" name="mobile" type="text" class="form-control" />
+              id="text5" name="mobile" type="number" class="form-control" />
             <div className="error text-danger">
               {errors.mobile && staffValidation.mobile}
             </div>

@@ -110,7 +110,7 @@ const AddTypeSubs = () => {
           <label for="text3" class="col-4 col-form-label">Montant de l'adhésion</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={job.amount} ref={register({ required: true })}
-              id="text3" name="amount" type="text" class="form-control" />
+              id="text3" name="amount" type="number" class="form-control" />
             <div className="error text-danger">
               {errors.amount && typeSubValidation.amount}
             </div>
@@ -147,8 +147,8 @@ const AddTypeSubs = () => {
           <div class="col-8">
             <select onChange={handleInputChange} value={job.time_payment} ref={register({ required: true })}
               id="select1" name="time_payment" class="custom-select">
-              <option value="rabbit">1 semaine</option>
-              <option value="duck">1 mois</option>
+              <option value="1">1 semaine</option>
+              <option value="3">1 mois</option>
             </select>
             <div className="error text-danger">
               {errors.time_payment && typeSubValidation.time_payment}

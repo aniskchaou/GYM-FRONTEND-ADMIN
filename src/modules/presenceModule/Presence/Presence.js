@@ -83,54 +83,31 @@ const Presence = () => {
               <h4 className="card-title"> Présenses</h4>
             </div>
             <div className="card-body">
-              <div className="table-responsive">
-                <table className="table">
-                  <thead class=" text-primary">
-                    <tr> <th>Nom membre</th>
-                      <th>Date</th>
-                      <th>jour</th>
-                      <th>Statut</th></tr>
+              <table className="table">
+                <thead class=" text-primary">
+                  <tr> <th>Nom membre</th>
+                    <th>Date</th>
+                    <th>jour</th>
+                    <th>Statut</th></tr>
+                </thead>
+                <tbody>
 
+                  <tr>
+                    <td>Christophe Marceau</td>
+                    <td>08/01/2021</td>
+                    <td>vendredi</td>
+                    <td><span class="badge badge-success">absent</span></td>
+                  </tr>
 
-                  </thead>
-                  <tbody>
+                </tbody>
+                <tfoot class=" text-primary">
+                  <tr> <th>Nom membre</th>
+                    <th>Date</th>
+                    <th>jour</th>
+                    <th>Statut</th></tr>
+                </tfoot>
+              </table>
 
-                    {presences.map(item =>
-                      <tr>
-                        <td>Christophe Marceau</td>
-                        <td>08/01/2021</td>
-                        <td>vendredi</td>
-                        <td class="badge badge-success">absent</td>
-                      </tr>
-                    )}
-
-                    <tr>
-                      <td>Christophe Marceau</td>
-                      <td>08/01/2021</td>
-                      <td>vendredi</td>
-                      <td class="badge badge-success">absent</td>
-                    </tr>
-
-                    <tr>
-                      <td>Musette Gervais</td>
-                      <td>14/01/2021</td>
-                      <td>jeudi</td>
-                      <td class="badge badge-success">present</td></tr>
-
-                    <tr>
-                      <td>Marshall Brodeur</td>
-                      <td>16/01/2021</td>
-                      <td>dimanche</td>
-                      <td class="badge badge-danger">present</td></tr>
-                  </tbody>
-                  <tfoot class=" text-primary">
-                    <tr> <th>Nom membre</th>
-                      <th>Date</th>
-                      <th>jour</th>
-                      <th>Statut</th></tr>
-                  </tfoot>
-                </table>
-              </div>
             </div>
           </div>
         </div>

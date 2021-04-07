@@ -54,7 +54,7 @@ const AddEvent = () => {
 
         <div class="form-group"><label class="control-label col-md-2" for="email">Nom de l'évenement<span class="text-danger">
           *</span></label>
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="input text">
               <input onChange={handleInputChange} value={event.event_name} ref={register({ required: true })}
                 type="text" name="event_name"
@@ -70,9 +70,9 @@ const AddEvent = () => {
 
         <div class="form-group"><label class="control-label col-md-2" for="email"> Date<span class="text-danger">
           *</span></label>
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="input text">
-              <input type="text" onChange={handleInputChange} value={event.event_date} ref={register({ required: true })}
+              <input type="date" onChange={handleInputChange} value={event.event_date} ref={register({ required: true })}
                 name="event_date" autocomplete="off"
                 class="form-control validate[required] date hasDatepicker" id="dp1609369438332" />
               <div className="error text-danger">
@@ -86,7 +86,7 @@ const AddEvent = () => {
 
         <div class="form-group"><label class="control-label col-md-2" for="email">Lieu<span class="text-danger">
           *</span></label>
-          <div class="col-md-6 module_padding">
+          <div class="col-md-12 module_padding">
             <select name="place_id" onChange={handleInputChange} value={event.place_id} ref={register({ required: true })}
               class="form-control events_place_list validate[required]">
               <option  >Select Event Places</option>
@@ -102,10 +102,10 @@ const AddEvent = () => {
 
         <div class="form-group"><label class="control-label col-md-2" for="start time">Début<span class="text-danger">
           *</span></label>
-          <div class="col-md-6 ">
+          <div class="col-md-12 ">
             <div class="input text">
               <input onChange={handleInputChange} value={event.starttime} ref={register({ required: true })}
-                type="text" name="starttime" id="time"
+                type="time" name="starttime" id="time"
                 class="form-control validate[required]  text-input" />
               <div className="error text-danger">
                 {errors.starttime && eventValidation.starttime}
@@ -117,10 +117,10 @@ const AddEvent = () => {
 
         <div class="form-group"><label class="control-label col-md-2" for="start time">Fin<span class="text-danger">
           *</span></label>
-          <div class="col-md-6 ">
+          <div class="col-md-12 ">
             <div class="input text">
               <input onChange={handleInputChange} value={event.endtime} ref={register({ required: true })}
-                type="text" name="endtime" id="timepicker"
+                type="time" name="endtime" id="timepicker"
                 class="form-control validate[required]  text-input" />
               <div className="error text-danger">
                 {errors.endtime && eventValidation.endtime}

@@ -1,4 +1,8 @@
-const _staff = []
+const _staff = [{
+    "first_name": "Virginie Brunault", "role": "Professeure de dance",
+    "date": "05/09/2022", "mobile": "423234234"
+}]
+
 
 const getAll = () => {
     return _staff;

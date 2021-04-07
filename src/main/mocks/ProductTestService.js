@@ -1,4 +1,4 @@
-const _product = []
+const _product = [{ "product_name": "MuscleBlaze Creatine", "quantity": "4", "price": "12" }]
 
 const getAll = () => {
     return _product;

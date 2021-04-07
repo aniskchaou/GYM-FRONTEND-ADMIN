@@ -66,9 +66,8 @@ const AddRevenue = () => {
           <div class="col-8">
             <select onChange={handleInputChange} value={revenue.member} ref={register({ required: true })}
               id="select1" name="member" class="custom-select">
-              <option value="rabbit">Victor Gaudreau</option>
-              <option value="duck">Albracca Tougas</option>
-              <option value="fish">Fish</option>
+              <option value="Victor Gaudreau">Victor Gaudreau</option>
+              <option value="Albracca Tougas">Albracca Tougas</option>
             </select>
             <div className="error text-danger">
               {errors.member && revenueValidation.member}
@@ -80,7 +79,7 @@ const AddRevenue = () => {
           <label for="text8" class="col-4 col-form-label">Montant</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={revenue.amount} ref={register({ required: true })}
-              id="text8" name="amount" type="text" class="form-control" />
+              id="text8" name="amount" type="number" class="form-control" />
             <div className="error text-danger">
               {errors.amount && revenueValidation.amount}
             </div>
@@ -92,7 +91,7 @@ const AddRevenue = () => {
           <label for="text" class="col-4 col-form-label">Date</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={revenue.date} ref={register({ required: true })}
-              id="text" name="date" type="text" class="form-control" />
+              id="text" name="date" type="date" class="form-control" />
             <div className="error text-danger">
               {errors.date && revenueValidation.date}
             </div>

@@ -109,45 +109,12 @@ const Product = () => {
                       </tr>
                     )}
 
-
-
-                    <tr>
-                      <td>MuscleBlaze Creatine</td>
-                      <td>1 kg</td>
-                      <td>1740$</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-
-                    </tr>
-
-                    <tr>
-                      <td>Mettle Super Whey</td>
-                      <td>2 kg</td>
-                      <td>4399$</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-
-                    </tr>
-
-                    <tr>
-                      <td>Ultimate Nutrition Prostar </td>
-                      <td>2.39kg</td>
-                      <td>3344$</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-
-                    </tr>
                   </tbody>
                   <tfoot class=" text-primary">
                     <tr><th>Nom Produit</th>
                       <th>Quantité</th>
                       <th>Prix</th>
                       <th>Actions</th></tr>
-
-
                   </tfoot>
                 </table>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addProduct"><i class="far fa-plus-square"></i>  Ajouter</button>

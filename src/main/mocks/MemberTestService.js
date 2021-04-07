@@ -1,4 +1,8 @@
-const _member = []
+const _member = [{
+    "first_name": "Marshall Brodeur", "start_date": "13/01/2020",
+    "end_date": "13/06/2021", "type": "normal", "coach": "Jack Doe"
+}]
+
 
 const getAll = () => {
     return _member;

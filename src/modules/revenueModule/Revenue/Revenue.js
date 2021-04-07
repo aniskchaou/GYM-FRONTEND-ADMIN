@@ -83,112 +83,82 @@ const Revenue = () => {
               <h4 className="card-title"> Revenus</h4>
             </div>
             <div className="card-body">
-              <div className="table-responsive">
-                <table className="table">
-                  <thead class=" text-primary">
-                    <tr> <th>Nom</th>
-                      <th>Montant</th>
-                      <th>Actions</th></tr>
-
-                  </thead>
-                  <tbody>
-
-                    {revenues.map(item =>
-                      <tr>
-                        <td>{item.revenue}</td>
-                        <td>{item.amount}$</td>
-                        <td>
-                          <button onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                          <button onClick={e => remove(e, revenues.indexOf(item))} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                      </tr>
-
-                    )}
 
 
+              <table className="table">
+                <thead class=" text-primary">
+                  <tr> <th>Nom</th>
+                    <th>Montant</th>
+                    <th>Actions</th></tr>
 
+                </thead>
+                <tbody>
+
+                  {revenues.map(item =>
                     <tr>
-                      <td>Cours de dance</td>
-                      <td>2600$</td>
+                      <td>{item.revenue}</td>
+                      <td>{item.amount} $</td>
                       <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
+                        <button onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+                        <button onClick={e => remove(e, revenues.indexOf(item))} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                      </td>
                     </tr>
 
+                  )}
 
-                    <tr>
-                      <td>Cours de dance</td>
-                      <td>2600$</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-                    </tr>
+                </tbody>
+                <tfoot class=" text-primary">
+                  <tr> <th>Nom</th>
+                    <th>Montant</th>
+                    <th>Actions</th></tr>
 
-
-
-                    <tr>
-                      <td>Fitness</td>
-                      <td>18400$</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-                    </tr>
-
-                  </tbody>
-                  <tfoot class=" text-primary">
-                    <tr> <th>Nom</th>
-                      <th>Montant</th>
-                      <th>Actions</th></tr>
-
-                  </tfoot>
-                </table>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addRevenue"><i class="far fa-plus-square"></i>  Ajouter</button>
+                </tfoot>
+              </table>
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addRevenue"><i class="far fa-plus-square"></i> </button>
 
 
-                <div class="modal fade" id="addRevenue" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Nouveau</h5>
-                        <button onClick={resfresh} type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <AddRevenue />
-                      </div>
-                      <div class="modal-footer">
-                        <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-
-                      </div>
+              <div class="modal fade" id="addRevenue" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Nouveau</h5>
+                      <button onClick={resfresh} type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <AddRevenue />
+                    </div>
+                    <div class="modal-footer">
+                      <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                     </div>
                   </div>
                 </div>
-
-
-                <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>
-                        <button onClick={resfresh} type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <EditRevenue revenue={updatedItem} />
-                      </div>
-                      <div class="modal-footer">
-                        <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-
               </div>
+
+
+              <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>
+                      <button onClick={resfresh} type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <EditRevenue revenue={updatedItem} />
+                    </div>
+                    <div class="modal-footer">
+                      <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
             </div>
           </div>
         </div>

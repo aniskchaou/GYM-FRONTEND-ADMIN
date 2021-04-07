@@ -88,82 +88,26 @@ const Member = () => {
                       <th>Date inscription</th>
                       <th>Date expiration</th>
                       <th>Type de membre</th>
-                      <th>Statut</th>
+                      <th>Entreneur</th>
                       <th>Actions</th></tr>
                   </thead>
                   <tbody>
 
 
                     {members.map(item =>
-
                       <tr>
                         <td> {item.first_name}</td>
                         <td>{item.start_date}</td>
                         <td>{item.end_date}</td>
                         <td>{item.type}</td>
-                        <td class="badge badge-success">Active</td>
+                        <td><span class="badge badge-success">{item.coach}</span></td>
                         <td>
                           <button onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
                           <button onClick={e => remove(e, members.indexOf(item))} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
 
                       </tr>
-
-
-
-
                     )}
-
-
-
-
-
-
-
-                    <tr>
-                      <td>  Marshall Brodeur</td>
-                      <td>13/01/2020</td>
-                      <td>13/06/2021</td>
-                      <td>normal</td>
-                      <td class="badge badge-success">Active</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-
-                    </tr>
-
-                    <tr>
-                      <td>  Musette Gervais</td>
-                      <td>05/08/2020</td>
-                      <td>05/08/2021</td>
-                      <td>normal</td>
-                      <td class="badge badge-success">Active</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-
-                    </tr>
-
-                    <tr>
-                      <td> Christophe Marceau</td>
-                      <td>03/03/2020</td>
-                      <td>03/12/2020</td>
-                      <td>normal</td>
-                      <td class="badge badge-danger">Inactive</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-
-                    </tr>
-
-
-
-
-
-
-
-
-
                   </tbody>
                   <tfoot class=" text-primary">
                     <tr> <th>Nom membre</th>

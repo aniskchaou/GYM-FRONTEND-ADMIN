@@ -5,7 +5,7 @@ import Root from './main/shared/Root/Root';
 
 function App() {
   return (
-  <Root/>
+    <Root />
   );
 }
 

@@ -27,42 +27,41 @@ import Booking from './../../../modules/BookingModule/Booking/Booking';
 import Navigation from './../../shared/Navigation/Navigation';
 import Header from './../../shared/Header/Header';
 import Footer from './../../shared/Footer/Footer';
-const Content = () => (
+import Login from '../Login/Login';
+import User from '../../config/user';
+import Routes from '../Routes/Routes';
+class Content extends React.Component {
 
-    <Router>
-          <Navigation/>
-      <div className="main-panel">
-        
-       <Header/>
-       <Route exact path="/" component={Dashbord} />
-       <Route exact path="/dashboard" component={Dashbord} />
-        <Route exact path="/activity" component={Activity} />
-        <Route exact path="/booking" component={Booking} />
-        
-        <Route exact path="/event" component={Event} />
-        <Route exact path="/exercice" component={Exercice} />
-        <Route exact path="/expense" component={Expense} />
-        <Route exact path="/groupe" component={Groupe} />
-        <Route exact path="/member" component={Member} />
-        <Route exact path="/payment" component={Payment} />
-        <Route exact path="/presence" component={Presence} />
-        <Route exact path="/product" component={Product} />
-        <Route exact path="/revenue" component={Revenue} />
-        <Route exact path="/staff" component={Staff} />
-        <Route exact path="/typesubs" component={TypeSubs} />
+  constructor(props) {
+    super(props);
+    this.state = { connected: User.CONNECTED_USER };
+  }
+  rerender = () => {
+    this.forceUpdate();
+  };
+  forceUpdate = () => {
+    this.setState((state) => ({
+      connected: User.CONNECTED_USER
+    }));
+  };
 
-        <Route exact path="/configuration" component={Configuration} />
-    
-      
-        <Footer/>
-      </div>
-        
+  render() {
+    return (
 
+      <Router>
+        <Navigation />
+        <div className="main-panel">
+          <Header rerender={this.rerender} />
+          <Routes />
+          <Footer />
+          <Login rerender={this.rerender} />
+        </div>
+      </Router>
 
+    )
+  }
 
-    </Router>
-
-);
+};
 
 Content.propTypes = {};
 

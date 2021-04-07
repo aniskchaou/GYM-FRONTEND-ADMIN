@@ -1,4 +1,10 @@
-const _event = []
+const _event = [{
+    "event_name": "Cours de dance",
+    "event_date": "15/03/2021",
+    "place_id": "93, avenue de Bouvines 89100 SENS",
+    "starttime": "09:00", "endtime": "11:00"
+}]
+
 
 const getAll = () => {
     return _event;

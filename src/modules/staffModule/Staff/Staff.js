@@ -90,8 +90,8 @@ const Staff = () => {
                       <th>Nom</th>
                       <th>Role</th>
                       <th>Date expiration</th>
-                      <th>Type de membre</th>
-                      <th>Statut</th>
+                      <th>Mobile</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -101,8 +101,8 @@ const Staff = () => {
                       <tr>
                         <td>{item.first_name}</td>
                         <td>{item.role}</td>
-                        <td class="badge badge-primary">{item.date}</td>
-                        <td>{item.role}</td>
+                        <td><span class="badge badge-primary">{item.date}</span></td>
+                        <td>{item.mobile}</td>
                         <td>
                           <button onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
                           <button onClick={e => remove(e, staffs.indexOf(item))} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
@@ -110,51 +110,13 @@ const Staff = () => {
                       </tr>
                     )}
 
-
-
-
-                    <tr>
-                      <td>Virginie Brunault</td>
-                      <td>Professeure de dance</td>
-                      <td class="badge badge-primary">05/09/2022</td>
-                      <td>Normal</td>
-                      <td class="badge badge-success">Active</td>
-                    </tr>
-
-
-
-
-                    <tr>
-                      <td>Audric Renard</td>
-                      <td>Préparateur physique</td>
-                      <td class="badge badge-primary">29/04/2023</td>
-                      <td>Normal</td>
-                      <td class="badge badge-success">Active</td>
-                    </tr>
-                    <tr>
-                      <td>Ray Pitre</td>
-                      <td>Préparateur physique</td>
-                      <td class="badge badge-primary">09/07/2020</td>
-                      <td>Normal</td>
-                      <td class="badge badge-danger">Inactive</td>
-                    </tr>
-
-
-
-
-
-
-
-
-
-
                   </tbody>
                   <tfoot class=" text-primary">
                     <tr>
                       <th>Nom</th>
                       <th>Role</th>
                       <th>Date expiration</th>
-                      <th>Type de membre</th>
+                      <th>Mobile</th>
                       <th>Statut</th>
                     </tr>
                   </tfoot>

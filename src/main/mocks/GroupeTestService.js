@@ -1,4 +1,4 @@
-const _groupe = []
+const _groupe = [{ "groupe_name": "Groupe salsa" }]
 
 const getAll = () => {
     return _groupe;

@@ -1,4 +1,4 @@
-const _expense = []
+const _expense = [{ "supplier": "maintenance matériel", "amount": "6764" }]
 
 const getAll = () => {
     return _expense;

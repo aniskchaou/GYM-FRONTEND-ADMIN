@@ -65,7 +65,7 @@ const AddExpense = () => {
           <label for="text8" class="col-4 col-form-label">Montant</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={expense.amount} ref={register({ required: true })}
-              id="text8" name="amount" type="text" class="form-control" />
+              id="text8" name="amount" type="number" class="form-control" />
             <div className="error text-danger">
               {errors.amount && expenseValidation.amount}
             </div>
@@ -77,7 +77,7 @@ const AddExpense = () => {
           <label for="text" class="col-4 col-form-label">Date</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={expense.date} ref={register({ required: true })}
-              id="text" name="date" type="text" class="form-control" />
+              id="text" name="date" type="date" class="form-control" />
             <div className="error text-danger">
               {errors.date && expenseValidation.date}
             </div>

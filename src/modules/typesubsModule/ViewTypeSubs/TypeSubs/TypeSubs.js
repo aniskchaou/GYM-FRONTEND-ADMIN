@@ -87,7 +87,7 @@ const TypeSubs = () => {
               <div className="table-responsive">
                 <table className="table">
                   <thead class=" text-primary"><tr>
-                    <th>Nom</th>
+                    <th>Nom du membre</th>
                     <th>Période </th>
                     <th>Plan de versement</th>
                     <th>Frais d'inscription</th>
@@ -98,47 +98,16 @@ const TypeSubs = () => {
 
                     {typeSubs.map(item =>
                       <tr>
-                        <td >Muscilation</td>
-                        <td class="badge badge-success">{item.period} mois</td>
-                        <td>Virement bancaire</td>
-                        <td class="badge badge-primary">{item.amount}$</td>
+                        <td >{item.member}</td>
+                        <td><span class="badge badge-success">{item.period} mois</span></td>
+                        <td>{item.time_payment}</td>
+                        <td><span class="badge badge-primary">{item.amount} $</span></td>
                         <td>
                           <button onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
                           <button onClick={e => remove(e, typeSubs.indexOf(item))} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
                       </tr>
                     )}
-
-
-
-                    <tr>
-                      <td >Muscilation</td>
-                      <td class="badge badge-success">3 mois</td>
-                      <td>Virement bancaire</td>
-                      <td class="badge badge-primary">300$</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-                    </tr>
-                    <tr>
-                      <td>Fitness</td>
-                      <td class="badge badge-success">3 mois</td>
-                      <td>Virement bancaire</td>
-                      <td class="badge badge-primary">300$</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-                    </tr>
-
-                    <tr>
-                      <td>Aerobics</td>
-                      <td class="badge badge-success">6 mois</td>
-                      <td>Virement bancaire</td>
-                      <td class="badge badge-primary">250$</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-                    </tr>
 
 
                   </tbody>

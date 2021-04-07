@@ -103,15 +103,6 @@ const User = () => {
               </tr>
             )}
 
-
-
-
-
-
-
-
-
-
             <tr>
               <td>Tiger Nixon</td>
               <td>tiger@gmail.com</td>

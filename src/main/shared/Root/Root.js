@@ -9,13 +9,9 @@ class Root extends React.Component {
   }
   render() {
     return (
-      
-      <div id="root"  className="wrapper ">
-       
-      <Content/>
-      
-    </div>
-    
+      <div id="root" className="wrapper ">
+        <Content />
+      </div>
     );
   }
 }

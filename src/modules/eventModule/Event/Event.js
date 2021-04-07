@@ -83,124 +83,88 @@ const Event = () => {
               <h4 className="card-title"> Evenement</h4>
             </div>
             <div className="card-body">
-              <div className="table-responsive">
+
+              <table className="table">
+                <thead class=" text-primary">
+                  <tr> <th>Nom de l'evenement</th>
+                    <th>Date evenement</th>
+                    <th>Endroit</th>
+                    <th>Heure de début</th>
+                    <th>Heure de fin</th>
+                    <th>Actions</th></tr>
+                </thead>
+                <tbody>
 
 
+                  {events.map(item =>
+                    <tr>
+                      <td>{item.event_name}</td>
+                      <td>{item.event_date}</td>
+                      <td>{item.place_id}</td>
+                      <td>{item.starttime}</td>
+                      <td>{item.endtime}</td><td>
+                        <button onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+                        <button onClick={e => remove(e, events.indexOf(item))} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                      </td>
+                    </tr>
+                  )}
+
+                </tbody>
+                <tfoot class=" text-primary">
+                  <tr> <th>Nom de l'evenement</th>
+                    <th>Date evenement</th>
+                    <th>Endroit</th>
+                    <th>Heure de début</th>
+                    <th>Heure de fin</th>
+                    <th>Actions</th></tr>
+                </tfoot>
+              </table>
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addEvent"><i class="far fa-plus-square"></i></button>
 
 
+              <div class="modal fade" id="addEvent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Nouveau</h5>
+                      <button onClick={resfresh} type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <AddEvent />
+                    </div>
+                    <div class="modal-footer">
+                      <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
 
-
-
-
-                <table className="table">
-                  <thead class=" text-primary">
-                    <tr> <th>Nom de l'evenement</th>
-                      <th>Date evenement</th>
-                      <th>Endroit</th>
-                      <th>Heure de début</th>
-                      <th>Heure de fin</th>
-                      <th>Actions</th></tr>
-                  </thead>
-                  <tbody>
-
-
-                    {events.map(item =>
-                      <tr><td>{item.event_name}</td>
-                        <td>{item.event_date}</td>
-                        <td>93, avenue de Bouvines 89100 SENS </td>
-                        <td>{item.starttime}</td>
-                        <td>{item.endtime}</td><td>
-                          <button onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                          <button onClick={e => remove(e, events.indexOf(item))} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                      </tr>
-                    )}
-
-                    <tr><td>Cours de muscilation</td>
-                      <td>15/03/2021</td>
-                      <td>93, avenue de Bouvines 89100 SENS</td>
-                      <td>09:00</td>
-                      <td>11:00</td><td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>         </tr>
-
-
-                    <tr><td>Cours de fitness</td>
-                      <td>15/03/2021</td>
-                      <td>93, avenue de Bouvines
-89100 SENS </td>
-                      <td>19:00</td>
-                      <td>20:00</td><td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>         </tr>
-
-
-                    <tr><td>Cours de dance </td>
-                      <td>15/03/2021</td>
-                      <td>93, avenue de Bouvines
-                       89100 SENS</td>
-                      <td>16:00</td>
-                      <td>18:00</td><td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>         </tr>
-
-
-                  </tbody>
-                  <tfoot class=" text-primary">
-                    <tr> <th>Nom de l'evenement</th>
-                      <th>Date evenement</th>
-                      <th>Endroit</th>
-                      <th>Heure de début</th>
-                      <th>Heure de fin</th>
-                      <th>Actions</th></tr>
-                  </tfoot>
-                </table>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addEvent"><i class="far fa-plus-square"></i>  Ajouter</button>
-
-
-                <div class="modal fade" id="addEvent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Nouveau</h5>
-                        <button onClick={resfresh} type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <AddEvent />
-                      </div>
-                      <div class="modal-footer">
-                        <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-
-                      </div>
                     </div>
                   </div>
                 </div>
-
-
-
-                <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>
-                        <button onClick={resfresh} type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <EditEvent event={updatedItem} />
-                      </div>
-                      <div class="modal-footer">
-                        <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
               </div>
+
+
+
+              <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>
+                      <button onClick={resfresh} type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <EditEvent event={updatedItem} />
+                    </div>
+                    <div class="modal-footer">
+                      <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-const _revenue = []
+const _revenue = [{ "revenue": "Cours de dance", "amount": "4432" }]
 
 const getAll = () => {
     return _revenue;
