@@ -1,44 +1,71 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AddPayment.css';
 import { useForm } from 'react-hook-form';
 import showMessage from '../../../libraries/messages/messages'
 import paymentMessage from '../../../main/messages/paymentMessage'
 import paymentValidation from '../../../main/validations/paymentValidation'
 import PaymentTestService from '../../../main/mocks/PaymentTestService';
-import HTTPService from '../../../main/services/HTTPService';
+import paymentHTTPService from '../../../main/services/paymentHTTPService';
+import useForceUpdate from 'use-force-update';
+import memberHTTPService from '../../../main/services/memberHTTPService';
+import typeSubsHTTPService from '../../../main/services/typeSubsHTTPService';
 
 const AddPayment = (props) => {
   const initialState = {
-    post: "",
-    description: "",
-    start: "",
-    end: "",
-    location: "",
-    requirement: ""
+    validity: "",
+    member: "",
+    type: "",
+    amount: ""
   };
 
   const { register, handleSubmit, errors } = useForm()
   const [payment, setPayment] = useState(initialState);
+  const [members, setMembers] = useState([]);
+  const [typeSubs, setTypeSubs] = useState([]);
+
+  useEffect(() => {
+    getMembers()
+    getTypeSubs()
+  }, []);
+
 
   const onSubmit = (data) => {
     //savePayment(data)
-    PaymentTestService.create(data)
-    setPayment(initialState)
-    showMessage('Confirmation', paymentMessage.add, 'success')
+    //PaymentTestService.create(data)
+    paymentHTTPService.createPayment(data).then(data => {
+      props.closeModal()
+      setPayment(initialState)
+      showMessage('Confirmation', paymentMessage.add, 'success')
+
+    })
+
   }
 
-  const savePayment = (data) => {
+  const getTypeSubs = () => {
 
-    HTTPService.create(data)
+    typeSubsHTTPService.getAllTypeSubs()
       .then(response => {
-        setPayment(initialState)
+        setTypeSubs(response.data);
+        //forceUpdate()
       })
       .catch(e => {
-        console.log(e);
+        showMessage('Confirmation', e, 'info')
       });
-
   };
+
+  const getMembers = () => {
+
+    memberHTTPService.getAllMember()
+      .then(response => {
+        setMembers(response.data);
+        //forceUpdate()
+      })
+      .catch(e => {
+        showMessage('Confirmation', e, 'info')
+      });
+  };
+
 
 
   const handleInputChange = event => {
@@ -48,14 +75,15 @@ const AddPayment = (props) => {
   return (
     <div className="AddPayment">
       <form onSubmit={handleSubmit(onSubmit)}>
+
         <div class="form-group row">
-          <label for="select1" class="col-4 col-form-label">Membre</label>
+          <label for="select1" class="col-4 col-form-label">Member</label>
           <div class="col-8">
             <select onChange={handleInputChange} value={payment.member} ref={register({ required: true })}
-              id="select1" name="member" class="custom-select">
-              <option value="rabbit">Victor Gaudreau</option>
-              <option value="duck">Albracca Tougas</option>
-              <option value="fish">Fish</option>
+              name="member" class="custom-select">
+              {members.map(item =>
+                <option value={item.id}>{item.name}</option>
+              )}
             </select>
             <div className="error text-danger">
               {errors.member && paymentValidation.member}
@@ -65,13 +93,13 @@ const AddPayment = (props) => {
 
 
         <div class="form-group row">
-          <label for="select" class="col-4 col-form-label">Type d'adhésion</label>
+          <label for="select" class="col-4 col-form-label">Subscription type</label>
           <div class="col-8">
             <select onChange={handleInputChange} value={payment.type} ref={register({ required: true })}
-              id="select" name="type" class="custom-select">
-              <option value="rabbit">Premium</option>
-              <option value="duck">Gold</option>
-              <option value="fish">Fish</option>
+              name="type" class="custom-select">
+              {typeSubs.map(item =>
+                <option value={item.id}>{item.name}</option>
+              )}
             </select>
             <div className="error text-danger">
               {errors.type && paymentValidation.type}
@@ -81,10 +109,16 @@ const AddPayment = (props) => {
 
 
         <div class="form-group row">
-          <label for="text8" class="col-4 col-form-label">Montant</label>
+          <label for="text8" class="col-4 col-form-label">Amount</label>
           <div class="col-8">
-            <input onChange={handleInputChange} value={payment.amount} ref={register({ required: true })}
-              id="text8" name="amount" type="text" class="form-control" />
+
+            <div class="input-group mb-3">
+              <input onChange={handleInputChange} value={payment.amount} ref={register({ required: true })}
+                id="text8" name="amount" type="number" class="form-control" />
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">$</span>
+              </div>
+            </div>
             <div className="error text-danger">
               {errors.amount && paymentValidation.amount}
             </div>
@@ -93,10 +127,10 @@ const AddPayment = (props) => {
 
 
         <div class="form-group row">
-          <label for="text" class="col-4 col-form-label">Adhésion valable à partir de</label>
+          <label for="text" class="col-4 col-form-label">Date</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={payment.validity} ref={register({ required: true })}
-              id="text" name="validity" type="text" class="form-control" />
+              id="text" name="validity" type="date" class="form-control" />
             <div className="error text-danger">
               {errors.validity && paymentValidation.validity}
             </div>
@@ -107,7 +141,7 @@ const AddPayment = (props) => {
         <div class="form-group row">
           <div class="offset-4 col-8">
             <button name="submit" type="submit" class="btn btn-primary"><i class="far fa-save"></i>
- Sauvegarder</button>
+              Save</button>
           </div>
         </div>
       </form>

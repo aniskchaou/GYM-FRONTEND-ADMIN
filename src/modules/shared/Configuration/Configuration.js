@@ -9,7 +9,7 @@ const Configuration = () => (
       <div className="col-md-12">
         <div className="card">
           <div className="card-header">
-            <h4 className="card-title"> Paramètres</h4>
+            <h4 className="card-title"> Settings</h4>
           </div>
           <div className="card-body">
             <ConfigurationContent />

@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './Header.css';
 import User from '../../config/user';
 import { NavLink, useHistory } from 'react-router-dom';
+import settingsHTTPService from '../../services/settingsHTTPService';
+import SearchBar from '../SearchBar/SearchBar';
 
 const Header = (props) => {
   let history = useHistory()
-
+  const [headerSettings, setHeaderSettings] = useState({});
   const logout = () => {
     props.rerender();
     User.CONNECTED_USER = false
     history.push("/login")
+  }
+  useEffect(() => {
+    getFooterSettings()
+  }, []);
+
+  const getFooterSettings = () => {
+    settingsHTTPService.getHeaderSettings().then(data => {
+      setHeaderSettings(data.data[0])
+      console.log(data.data[0])
+
+    })
   }
   return (
     <nav style={{ display: (User.CONNECTED_USER ? 'block' : 'none') }} className="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
@@ -31,33 +44,12 @@ const Header = (props) => {
           <span className="navbar-toggler-bar navbar-kebab"></span>
         </button>
         <div className="collapse navbar-collapse justify-content-end" id="navigation">
-          <form>
-            <div className="input-group no-border">
-              <input type="text" value="" className="form-control" placeholder="Rechercher..." />
-              <div className="input-group-append">
-                <div className="input-group-text">
-                  <i className="nc-icon nc-zoom-split"></i>
-                </div>
-              </div>
-            </div>
-          </form>
+          {headerSettings.enbaleSearchBar == 1 &&
+            <SearchBar />
+          }
           <ul className="navbar-nav">
 
-            <li className="nav-item btn-rotate dropdown">
-              <a className="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-plus-circle"></i>
-                <p>
-                  <span className="d-lg-none d-md-block">Accés rapide</span>
-                </p>
-              </a>
-              <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                <NavLink className="dropdown-item" to="/add-groupe">Ajouter groupe</NavLink>
-                <NavLink className="dropdown-item" to="/add-member">Ajouter membre</NavLink>
-                <NavLink className="dropdown-item" to="/add-staff">Ajouter staff</NavLink>
-                <NavLink className="dropdown-item" to="/add-activity">Ajouter activité</NavLink>
-                <NavLink className="dropdown-item" to="/add-product">Ajouter produit</NavLink>
-              </div>
-            </li>
+
 
             <li className="nav-item btn-rotate dropdown">
               <a className="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -67,9 +59,10 @@ const Header = (props) => {
                 </p>
               </a>
               <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                <NavLink className="dropdown-item" to="/profile">Mon profile</NavLink>
-                <NavLink className="dropdown-item" to="/configuration">Paramètres</NavLink>
-                <a onClick={logout} className="dropdown-item" href="#">Déconnexion</a>
+                <NavLink className="dropdown-item" to="/profile"> Profil</NavLink>
+                <NavLink className="dropdown-item" to="/configuration">Settings</NavLink>
+                <a className="dropdown-item" href="http://localhost:5000">Website</a>
+                <a onClick={logout} className="dropdown-item" href="#">Log out</a>
               </div>
             </li>
           </ul>

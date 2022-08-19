@@ -4,9 +4,9 @@ import './EditGroupe.css';
 import showMessage from '../../../libraries/messages/messages'
 import groupeMessage from '../../../main/messages/groupeMessage'
 import groupeValidation from '../../../main/validations/groupeValidation'
-import GroupeTestService from '../../../main/mocks/GroupeTestService';
+//import GroupeTestService from '../../../main/mocks/GroupeTestService';
 import { useForm } from 'react-hook-form';
-
+import groupeHTTPService from '../../../main/services/groupeHTTPService'
 const EditGroupe = (props) => {
 
   const { register, handleSubmit, errors } = useForm() // initialise the hook
@@ -19,8 +19,12 @@ const EditGroupe = (props) => {
 
   const onSubmit = (data) => {
 
-    GroupeTestService.update(props.groupe, data)
-    showMessage('Confirmation', groupeMessage.edit, 'success')
+    //GroupeTestService.update(props.groupe, data)
+    groupeHTTPService.editGroupe(props.groupe.id, data).then(data => {
+      props.closeModal()
+      showMessage('Confirmation', groupeMessage.edit, 'success')
+    })
+
   }
 
   const handleInputChange = event => {
@@ -34,12 +38,12 @@ const EditGroupe = (props) => {
       <form onSubmit={handleSubmit(onSubmit)}>
 
         <div class="form-group row">
-          <label for="text" class="col-4 col-form-label">Nom du groupe</label>
+          <label for="text" class="col-4 col-form-label">Group Name</label>
           <div class="col-8">
-            <input onChange={handleInputChange} value={groupe.groupe_name} ref={register({ required: true })}
-              id="text" name="groupe_name" type="text" class="form-control" />
+            <input onChange={handleInputChange} value={groupe.name} ref={register({ required: true })}
+              id="text" name="name" type="text" class="form-control" />
             <div className="error text-danger">
-              {errors.groupe_name && groupeValidation.groupe_name}
+              {errors.name && groupeValidation.name}
             </div>
           </div>
         </div>
@@ -47,7 +51,7 @@ const EditGroupe = (props) => {
 
         <div class="form-group row">
           <div class="offset-4 col-8">
-            <button name="submit" type="submit" class="btn btn-primary"><i class="far fa-save"></i>Sauvegarder</button>
+            <button name="submit" type="submit" class="btn btn-primary"><i class="far fa-save"></i>Save </button>
           </div>
         </div>
 

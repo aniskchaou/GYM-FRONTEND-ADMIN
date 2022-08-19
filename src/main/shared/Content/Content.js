@@ -19,7 +19,6 @@ import Exercice from '../../../modules/exerciceModule/Exercice/Exercice';
 import Course from '../../../modules/courseModule/Course/Course';
 
 import Event from '../../../modules/eventModule/Event/Event';
-import TypeSubs from '../../../modules/typesubsModule/ViewTypeSubs/TypeSubs/TypeSubs';
 
 
 import Activity from './../../../modules/ActivityModule/Activity/Activity';
@@ -44,6 +43,7 @@ class Content extends React.Component {
       connected: User.CONNECTED_USER
     }));
   };
+
 
   render() {
     return (

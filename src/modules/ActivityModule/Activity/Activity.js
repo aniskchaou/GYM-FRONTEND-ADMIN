@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Activity.css';
 import { LoadJS } from '../../../libraries/datatables/datatables';
 import EditActivity from '../EditActivity/EditActivity';
@@ -9,6 +9,7 @@ import showMessage from '../../../libraries/messages/messages';
 import activityMessage from '../../../main/messages/activityMessage';
 import ActivityTestService from '../../../main/mocks/ActivityTestService';
 import HTTPService from '../../../main/services/HTTPService';
+import activityHTTPService from '../../../main/services/activityHTTPService';
 
 
 
@@ -17,65 +18,64 @@ const deleteTask = () => {
 }
 const Activity = () => {
 
-  const [activitys, setActivitys] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [updatedItem, setUpdatedItem] = useState({});
   const forceUpdate = useForceUpdate();
+  const closeButtonEdit = useRef(null);
+  const closeButtonAdd = useRef(null);
 
 
   useEffect(() => {
     LoadJS()
-    retrieveActivitys()
+    getAllPatient()
   }, []);
 
 
-  const getAll = () => {
-    HTTPService.getAll()
+  const getAllPatient = () => {
+
+    activityHTTPService.getAllActivity()
       .then(response => {
-        setActivitys(response.data);
+        setActivities(response.data);
+        forceUpdate()
       })
       .catch(e => {
-        console.log(e);
+        showMessage('Confirmation', e, 'info')
       });
   };
 
-  const removeOne = (data) => {
-    HTTPService.remove(data)
-      .then(response => {
-
-      })
-      .catch(e => {
-
-      });
-  }
-
-
-
-  const retrieveActivitys = () => {
-    var activitys = ActivityTestService.getAll();
-    setActivitys(activitys);
-  };
 
   const resfresh = () => {
-    retrieveActivitys()
+    getAllPatient()
     forceUpdate()
   }
 
-  const remove = (e, data) => {
+  const removeActivityAction = (e, data) => {
     e.preventDefault();
     var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
     if (r) {
-      showMessage('Confirmation', activityMessage.delete, 'success')
-      ActivityTestService.remove(data)
-      //removeOne(data)
-      resfresh()
+      showMessage('Confirmation', 'patientMessage.delete', 'success')
+      activityHTTPService.removeActivity(data).then(data => {
+        resfresh()
+      }).catch(e => {
+        showMessage('Confirmation', e, 'warning')
+      });
     }
-
   }
 
-  const update = (e, data) => {
+  const updateActivityAction = (e, data) => {
     e.preventDefault();
     setUpdatedItem(data)
     resfresh()
+  }
+
+  const closeModalEdit = (data) => {
+    resfresh()
+    closeButtonEdit.current.click()
+  }
+
+  const closeModalAdd = (data) => {
+    resfresh()
+    closeButtonAdd.current.click()
   }
 
 
@@ -85,79 +85,55 @@ const Activity = () => {
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <h4 className="card-title"> activité</h4>
+              <h4 className="card-title"> Activities</h4>
             </div>
             <div className="card-body">
               <div className="table-responsive">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addActivity"><i class="far fa-plus-square"></i>  Create</button>
                 <table className="table">
                   <thead class=" text-primary">
                     <tr>
-                      <th>Nom de l'activité</th>
-                      <th>Categorie</th>
-                      <th>Formateur</th>
+                      <th>Name</th>
+                      <th>Category</th>
+                      <th>Coach</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
 
-                    {activitys.map(item =>
+                    {activities.map(item =>
                       <tr>
                         <td>{item.title}</td>
                         <td>{item.category}</td>
                         <td>{item.member}</td>
                         <td>
-                          <button onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                          <button onClick={e => remove(e, activitys.indexOf(item))} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+
+                          <button style={{ margin: "3px" }} onClick={e => updateActivityAction(e, item)} type="button" data-toggle="modal" data-target="#editActivity" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+                          <button onClick={e => removeActivityAction(e, item.id)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
                       </tr>
 
                     )}
-
-                    <tr>
-                      <td>musculation</td>
-                      <td>sport</td>
-                      <td>Audric Renard</td>
-                      <td>
-                        <button type="button" data-toggle="modal" data-target="#editActivity" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" onClick={deleteTask}><i class="fas fa-trash-alt"></i></button></td>
-                    </tr>
-
-                    <tr>
-                      <td>dance</td>
-                      <td>sport</td>
-                      <td>Virginie Brunault</td>
-                      <td>
-                        <button type="button" data-toggle="modal" data-target="#editActivity" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" onClick={deleteTask}><i class="fas fa-trash-alt"></i></button></td>
-                    </tr>
-
                   </tbody>
-                  <tfoot class=" text-primary">
-                    <tr>
-                      <th>Nom de l'activité</th>
-                      <th>Categorie</th>
-                      <th>Formateur</th>
-                      <th>Actions</th>
-                    </tr>
-                  </tfoot>
+
                 </table>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addActivity"><i class="far fa-plus-square"></i>  Ajouter</button>
+
 
 
                 <div class="modal fade" id="addActivity" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Nouveau</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">New</h5>
                         <button onClick={resfresh} type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        <AddActivity />
+                        <AddActivity closeModal={closeModalAdd} />
                       </div>
                       <div class="modal-footer">
-                        <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button onClick={resfresh} ref={closeButtonAdd} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
 
                       </div>
                     </div>
@@ -175,10 +151,10 @@ const Activity = () => {
                         </button>
                       </div>
                       <div class="modal-body">
-                        <EditActivity activity={updatedItem} />
+                        <EditActivity activity={updatedItem} closeModal={closeModalEdit} />
                       </div>
                       <div class="modal-footer">
-                        <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button onClick={resfresh} type="button" ref={closeButtonEdit} class="btn btn-secondary" data-dismiss="modal">Fermer</button>
 
                       </div>
                     </div>

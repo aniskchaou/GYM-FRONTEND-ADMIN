@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import './Revenue.css';
 import AddRevenue from './../AddRevenue/AddRevenue';
 import { LoadJS } from './../../../libraries/datatables/datatables';
 import EditPayment from './../../paymentModule/EditPayment/EditPayment';
-import HTTPService from '../../../main/services/HTTPService';
+import revenueHTTPService from '../../../main/services/revenueHTTPService';
 import RevenueTestService from '../../../main/mocks/RevenueTestService';
 import revenueMessage from '../../../main/messages/revenueMessage';
 import showMessage from '../../../libraries/messages/messages';
@@ -16,62 +16,61 @@ const Revenue = () => {
   const [revenues, setRevenues] = useState([]);
   const [updatedItem, setUpdatedItem] = useState({});
   const forceUpdate = useForceUpdate();
+  const closeButtonEdit = useRef(null);
+  const closeButtonAdd = useRef(null);
+  const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
     LoadJS()
-    retrieveRevenues()
+    getAllPatient()
   }, []);
 
 
-  const getAll = () => {
-    HTTPService.getAll()
+  const getAllPatient = () => {
+
+    revenueHTTPService.getAllRevenue()
       .then(response => {
         setRevenues(response.data);
       })
       .catch(e => {
-        console.log(e);
+        showMessage('Confirmation', e, 'info')
       });
   };
 
-  const removeOne = (data) => {
-    HTTPService.remove(data)
-      .then(response => {
-
-      })
-      .catch(e => {
-
-      });
-  }
-
-
-
-  const retrieveRevenues = () => {
-    var revenues = RevenueTestService.getAll();
-    setRevenues(revenues);
-  };
 
   const resfresh = () => {
-    retrieveRevenues()
+    getAllPatient()
     forceUpdate()
   }
 
-  const remove = (e, data) => {
+  const removeRevenueAction = (e, data) => {
     e.preventDefault();
     var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
     if (r) {
-      showMessage('Confirmation', revenueMessage.delete, 'success')
-      RevenueTestService.remove(data)
-      //removeOne(data)
-      resfresh()
+      showMessage('Confirmation', 'patientMessage.delete', 'success')
+      revenueHTTPService.removeRevenue(data).then(data => {
+        resfresh()
+      }).catch(e => {
+        showMessage('Confirmation', e, 'warning')
+      });
     }
-
   }
 
-  const update = (e, data) => {
+  const updateRevenueAction = (e, data) => {
     e.preventDefault();
     setUpdatedItem(data)
     resfresh()
+  }
+
+  const closeModalEdit = (data) => {
+    resfresh()
+    closeButtonEdit.current.click()
+  }
+
+  const closeModalAdd = (data) => {
+    resfresh()
+    closeButtonAdd.current.click()
   }
 
   return (
@@ -80,15 +79,16 @@ const Revenue = () => {
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <h4 className="card-title"> Revenus</h4>
+              <h4 className="card-title"> Incomes</h4>
             </div>
             <div className="card-body">
 
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addRevenue"><i class="far fa-plus-square"></i> Create</button>
 
               <table className="table">
                 <thead class=" text-primary">
-                  <tr> <th>Nom</th>
-                    <th>Montant</th>
+                  <tr> <th>Name</th>
+                    <th>Amount</th>
                     <th>Actions</th></tr>
 
                 </thead>
@@ -96,41 +96,35 @@ const Revenue = () => {
 
                   {revenues.map(item =>
                     <tr>
-                      <td>{item.revenue}</td>
+                      <td>{item.name}</td>
                       <td>{item.amount} $</td>
                       <td>
-                        <button onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button onClick={e => remove(e, revenues.indexOf(item))} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+
+                        <button style={{ margin: "3px" }} onClick={e => updateRevenueAction(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+                        <button onClick={e => removeRevenueAction(e, item.id)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                       </td>
                     </tr>
 
                   )}
 
                 </tbody>
-                <tfoot class=" text-primary">
-                  <tr> <th>Nom</th>
-                    <th>Montant</th>
-                    <th>Actions</th></tr>
-
-                </tfoot>
               </table>
-              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addRevenue"><i class="far fa-plus-square"></i> </button>
 
 
               <div class="modal fade" id="addRevenue" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLongTitle">Nouveau</h5>
+                      <h5 class="modal-title" id="exampleModalLongTitle">New</h5>
                       <button onClick={resfresh} type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body">
-                      <AddRevenue />
+                      <AddRevenue closeModal={closeModalAdd} />
                     </div>
                     <div class="modal-footer">
-                      <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                      <button onClick={resfresh} ref={closeButtonAdd} type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                   </div>
                 </div>
@@ -147,10 +141,10 @@ const Revenue = () => {
                       </button>
                     </div>
                     <div class="modal-body">
-                      <EditRevenue revenue={updatedItem} />
+                      <EditRevenue revenue={updatedItem} closeModal={closeModalEdit} />
                     </div>
                     <div class="modal-footer">
-                      <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                      <button onClick={resfresh} ref={closeButtonEdit} type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                   </div>
                 </div>

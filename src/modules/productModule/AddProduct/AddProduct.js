@@ -6,16 +6,13 @@ import showMessage from '../../../libraries/messages/messages'
 import productMessage from '../../../main/messages/productMessage'
 import productValidation from '../../../main/validations/productValidation'
 import ProductTestService from '../../../main/mocks/ProductTestService';
-import HTTPService from '../../../main/services/HTTPService';
+import productHTTPService from '../../../main/services/productHTTPService';
 
-const AddProduct = () => {
+const AddProduct = (props) => {
 	const initialState = {
-		post: "",
-		description: "",
-		start: "",
-		end: "",
-		location: "",
-		requirement: ""
+		name: "",
+		price: "",
+		quantity: ""
 	};
 
 	const { register, handleSubmit, errors } = useForm()
@@ -23,22 +20,16 @@ const AddProduct = () => {
 
 	const onSubmit = (data) => {
 		//saveProduct(data)
-		ProductTestService.create(data)
-		setProduct(initialState)
-		showMessage('Confirmation', productMessage.add, 'success')
+		//ProductTestService.create(data)
+		productHTTPService.createProduct(data).then(data => {
+			setProduct(initialState)
+			props.closeModal()
+			showMessage('Confirmation', productMessage.add, 'success')
+		})
+
 	}
 
-	const saveProduct = (data) => {
 
-		HTTPService.create(data)
-			.then(response => {
-				setProduct(initialState)
-			})
-			.catch(e => {
-				console.log(e);
-			});
-
-	};
 
 
 	const handleInputChange = event => {
@@ -52,24 +43,31 @@ const AddProduct = () => {
 
 
 				<div class="form-group">
-					<label class="control-label col-md-2" for="email"><font   ><font   >Nom du produit </font></font><span class="text-danger"><font   ><font   >*</font></font></span></label>
+					<label class="control-label col-md-2" for="email"><font   ><font   >Product Name</font></font><span class="text-danger"><font   ><font   >*</font></font></span></label>
 					<div class="col-md-6">
-						<input onChange={handleInputChange} value={product.product_name} ref={register({ required: true })}
-							type="text" name="product_name" class="form-control validate[required]" maxlength="40" />
+						<input onChange={handleInputChange} value={product.name} ref={register({ required: true })}
+							type="text" name="name" class="form-control validate[required]" maxlength="40" />
 						<div className="error text-danger">
-							{errors.product_name && productValidation.product_name}
+							{errors.name && productValidation.name}
 						</div>
 					</div>
 				</div>
 
 
 				<div class="form-group">
-					<label class="control-label col-md-2" for="email"><font   ><font   >Prix ​​du produit </font></font><span class="text-danger"><font   ><font   >*</font></font></span></label>
+					<label class="control-label col-md-2" for="email"><font   ><font   >Price</font></font><span class="text-danger"><font   ><font   >*</font></font></span></label>
 					<div class="col-md-6">
 						<div class="input-group">
 
-							<input onChange={handleInputChange} value={product.price} ref={register({ required: true })}
-								type="text" name="price" class="form-control validate[required,custom[integer,min[0]]]" maxlength="10" />
+
+							<div class="input-group mb-3">
+								<input onChange={handleInputChange} value={product.price} ref={register({ required: true })}
+									type="number" name="price" class="form-control validate[required,custom[integer,min[0]]]" maxlength="10" />
+
+								<div class="input-group-append">
+									<span class="input-group-text" id="basic-addon2">$</span>
+								</div>
+							</div>
 							<div className="error text-danger">
 								{errors.price && productValidation.price}
 							</div>
@@ -80,10 +78,12 @@ const AddProduct = () => {
 
 
 				<div class="form-group">
-					<label class="control-label col-md-2" for="email"><font   ><font   >Quantité de produit </font></font><span class="text-danger"><font   ><font   >*</font></font></span></label>
+					<label class="control-label col-md-2" for="email"><font   ><font   >Quantity </font></font><span class="text-danger"><font   ><font   >*</font></font></span></label>
 					<div class="col-md-6">
 						<input onChange={handleInputChange} value={product.quantity} ref={register({ required: true })}
-							type="text" name="quantity" class="form-control validate[required,custom[integer,min[0]]]" maxlength="5" />
+							type="number" name="quantity" class="form-control validate[required,custom[integer,min[0]]]" maxlength="5" />
+
+
 						<div className="error text-danger">
 							{errors.quantity && productValidation.quantity}
 						</div>

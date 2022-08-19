@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Course.css';
 import { LoadJS } from '../../../libraries/datatables/datatables';
 import EditCourse from '../EditCourse/EditCourse';
@@ -15,7 +15,8 @@ const Course = () => {
   const [courses, setCourses] = useState([]);
   const [updatedItem, setUpdatedItem] = useState({});
   const forceUpdate = useForceUpdate();
-
+  const closeButtonEdit = useRef(null);
+  const closeButtonAdd = useRef(null);
 
   useEffect(() => {
     LoadJS()
@@ -73,7 +74,15 @@ const Course = () => {
     resfresh()
   }
 
+  const closeModalEdit = (data) => {
+    resfresh()
+    closeButtonEdit.current.click()
+  }
 
+  const closeModalAdd = (data) => {
+    resfresh()
+    closeButtonAdd.current.click()
+  }
   return (
 
 
@@ -101,7 +110,7 @@ const Course = () => {
                   <td>16h00</td>
                   <td>234</td>
                   <td>
-                    <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+
                     <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
 
                 </tr>
@@ -119,7 +128,7 @@ const Course = () => {
                     </button>
                   </div>
                   <div class="modal-body">
-                    <EditCourse course={updatedItem} />
+                    <EditCourse />
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
