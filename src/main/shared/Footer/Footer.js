@@ -14,7 +14,7 @@ const Footer = (props) => (
         </nav>
         <div className="credits ml-auto">
           <span className="copyright">
-            Developed by <a href="https://github.com/aniskchaou">Anis KCHAOU</a>
+        
           </span>
         </div>
       </div>
