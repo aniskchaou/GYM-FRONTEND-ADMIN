@@ -9,7 +9,7 @@
 }
 
 .card {
-    
+
     border: none;
     margin-bottom: 30px
 }
@@ -82,7 +82,7 @@ h6 {
 
 
 .text-muted {
-    color: #919aa3 !important
+    color: #ffa41b !important
 }
 
 .b-b-default {
@@ -107,7 +107,8 @@ h6 {
 
 .m-b-10 {
     margin-bottom: 10px;
-    margin-top: 25px;;
+    margin-top: 25px;
+    ;
 }
 
 .m-t-40 {

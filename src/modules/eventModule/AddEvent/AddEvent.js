@@ -6,37 +6,44 @@ import showMessage from '../../../libraries/messages/messages'
 import eventMessage from '../../../main/messages/eventMessage'
 import eventValidation from '../../../main/validations/eventValidation'
 import EventTestService from '../../../main/mocks/EventTestService';
-import HTTPService from '../../../main/services/HTTPService';
+import eventHTTPService from '../../../main/services/eventHTTPService';
 
-const AddEvent = () => {
+const AddEvent = (props) => {
   const initialState = {
     event_name: "",
     event_date: "",
-    place_id: "",
     starttime: "",
     endtime: "",
   };
 
   const { register, handleSubmit, errors } = useForm()
   const [event, setEvent] = useState(initialState);
+  const [value, setValue] = useState(null);
 
   const onSubmit = (data) => {
     //saveEvent(data)
-    EventTestService.create(data)
-    setEvent(initialState)
-    showMessage('Confirmation', eventMessage.add, 'success')
+    eventHTTPService.createEvent(data).then(data => {
+      console.log(data)
+      setEvent(initialState)
+      setValue(null)
+      props.closeModal()
+      showMessage('Confirmation', eventMessage.add, 'success')
+    }).catch(e => {
+      console.log(e)
+    })
+
   }
 
   const saveEvent = (data) => {
 
-    HTTPService.create(data)
-      .then(response => {
-        setEvent(initialState)
-      })
-      .catch(e => {
-        console.log(e);
-      });
-
+    /* HTTPService.create(data)
+       .then(response => {
+         setEvent(initialState)
+       })
+       .catch(e => {
+         console.log(e);
+       });
+     */
   };
 
 
@@ -52,7 +59,7 @@ const AddEvent = () => {
 
 
 
-        <div class="form-group"><label class="control-label col-md-2" for="email">Nom de l'évenement<span class="text-danger">
+        <div class="form-group"><label class="control-label col-md-2" for="email">Name<span class="text-danger">
           *</span></label>
           <div class="col-md-12">
             <div class="input text">
@@ -84,23 +91,9 @@ const AddEvent = () => {
 
 
 
-        <div class="form-group"><label class="control-label col-md-2" for="email">Lieu<span class="text-danger">
-          *</span></label>
-          <div class="col-md-12 module_padding">
-            <select name="place_id" onChange={handleInputChange} value={event.place_id} ref={register({ required: true })}
-              class="form-control events_place_list validate[required]">
-              <option  >Select Event Places</option>
-              <option value="1">New Location Address</option>
-            </select>
-            <div className="error text-danger">
-              {errors.place_id && eventValidation.place_id}
-            </div>
-          </div>
-        </div>
 
 
-
-        <div class="form-group"><label class="control-label col-md-2" for="start time">Début<span class="text-danger">
+        <div class="form-group"><label class="control-label col-md-2" for="start time">Start<span class="text-danger">
           *</span></label>
           <div class="col-md-12 ">
             <div class="input text">
@@ -115,7 +108,7 @@ const AddEvent = () => {
         </div>
 
 
-        <div class="form-group"><label class="control-label col-md-2" for="start time">Fin<span class="text-danger">
+        <div class="form-group"><label class="control-label col-md-2" for="start time">End<span class="text-danger">
           *</span></label>
           <div class="col-md-12 ">
             <div class="input text">
@@ -131,7 +124,7 @@ const AddEvent = () => {
 
 
         <br /><button class="btn btn-flat btn-success col-md-offset-2" name="add_class" type="submit"
-        >Sauvegarder</button>
+        >Save</button>
       </form>
     </div>
   )

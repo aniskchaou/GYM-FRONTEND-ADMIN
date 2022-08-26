@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Payment.css';
 import { LoadJS } from '../../../libraries/datatables/datatables';
 import EditPayment from '../EditPayment/EditPayment';
@@ -8,69 +8,69 @@ import useForceUpdate from 'use-force-update';
 import showMessage from '../../../libraries/messages/messages';
 import paymentMessage from '../../../main/messages/paymentMessage';
 import PaymentTestService from '../../../main/mocks/PaymentTestService';
-import HTTPService from '../../../main/services/HTTPService';
+import paymentHTTPService from '../../../main/services/paymentHTTPService';
 
 const Payment = () => {
 
   const [payments, setPayments] = useState([]);
   const [updatedItem, setUpdatedItem] = useState({});
   const forceUpdate = useForceUpdate();
+  const closeButtonEdit = useRef(null);
+  const closeButtonAdd = useRef(null);
+
 
 
   useEffect(() => {
     LoadJS()
-    retrievePayments()
+    getAllPayments()
   }, []);
 
 
-  const getAll = () => {
-    HTTPService.getAll()
+  const getAllPayments = () => {
+    // setLoading(true);
+    paymentHTTPService.getAllPayment()
       .then(response => {
         setPayments(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
-  const removeOne = (data) => {
-    HTTPService.remove(data)
-      .then(response => {
 
       })
       .catch(e => {
-
+        showMessage('Confirmation', e, 'info')
       });
-  }
-
-
-
-  const retrievePayments = () => {
-    var payments = PaymentTestService.getAll();
-    setPayments(payments);
   };
+
 
   const resfresh = () => {
-    retrievePayments()
+    getAllPayments()
     forceUpdate()
   }
 
-  const remove = (e, data) => {
+  const removePaymentAction = (e, data) => {
     e.preventDefault();
     var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
     if (r) {
-      showMessage('Confirmation', paymentMessage.delete, 'success')
-      PaymentTestService.remove(data)
-      //removeOne(data)
-      resfresh()
+      showMessage('Confirmation', 'patientMessage.delete', 'success')
+      paymentHTTPService.removePayment(data).then(data => {
+        resfresh()
+      }).catch(e => {
+        showMessage('Confirmation', e, 'warning')
+      });
     }
-
   }
 
-  const update = (e, data) => {
+  const updatePaymentAction = (e, data) => {
     e.preventDefault();
     setUpdatedItem(data)
     resfresh()
+  }
+
+  const closeModalEdit = (data) => {
+    // resfresh()
+    closeButtonEdit.current.click()
+  }
+
+  const closeModalAdd = (data) => {
+    //resfresh()
+    closeButtonAdd.current.click()
   }
 
 
@@ -80,73 +80,39 @@ const Payment = () => {
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <h4 className="card-title"> Paiement</h4>
+              <h4 className="card-title"> Payments</h4>
             </div>
             <div className="card-body">
               <div className="table-responsive">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addPayment"><i class="far fa-plus-square"></i>  Create</button>
+
                 <table className="table">
                   <thead class=" text-primary">
-                    <tr>  <th>Titre</th>
-                      <th>Nom de membre</th>
-                      <th>Montant</th>
-                      <th>Montant payé</th>
-                      <th>Montant du</th>
-                      <th>debut ahdesion</th>
-                      <th>Statut</th>
-                      <th>Actions</th></tr>
-
+                    <tr>
+                      <th>Member</th>
+                      <th>Type</th>
+                      <th>Amount</th>
+                      <th>Actions</th>
+                    </tr>
                   </thead>
                   <tbody>
-
-
-                    {payments.map(item =>
-                      <tr>
-
-                        <td>Cours de dance</td>
-                        <td>{item.member}</td>
-                        <td>{item.amount} $</td>
-                        <td>600$</td>
-                        <td>0$</td>
-                        <td>{item.validity}</td>
-                        <td class="badge badge-success">payé</td>
-                        <td>
-                          <button onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                          <button onClick={e => remove(e, payments.indexOf(item))} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                      </tr>
-                    )}
-
-
-
-
-
-                    <tr>
-
-                      <td>Cours de dance</td>
-                      <td>Musette Gervais</td>
-                      <td>600$</td>
-                      <td>600$</td>
-                      <td>0$</td>
-                      <td>05/08/2020</td>
-                      <td class="badge badge-success">payé</td>
-                      <td>
-                        <button data-toggle="modal" data-target="#edit" type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button></td>
-                    </tr>
+                    {payments.length === 0 ? <div class="d-flex justify-content-center" >
+                      <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div></div> : payments.map(item =>
+                        <tr>
+                          <td>{item.member}</td>
+                          <td>{item.type} $</td>
+                          <td>{item.amount}</td>
+                          <td>
+                            <button style={{ margin: "3px" }} onClick={e => updatePaymentAction(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+                            <button onClick={e => removePaymentAction(e, item.id)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                          </td>
+                        </tr>
+                      )}
                   </tbody>
-                  <tfoot class=" text-primary">
-                    <tr>  <th>Titre</th>
-                      <th>Nom de membre</th>
-                      <th>Montant</th>
-                      <th>Montant payé</th>
-                      <th>Montant du</th>
-                      <th>debut ahdesion</th>
-                      <th>Statut</th>
-                      <th>Actions</th></tr>
 
-                  </tfoot>
                 </table>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addPayment"><i class="far fa-plus-square"></i>  Ajouter</button>
 
 
                 <div class="modal fade" id="addPayment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -159,10 +125,10 @@ const Payment = () => {
                         </button>
                       </div>
                       <div class="modal-body">
-                        <AddPayment />
+                        <AddPayment closeModal={closeModalAdd} />
                       </div>
                       <div class="modal-footer">
-                        <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button onClick={resfresh} type="button" ref={closeButtonAdd} class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                       </div>
                     </div>
@@ -180,10 +146,10 @@ const Payment = () => {
                         </button>
                       </div>
                       <div class="modal-body">
-                        <EditPayment payment={updatedItem} />
+                        <EditPayment payment={updatedItem} closeModal={closeModalEdit} />
                       </div>
                       <div class="modal-footer">
-                        <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button onClick={resfresh} ref={closeButtonEdit} type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                       </div>
                     </div>

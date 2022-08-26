@@ -11,7 +11,6 @@ import Expense from '../../../modules/expenseModule/Expense/Expense';
 import Groupe from '../../../modules/groupeModule/Groupe/Groupe';
 import Login from '../Login/Login';
 import Configuration from '../../../modules/shared/Configuration/Configuration';
-import TypeSubs from '../../../modules/typesubsModule/ViewTypeSubs/TypeSubs/TypeSubs';
 import Staff from '../../../modules/staffModule/Staff/Staff';
 import Revenue from '../../../modules/revenueModule/Revenue/Revenue';
 import Product from '../../../modules/productModule/Product/Product';
@@ -26,6 +25,9 @@ import AddProduct from '../../../modules/productModule/AddProduct/AddProduct';
 import AddStaff from '../../../modules/staffModule/AddStaff/AddStaff';
 import Profile from '../../../modules/shared/Profile/Profile';
 import Editprofile from '../../../modules/shared/Editprofile/Editprofile';
+import TypeSubs from '../../../modules/typesubsModule/TypeSubs/TypeSubs';
+import FrontOffice from '../../../modules/frontOfficeModule/FrontOffice/FrontOffice'
+import AddTypeSubs from '../../../modules/typesubsModule/AddTypeSubs/AddTypeSubs';
 
 const Routes = () => (
   <div style={{ display: (User.CONNECTED_USER ? 'block' : 'none') }} className="Routes">
@@ -53,6 +55,9 @@ const Routes = () => (
     <Route exact path="/login" component={Login} />
     <Route exact path="/profile" component={Profile} />
     <Route exact path="/edit-profile" component={Editprofile} />
+
+    <Route exact path="/frontoffice" component={FrontOffice} />
+    <Route exact path="/add-type-subs" component={AddTypeSubs} />
   </div>
 );
 

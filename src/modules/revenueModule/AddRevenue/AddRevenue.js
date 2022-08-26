@@ -6,16 +6,13 @@ import showMessage from '../../../libraries/messages/messages'
 import revenueMessage from '../../../main/messages/revenueMessage'
 import revenueValidation from '../../../main/validations/revenueValidation'
 import RevenueTestService from '../../../main/mocks/RevenueTestService';
-import HTTPService from '../../../main/services/HTTPService';
+import revenueHTTPService from '../../../main/services/revenueHTTPService';
 
-const AddRevenue = () => {
+const AddRevenue = (props) => {
   const initialState = {
-    post: "",
-    description: "",
-    start: "",
-    end: "",
-    location: "",
-    requirement: ""
+    name: "",
+    date: "",
+    amount: "",
   };
 
   const { register, handleSubmit, errors } = useForm()
@@ -23,22 +20,18 @@ const AddRevenue = () => {
 
   const onSubmit = (data) => {
     //saveRevenue(data)
-    RevenueTestService.create(data)
-    setRevenue(initialState)
-    showMessage('Confirmation', revenueMessage.add, 'success')
+    //RevenueTestService.create(data)
+    console.log(data)
+    revenueHTTPService.createRevenue(data).then(data => {
+
+      setRevenue(initialState)
+      props.closeModal()
+      showMessage('Confirmation', revenueMessage.add, 'success')
+    })
+
   }
 
-  const saveRevenue = (data) => {
 
-    HTTPService.create(data)
-      .then(response => {
-        setRevenue(initialState)
-      })
-      .catch(e => {
-        console.log(e);
-      });
-
-  };
 
 
   const handleInputChange = event => {
@@ -51,35 +44,27 @@ const AddRevenue = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
 
         <div class="form-group row">
-          <label for="text1" class="col-4 col-form-label">Étiquette de revenu</label>
+          <label for="text1" class="col-4 col-form-label">Name</label>
           <div class="col-8">
-            <input onChange={handleInputChange} value={revenue.revenue} ref={register({ required: true })}
-              id="text1" name="revenue" type="text" class="form-control" />
+            <input onChange={handleInputChange} value={revenue.name} ref={register({ required: true })}
+              id="text1" name="name" type="text" class="form-control" />
             <div className="error text-danger">
-              {errors.revenue && revenueValidation.revenue}
+              {errors.name && revenueValidation.name}
             </div>
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="select1" class="col-4 col-form-label">Membre</label>
+          <label for="text8" class="col-4 col-form-label">Amount</label>
           <div class="col-8">
-            <select onChange={handleInputChange} value={revenue.member} ref={register({ required: true })}
-              id="select1" name="member" class="custom-select">
-              <option value="Victor Gaudreau">Victor Gaudreau</option>
-              <option value="Albracca Tougas">Albracca Tougas</option>
-            </select>
-            <div className="error text-danger">
-              {errors.member && revenueValidation.member}
-            </div>
-          </div>
-        </div>
 
-        <div class="form-group row">
-          <label for="text8" class="col-4 col-form-label">Montant</label>
-          <div class="col-8">
-            <input onChange={handleInputChange} value={revenue.amount} ref={register({ required: true })}
-              id="text8" name="amount" type="number" class="form-control" />
+            <div class="input-group mb-3">
+              <input onChange={handleInputChange} value={revenue.amount} ref={register({ required: true })}
+                id="text8" name="amount" type="number" class="form-control" />
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">$</span>
+              </div>
+            </div>
             <div className="error text-danger">
               {errors.amount && revenueValidation.amount}
             </div>
@@ -102,7 +87,7 @@ const AddRevenue = () => {
         <div class="form-group row">
           <div class="offset-4 col-8">
             <button name="submit" type="submit" class="btn btn-primary"><i class="far fa-save"></i>
- Sauvegarder</button>
+              Save</button>
           </div>
         </div>
 

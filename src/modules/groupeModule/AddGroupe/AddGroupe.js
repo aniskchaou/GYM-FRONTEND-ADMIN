@@ -6,9 +6,9 @@ import showMessage from '../../../libraries/messages/messages'
 import groupeMessage from '../../../main/messages/groupeMessage'
 import groupeValidation from '../../../main/validations/groupeValidation'
 import GroupeTestService from '../../../main/mocks/GroupeTestService';
-import HTTPService from '../../../main/services/HTTPService';
+import groupeHTTPService from '../../../main/services/groupeHTTPService';
 
-const AddGroupe = () => {
+const AddGroupe = (props) => {
   const initialState = {
     groupe_name: "",
 
@@ -19,22 +19,16 @@ const AddGroupe = () => {
 
   const onSubmit = (data) => {
     //saveGroupe(data)
-    GroupeTestService.create(data)
-    setGroupe(initialState)
-    showMessage('Confirmation', groupeMessage.add, 'success')
+    //GroupeTestService.create(data)
+    groupeHTTPService.createGroupe(data).then(data => {
+      setGroupe(initialState)
+      showMessage('Confirmation', groupeMessage.add, 'success')
+      props.closeModal(data)
+    }).catch(e => {
+      console.log(e)
+    })
+
   }
-
-  const saveGroupe = (data) => {
-
-    HTTPService.create(data)
-      .then(response => {
-        setGroupe(initialState)
-      })
-      .catch(e => {
-        console.log(e);
-      });
-
-  };
 
 
   const handleInputChange = event => {
@@ -46,7 +40,7 @@ const AddGroupe = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
 
         <div class="form-group row">
-          <label for="text" class="col-4 col-form-label">Nom du groupe</label>
+          <label for="text" class="col-4 col-form-label">Groupe Name</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={groupe.groupe_name} ref={register({ required: true })}
               id="text" name="groupe_name" type="text" class="form-control" />
@@ -59,7 +53,7 @@ const AddGroupe = () => {
 
         <div class="form-group row">
           <div class="offset-4 col-8">
-            <button name="submit" type="submit" class="btn btn-primary"><i class="far fa-save"></i>Sauvegarder</button>
+            <button name="submit" type="submit" class="btn btn-primary"><i class="far fa-save"></i>Save </button>
           </div>
         </div>
 

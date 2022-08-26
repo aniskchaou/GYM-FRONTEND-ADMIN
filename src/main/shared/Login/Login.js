@@ -25,13 +25,14 @@ const Login = (props) => {
               <img src="assets/img/logo.png" /></h4>
           </div><div class="card-body">
             <form onSubmit={handleSubmit(onSubmit)} method="post">
-              <div class="form-group"><label >Utilisateur</label>
+              <div class="form-group"><label >Username</label>
                 <input type="text" placeholder="Company" value="admin" class="form-control" />
               </div><div class="form-group">
-                <label  >Mot de passe</label>
+                <label  >Password</label>
                 <input type="password" placeholder="Username" value="admin" class="form-control" /></div>
               <div class="update ml-auto mr-auto">
-                <button class="btn btn-primary btn-round" type="submit" >Connexion</button>
+                <button class="btn btn-primary btn-round" type="submit" >Sign in</button>
+                <a href="http://localhost:5000" class="btn btn-warning btn-round" type="button" >Return</a>
               </div>
             </form>
           </div>

@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import StaffTestService from '../../../main/mocks/StaffTestService';
 import showMessage from '../../../libraries/messages/messages';
 import staffMessage from '../../../main/messages/staffMessage';
+import staffHTTPService from '../../../main/services/staffHTTPService';
 
 const EditStaff = (props) => {
   const { register, handleSubmit, errors } = useForm() // initialise the hook
@@ -18,8 +19,12 @@ const EditStaff = (props) => {
 
   const onSubmit = (data) => {
 
-    StaffTestService.update(props.staff, data)
-    showMessage('Confirmation', staffMessage.edit, 'success')
+    // StaffTestService.update(props.staff, data)
+    staffHTTPService.editStaff(props.staff.id, data).then(data => {
+      showMessage('Confirmation', staffMessage.edit, 'success')
+      props.closeModal()
+    })
+
   }
 
 
@@ -31,10 +36,10 @@ const EditStaff = (props) => {
 
   return (
     <div className="EditStaff">
-      <form onSubmit={handleSubmit(onSubmit)} onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} >
 
         <div class="form-group row">
-          <label for="text1" class="col-4 col-form-label">Nom</label>
+          <label for="text1" class="col-4 col-form-label">First Name</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={staff.first_name} ref={register({ required: true })}
               id="text1" name="first_name" type="text" class="form-control" />
@@ -47,7 +52,7 @@ const EditStaff = (props) => {
 
 
         <div class="form-group row">
-          <label for="text" class="col-4 col-form-label">Prénom</label>
+          <label for="text" class="col-4 col-form-label">Last Name</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={staff.last_name} ref={register({ required: true })}
               id="text" name="last_name" type="text" class="form-control" />
@@ -60,10 +65,10 @@ const EditStaff = (props) => {
 
 
         <div class="form-group row">
-          <label for="text2" class="col-4 col-form-label">Date de naissance</label>
+          <label for="text2" class="col-4 col-form-label">Date of birth</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={staff.date} ref={register({ required: true })}
-              id="text2" name="date" type="text" class="form-control" />
+              id="text2" name="date" type="date" class="form-control" />
             <div className="error text-danger">
               {errors.date && staffValidation.date}
             </div>
@@ -89,7 +94,7 @@ const EditStaff = (props) => {
 
 
         <div class="form-group row">
-          <label for="text3" class="col-4 col-form-label">Adresse</label>
+          <label for="text3" class="col-4 col-form-label">Address</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={staff.address} ref={register({ required: true })}
               id="text3" name="address" type="text" class="form-control" />
@@ -128,7 +133,7 @@ const EditStaff = (props) => {
         <div class="form-group row">
           <div class="offset-4 col-8">
             <button name="submit" type="submit" class="btn btn-primary"><i class="far fa-save"></i>
- Sauvegarder</button>
+              Save</button>
           </div>
         </div>
       </form>
