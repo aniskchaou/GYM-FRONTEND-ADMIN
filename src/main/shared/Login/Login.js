@@ -32,7 +32,7 @@ const Login = (props) => {
                 <input type="password" placeholder="Username" value="admin" class="form-control" /></div>
               <div class="update ml-auto mr-auto">
                 <button class="btn btn-primary btn-round" type="submit" >Sign in</button>
-                <a href="http://localhost:5000" class="btn btn-warning btn-round" type="button" >Return</a>
+                <a href="https://gym-client.herokuapp.com/" class="btn btn-warning btn-round" type="button" >Return</a>
               </div>
             </form>
           </div>
