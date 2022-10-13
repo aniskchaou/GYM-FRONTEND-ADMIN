@@ -34,7 +34,7 @@ const FrontOffice = () => {
             <div className="card-body">
               <div>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editFrontOffice">Edit</button>
-                <a type="button" class="btn btn-warning" href="http://localhost:5000">Website</a>
+                <a type="button" target="_blank" class="btn btn-warning" href="https://gym-man--app.herokuapp.com/">Website</a>
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">Home Section Title : {frontOffice.sliderTitle}</li>
                   <li class="list-group-item">Left Button : {frontOffice.leftButtonTitle} </li>
