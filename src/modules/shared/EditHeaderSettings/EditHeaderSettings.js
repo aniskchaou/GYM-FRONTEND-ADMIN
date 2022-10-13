@@ -7,6 +7,7 @@ import showMessage from '../../../libraries/messages/messages';
 import React, { useEffect, useState } from 'react';
 
 const EditHeaderSettings = () => {
+
   const { register, handleSubmit, errors } = useForm()
   const [headerSettings, setHeaderSettings] = useState();
 
@@ -31,6 +32,8 @@ const EditHeaderSettings = () => {
       getHeaderSettings()
     })
   }
+
+
   return (
     <div className="EditDashboardSettings">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -59,16 +62,12 @@ const EditHeaderSettings = () => {
           </div>
         </div>
 
-
-
         <div class="form-group row">
           <div class="offset-4 col-8">
             <button name="submit" type="submit" class="btn btn-primary"><i class="far fa-save"></i>
               Save</button>
           </div>
         </div>
-
-
       </form>
     </div>
   )

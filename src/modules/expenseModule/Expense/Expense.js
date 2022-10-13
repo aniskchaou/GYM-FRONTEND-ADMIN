@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
-import PropTypes from 'prop-types';
 import './Expense.css';
 import AddExpense from './../AddExpense/AddExpense';
 import { LoadJS } from './../../../libraries/datatables/datatables';
 import EditExpense from './../EditExpense/EditExpense';
-import ExpenseTestService from '../../../main/mocks/ExpenseTestService';
+import User from '../../../main/config/user'
 import expenseMessage from '../../../main/messages/expenseMessage';
 import showMessage from '../../../libraries/messages/messages';
 import useForceUpdate from 'use-force-update';
 import expenseHTTPService from '../../../main/services/expenseHTTPService';
+import { Button, LinearProgress, Typography } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 const Expense = () => {
 
@@ -19,15 +20,24 @@ const Expense = () => {
   const closeButtonEdit = useRef(null);
   const closeButtonAdd = useRef(null);
   const [loading, setLoading] = useState(true);
+  const [updatedItemId, setUpdatedItemId] = useState(0);
+  const [updatedItemIds, setUpdatedItemIds] = useState([]);
+
+  const columns = [
+    { field: 'id', headerName: '#', width: 200 },
+    { field: 'name', headerName: 'Name', width: 200 },
+    { field: 'amount', headerName: 'Amount ($)', width: 200 },
+    { field: 'date', headerName: 'Date', width: 200 }
+  ];
 
 
   useEffect(() => {
     LoadJS()
-    getAllPatient()
+    getAllExpenses()
   }, []);
 
 
-  const getAllPatient = () => {
+  const getAllExpenses = () => {
     setLoading(true);
     expenseHTTPService.getAllExpense()
       .then(response => {
@@ -35,22 +45,23 @@ const Expense = () => {
         setLoading(false);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Confirmation', e, 'warning')
       });
   };
 
 
   const resfresh = () => {
-    getAllPatient()
+    getAllExpenses()
     forceUpdate()
   }
 
   const removeExpenseAction = (e, data) => {
     e.preventDefault();
-    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
-    if (r) {
-      showMessage('Confirmation', 'patientMessage.delete', 'success')
+    var confirm = window.confirm(User.DELETE_MSG);
+    if (confirm) {
+
       expenseHTTPService.removeExpense(data).then(data => {
+        showMessage('Confirmation', expenseMessage.delete, 'success')
         resfresh()
       }).catch(e => {
         showMessage('Confirmation', e, 'warning')
@@ -74,42 +85,44 @@ const Expense = () => {
     closeButtonAdd.current.click()
   }
 
+  const handleRowSelection = (e) => {
+    if (e.length == 1) {
+      setUpdatedItemId(e[0])
+      const selectedItem = expenses.find(item => item.id == e[0])
+      setUpdatedItem(selectedItem)
+    }
+    setUpdatedItemIds(e)
+  }
+
+
+
   return (
     <div className="content">
       <div className="row">
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <h4 className="card-title"> Expenses</h4>
+              <h4 className="card-title"><i class="nc-icon nc-money-coins"></i> Expenses</h4>
             </div>
             <div className="card-body">
-              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addExpense"><i class="far fa-plus-square"></i> Create</button>
 
+              <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addExpense" ><i class="fas fa-plus"></i> Create </Button>
+              <Button style={{ color: '#ffa400' }} onClick={e => updateExpenseAction(e, updatedItemId)} type="button" data-toggle="modal" data-target="#edit"><i class="fas fa-edit"></i> Edit</Button>
+              <Button style={{ color: '#ffa400' }} onClick={e => removeExpenseAction(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button>
+              <Button type="button" style={{ color: '#ffa400' }} onClick={() => getAllExpenses()}><i class="fas fa-refresh"></i> Reload</Button>
+
+              {loading ?
+                <LinearProgress />
+                : <div style={{ height: 400, width: '100%' }}><DataGrid
+                  rows={expenses}
+                  columns={columns}
+                  pageSize={5}
+                  rowsPerPageOptions={[6]}
+                  checkboxSelection
+                  onSelectionModelChange={handleRowSelection}
+                  components={{ Toolbar: GridToolbar }}
+                /></div>}
               <div className="table">
-                <table className="table">
-                  <thead class=" text-primary">
-                    <tr><th>Name</th>
-                      <th>Amount</th>
-                      <th>Actions</th></tr>
-                  </thead>
-                  <tbody>
-
-                    {expenses.map(item =>
-                      <tr>
-                        <td>{item.name}</td>
-                        <td>{item.amount} $</td>
-                        <td>
-                          <button style={{ margin: "3px" }} onClick={e => updateExpenseAction(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                          <button onClick={e => removeExpenseAction(e, item.id)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                      </tr>
-                    )}
-
-                  </tbody>
-
-                </table>
-
-
                 <div class="modal fade" id="addExpense" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
@@ -129,9 +142,6 @@ const Expense = () => {
                     </div>
                   </div>
                 </div>
-
-
-
                 <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
@@ -146,18 +156,14 @@ const Expense = () => {
                       </div>
                       <div class="modal-footer">
                         <button onClick={resfresh} ref={closeButtonEdit} type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
                       </div>
                     </div>
                   </div>
                 </div>
-
-
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div >
   )

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import './EditGroupe.css';
 import showMessage from '../../../libraries/messages/messages'
 import groupeMessage from '../../../main/messages/groupeMessage'
 import groupeValidation from '../../../main/validations/groupeValidation'
-//import GroupeTestService from '../../../main/mocks/GroupeTestService';
 import { useForm } from 'react-hook-form';
 import groupeHTTPService from '../../../main/services/groupeHTTPService'
+
+
 const EditGroupe = (props) => {
 
-  const { register, handleSubmit, errors } = useForm() // initialise the hook
+  const { register, handleSubmit, errors } = useForm()
   const [groupe, setGroupe] = useState(props.groupe);
 
   useEffect(() => {
@@ -18,9 +18,7 @@ const EditGroupe = (props) => {
 
 
   const onSubmit = (data) => {
-
-    //GroupeTestService.update(props.groupe, data)
-    groupeHTTPService.editGroupe(props.groupe.id, data).then(data => {
+    groupeHTTPService.editGroupe(props.groupe, data).then(data => {
       props.closeModal()
       showMessage('Confirmation', groupeMessage.edit, 'success')
     })

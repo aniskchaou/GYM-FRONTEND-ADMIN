@@ -20,7 +20,7 @@ const getCountGroup = () => {
 }
 
 export default {
-    getAllGroupe,
+    getAllGroupes: getAllGroupe,
     createGroupe,
     editGroupe,
     removeGroupe,

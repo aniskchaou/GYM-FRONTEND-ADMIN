@@ -13,6 +13,8 @@ import EditNotificationsSettings from '../EditNotificationsSettings/EditNotifica
 import EditDashboardSettings from '../EditDashboardSettings/EditDashboardSettings';
 import EditEmailSettings from '../EditEmailSettings/EditEmailSettings'
 import EditFooterSettings from '../EditFooterSettings/EditFooterSettings';
+
+
 const ConfigurationContent = () => {
 
   const [systemSettings, setSystemSettings] = useState({})
@@ -23,11 +25,11 @@ const ConfigurationContent = () => {
   const [emailSettings, setEmailSettings] = useState({})
   const [emailTemplateSettings, setemailTemplateSettings] = useState({})
   const [notificationSettings, setNotificationSettings] = useState({})
-
   const history = useHistory()
   const forceUpdate = useForceUpdate();
+
+
   useEffect(() => {
-    // Runs ONCE after initial rendering
     LoadJS()
     getSystemSettings()
     getEmailSettings()
@@ -64,6 +66,7 @@ const ConfigurationContent = () => {
 
   const getLocalisationSettings = () => {
     settingsHTTPService.getLocalisationSettings().then(data => {
+      console.log("localisation")
       console.log(data.data[0])
       setLocalisationSettings(data.data[0])
       forceUpdate()
@@ -148,11 +151,6 @@ const ConfigurationContent = () => {
 
   return (
     <div class="container">
-
-
-
-
-
       <div class="row gutters-sm">
         <div class="col-md-4 d-none d-md-block">
           <div class="card">
@@ -164,9 +162,7 @@ const ConfigurationContent = () => {
                 <a href="#localisation" data-toggle="tab" class="nav-item nav-link has-icon nav-link-faded">
                   Localisation
                 </a>
-                <a href="#email" data-toggle="tab" class="nav-item nav-link has-icon nav-link-faded">
-                  Email
-                </a>
+
                 <a href="#footer" data-toggle="tab" class="nav-item nav-link has-icon nav-link-faded">
                   Footer
                 </a>
@@ -446,11 +442,8 @@ const ConfigurationContent = () => {
                     </div>
                   </div>
                 </div>
-
               </div>
-
             </div>
-
           </div>
         </div>
       </div>

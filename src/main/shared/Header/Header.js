@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import './Header.css';
 import User from '../../config/user';
 import { NavLink, useHistory } from 'react-router-dom';
 import settingsHTTPService from '../../services/settingsHTTPService';
 import SearchBar from '../SearchBar/SearchBar';
 
-const Header = (props) => {
+const Header = ({ connected, handleClick }) => {
+
+
   let history = useHistory()
   const [headerSettings, setHeaderSettings] = useState({});
+
   const logout = () => {
-    props.rerender();
-    User.CONNECTED_USER = false
+    handleClick(false)
+    localStorage.clear()
     history.push("/login")
   }
+
+
   useEffect(() => {
     getFooterSettings()
   }, []);
@@ -22,11 +26,12 @@ const Header = (props) => {
     settingsHTTPService.getHeaderSettings().then(data => {
       setHeaderSettings(data.data[0])
       console.log(data.data[0])
-
     })
   }
+
+
   return (
-    <nav style={{ display: (User.CONNECTED_USER ? 'block' : 'none') }} className="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+    <nav style={{ display: (connected ? 'block' : 'none') }} className="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
       <div className="container-fluid">
         <div className="navbar-wrapper">
           <div className="navbar-toggle">
@@ -48,15 +53,10 @@ const Header = (props) => {
             <SearchBar />
           }
           <ul className="navbar-nav">
-
-
-
             <li className="nav-item btn-rotate dropdown">
               <a className="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-user-alt"></i>
-                <p>
-                  <span className="d-lg-none d-md-block">Configuration</span>
-                </p>
+                {' ' + User.USER_DETAIL.username}
               </a>
               <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                 <NavLink className="dropdown-item" to="/profile"> Profil</NavLink>

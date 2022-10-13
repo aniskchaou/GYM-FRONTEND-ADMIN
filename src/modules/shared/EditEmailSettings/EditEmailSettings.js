@@ -13,6 +13,7 @@ const EditEmailSettings = () => {
   useEffect(() => {
     getEmailSettings()
   }, [])
+
   const handleInputChange = event => {
     const { name, value } = event.target;
     setEmailSettings({ ...emailSettings, [name]: value });

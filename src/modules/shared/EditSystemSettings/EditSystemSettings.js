@@ -13,6 +13,7 @@ const EditSystemSettings = () => {
   useEffect(() => {
     getSystemSettings()
   }, [])
+
   const handleInputChange = event => {
     const { name, value } = event.target;
     setSystemSettings({ ...systemSettings, [name]: value });

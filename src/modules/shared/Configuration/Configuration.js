@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './Configuration.css';
 import ConfigurationContent from '../ConfigurationContent/ConfigurationContent';
 
@@ -9,7 +8,7 @@ const Configuration = () => (
       <div className="col-md-12">
         <div className="card">
           <div className="card-header">
-            <h4 className="card-title"> Settings</h4>
+            <h4 className="card-title"><i class="nc-icon nc-money-coins"></i> Settings</h4>
           </div>
           <div className="card-body">
             <ConfigurationContent />

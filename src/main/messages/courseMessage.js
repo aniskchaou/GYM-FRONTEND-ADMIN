@@ -1,7 +1,7 @@
 const courseMessage = {
-    add: 'Cours a été ajouté avec succés',
-    edit: 'Cours  a été modifié avec succés',
-    delete: 'Cours   a été supprimé avec succés'
+    add: 'Item has been successfully added',
+    edit: 'Item has been successfully edited',
+    delete: 'Item has been successfully removed'
 }
 
 export default courseMessage

@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import './EditPayment.css';
 import { useForm } from 'react-hook-form';
 import showMessage from '../../../libraries/messages/messages'
 import paymentMessage from '../../../main/messages/paymentMessage'
 import paymentValidation from '../../../main/validations/paymentValidation'
-import PaymentTestService from '../../../main/mocks/PaymentTestService';
 import paymentHTTPService from '../../../main/services/paymentHTTPService'
 import typeSubsHTTPService from '../../../main/services/typeSubsHTTPService';
 import memberHTTPService from '../../../main/services/memberHTTPService';
 const EditPayment = (props) => {
+
   const { register, handleSubmit, errors } = useForm() // initialise the hook
   const [payment, setPayment] = useState(props.payment);
-
   const [members, setMembers] = useState([]);
   const [typeSubs, setTypeSubs] = useState([]);
-
-
-
 
   useEffect(() => {
     setPayment(props.payment)
@@ -27,25 +22,22 @@ const EditPayment = (props) => {
 
 
   const onSubmit = (data) => {
-
-    // PaymentTestService.update(props.payment, data)
     paymentHTTPService.editPayment(props.payment.id, data).then(data => {
       props.closeModal()
       showMessage('Confirmation', paymentMessage.edit, 'success')
     })
-
   }
 
   const handleInputChange = event => {
     const { name, value } = event.target;
     setPayment({ ...payment, [name]: value });
   };
-  const getTypeSubs = () => {
 
+
+  const getTypeSubs = () => {
     typeSubsHTTPService.getAllTypeSubs()
       .then(response => {
         setTypeSubs(response.data);
-        //forceUpdate()
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -53,11 +45,9 @@ const EditPayment = (props) => {
   };
 
   const getMembers = () => {
-
     memberHTTPService.getAllMember()
       .then(response => {
         setMembers(response.data);
-        //forceUpdate()
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -74,7 +64,7 @@ const EditPayment = (props) => {
             <select onChange={handleInputChange} value={payment.member} ref={register({ required: true })}
               name="member" class="custom-select">
               {members.map(item =>
-                <option value={item.id}>{item.name}</option>
+                <option value={item.id}>{item.first_name} {item.last_name}</option>
               )}
             </select>
             <div className="error text-danger">
@@ -90,7 +80,7 @@ const EditPayment = (props) => {
             <select onChange={handleInputChange} value={payment.type} ref={register({ required: true })}
               name="type" class="custom-select">
               {typeSubs.map(item =>
-                <option value={item.id}>{item.name}</option>
+                <option value={item.id}>{item.category}</option>
               )}
             </select>
             <div className="error text-danger">

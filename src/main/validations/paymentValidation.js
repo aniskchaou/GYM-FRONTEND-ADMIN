@@ -1,8 +1,8 @@
 
 const paymentValidation = {
-    type: 'Type doit etre definie',
-    member: 'Membre doit etre definie',
-    amount: 'Montant doit etre definie',
+    type: 'Payment type is requied',
+    member: 'Member is required',
+    amount: 'Amount is required',
     validity: 'Validite doit etre definie',
 
 }

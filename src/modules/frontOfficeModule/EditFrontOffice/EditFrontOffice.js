@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import './EditFrontOffice.css';
-import expenseHTTPService from '../../../main/services/expenseHTTPService';
 import showMessage from '../../../libraries/messages/messages';
 import frontOfficeHTTPService from '../../../main/services/frontOfficeHTTPService';
 import { useForm } from 'react-hook-form';
+
+
 const EditFrontOffice = (props) => {
+
+
   const { register, handleSubmit, errors } = useForm() // initialise the hook
   const [frontOffice, setFrontOffice] = useState(props.frontOffice);
 
@@ -15,13 +17,8 @@ const EditFrontOffice = (props) => {
 
 
   const onSubmit = (data) => {
-
-    //ExpenseTestService.update(props.expense, data)
-    console.log(props.frontOffice.id)
     frontOfficeHTTPService.editFrontOffice(props.frontOffice.id, data).then(data => {
-      // props.closeModal()
-      console.log(data)
-      showMessage('Confirmation', "expenseMessage.edit", 'success')
+      showMessage('Confirmation', "Item has been edited successfully", 'success')
     })
 
   }

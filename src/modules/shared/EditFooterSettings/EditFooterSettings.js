@@ -7,12 +7,14 @@ import showMessage from '../../../libraries/messages/messages';
 import React, { useEffect, useState } from 'react';
 
 const EditFooterSettings = () => {
+
   const { register, handleSubmit, errors } = useForm()
   const [footerSettings, setFooterSettings] = useState();
 
   useEffect(() => {
     getFooterSettings()
   }, [])
+
   const handleInputChange = event => {
     const { name, value } = event.target;
     setFooterSettings({ ...footerSettings, [name]: value });
@@ -57,8 +59,6 @@ const EditFooterSettings = () => {
             </select>
           </div>
         </div>
-
-
 
         <div class="form-group row">
           <div class="offset-4 col-8">

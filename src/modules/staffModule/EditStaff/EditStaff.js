@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import './EditStaff.css';
 import staffValidation from '../../../main/validations/staffValidation';
 import { useForm } from 'react-hook-form';
-import StaffTestService from '../../../main/mocks/StaffTestService';
 import showMessage from '../../../libraries/messages/messages';
 import staffMessage from '../../../main/messages/staffMessage';
 import staffHTTPService from '../../../main/services/staffHTTPService';
 
 const EditStaff = (props) => {
+
   const { register, handleSubmit, errors } = useForm() // initialise the hook
   const [staff, setStaff] = useState(props.staff);
 
@@ -18,13 +17,10 @@ const EditStaff = (props) => {
 
 
   const onSubmit = (data) => {
-
-    // StaffTestService.update(props.staff, data)
-    staffHTTPService.editStaff(props.staff.id, data).then(data => {
+    staffHTTPService.editStaff(props.staff, data).then(data => {
       showMessage('Confirmation', staffMessage.edit, 'success')
       props.closeModal()
     })
-
   }
 
 

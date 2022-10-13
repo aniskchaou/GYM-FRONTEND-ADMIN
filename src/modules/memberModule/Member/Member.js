@@ -6,9 +6,10 @@ import AddMember from '../AddMember/AddMember';
 import useForceUpdate from 'use-force-update';
 import showMessage from '../../../libraries/messages/messages';
 import memberMessage from '../../../main/messages/memberMessage';
-import MemberTestService from '../../../main/mocks/MemberTestService';
 import memberHTTPService from '../../../main/services/memberHTTPService';
 import ViewMember from '../ViewMember/ViewMember';
+import { Button, LinearProgress, Typography } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 const Member = () => {
 
@@ -17,7 +18,26 @@ const Member = () => {
   const forceUpdate = useForceUpdate();
   const closeButtonEdit = useRef(null);
   const closeButtonAdd = useRef(null);
-
+  const [loading, setLoading] = useState(false);
+  const [updatedItemId, setUpdatedItemId] = useState(0);
+  const [updatedItemIds, setUpdatedItemIds] = useState([]);
+  const [showFilter, setShowFilter] = useState(false);
+  const [showChart, setShowChart] = useState(false);
+  const columns = [
+    { field: 'id', headerName: '#', width: 200 },
+    { field: 'first_name', headerName: 'First Name', width: 200 },
+    { field: 'last_name', headerName: 'Last Name', width: 200 },
+    { field: 'birth_date', headerName: 'Birth Date', width: 200 },
+    { field: 'activity', headerName: 'Activity', width: 200 },
+    { field: 'address', headerName: 'Address', width: 200 },
+    { field: 'weight', headerName: 'Weight', width: 200 },
+    { field: 'size', headerName: 'Size', width: 200 },
+    { field: 'start_date', headerName: 'Start', width: 200 },
+    { field: 'end_date', headerName: 'End', width: 200 },
+    { field: 'type', headerName: 'Type', width: 200 },
+    { field: 'groupe', headerName: 'Group', width: 200 },
+    { field: 'coach', headerName: 'Coach', width: 200 }
+  ];
 
   useEffect(() => {
     LoadJS()
@@ -26,10 +46,10 @@ const Member = () => {
 
 
   const getAllMember = () => {
-
     memberHTTPService.getAllMember()
       .then(response => {
         setMembers(response.data);
+        console.log(response.data)
         forceUpdate()
       })
       .catch(e => {
@@ -47,9 +67,8 @@ const Member = () => {
     e.preventDefault();
     var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
     if (r) {
-
       memberHTTPService.removeMember(data).then(data => {
-        // showMessage('Confirmation', 'patientMessage.delete', 'success')
+        showMessage('Confirmation', memberMessage.delete, 'success')
         resfresh()
       }).catch(e => {
         showMessage('Confirmation', e, 'warning')
@@ -72,142 +91,46 @@ const Member = () => {
     resfresh()
     closeButtonAdd.current.click()
   }
+
+  const handleRowSelection = (e) => {
+    if (e.length == 1) {
+      setUpdatedItemId(e[0])
+      const selectedItem = members.find(item => item.id == e[0])
+      setUpdatedItem(selectedItem)
+      console.log(selectedItem);
+    }
+    setUpdatedItemIds(e)
+
+  }
+
+
   return (
     <div className="content">
       <div className="row">
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <h4 className="card-title"> Members</h4>
+              <h4 className="card-title"><i class="nc-icon nc-single-02"></i> Members</h4>
             </div>
             <div className="card-body">
-
-              <div className="row">
-                <div className="col-lg-3 col-md-6 col-sm-6">
-                  <div className="card card-stats">
-                    <div className="card-body ">
-                      <div className="row">
-                        <div className="col-5 col-md-4">
-                          <div className="icon-big text-center icon-warning">
-                            <i className="nc-icon nc-globe text-warning"></i>
-                          </div>
-                        </div>
-                        <div className="col-7 col-md-8">
-                          <div className="numbers">
-                            <p className="card-category">Membres</p>
-                            <p className="card-title">3</p><p>
-                            </p></div>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6 col-sm-6">
-                  <div className="card card-stats">
-                    <div className="card-body ">
-                      <div className="row">
-                        <div className="col-5 col-md-4">
-                          <div className="icon-big text-center icon-warning">
-                            <i className="nc-icon nc-money-coins text-success"></i>
-                          </div>
-                        </div>
-                        <div className="col-7 col-md-8">
-                          <div className="numbers">
-                            <p className="card-category">Résérvations</p>
-                            <p className="card-title">23</p><p>
-                            </p></div>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6 col-sm-6">
-                  <div className="card card-stats">
-                    <div className="card-body ">
-                      <div className="row">
-                        <div className="col-5 col-md-4">
-                          <div className="icon-big text-center icon-warning">
-                            <i className="nc-icon nc-vector text-danger"></i>
-                          </div>
-                        </div>
-                        <div className="col-7 col-md-8">
-                          <div className="numbers">
-                            <p className="card-category">Exercices</p>
-                            <p className="card-title">23</p><p>
-                            </p></div>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6 col-sm-6">
-                  <div className="card card-stats">
-                    <div className="card-body ">
-                      <div className="row">
-                        <div className="col-5 col-md-4">
-                          <div className="icon-big text-center icon-warning">
-                            <i className="nc-icon nc-favourite-28 text-primary"></i>
-                          </div>
-                        </div>
-                        <div className="col-7 col-md-8">
-                          <div className="numbers">
-                            <p className="card-category">Activités</p>
-                            <p className="card-title">4</p><p>
-                            </p></div>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-
-
-
-
-
-
-
-
-
               <div className="table">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addMember"><i class="far fa-plus-square"></i>  Create</button>
-                <table className="table">
-                  <thead class=" text-primary">
-                    <tr> <th>Name</th>
-                      <th>Date</th>
-                      <th>Member type</th>
-                      <th>Coach</th>
-                      <th>Actions</th></tr>
-                  </thead>
-                  <tbody>
 
+                <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addMember" ><i class="fas fa-plus"></i> Create </Button>
+                <Button style={{ color: '#ffa400' }} onClick={e => updateMemberAction(e, updatedItemId)} type="button" data-toggle="modal" data-target="#edit"><i class="fas fa-edit"></i> Edit</Button>
+                <Button style={{ color: '#ffa400' }} onClick={e => removeMemberAction(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button>
+                <Button type="button" style={{ color: '#ffa400' }} onClick={() => getAllMember()}><i class="fas fa-refresh"></i> Reload</Button>
 
-                    {members.map(item =>
-                      <tr>
-                        <td> {item.name}</td>
-                        <td>{item.date}</td>
-                        <td>{item.telephone}</td>
-                        <td><span class="badge badge-success">{item.name}</span></td>
-                        <td>
-                          <button style={{ margin: "3px" }} onClick={e => updateMemberAction(e, item)} type="button" data-toggle="modal" data-target="#view" className="button-member btn btn-primary btn-sm"><i class="fas fa-eye"></i></button>
-                          <button style={{ margin: "3px" }} onClick={e => updateMemberAction(e, item)} type="button" data-toggle="modal" data-target="#edit" className="button-member btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                          <button onClick={e => removeMemberAction(e, item.id)} type="button" className="btn btn-danger btn-sm button-member"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-
-                      </tr>
-                    )}
-                  </tbody>
-
-                </table>
-
-
-
-
+                {loading ?
+                  <LinearProgress />
+                  : <div style={{ height: 430, width: '100%' }}><DataGrid
+                    rows={members}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[6]}
+                    checkboxSelection
+                    onSelectionModelChange={handleRowSelection}
+                    components={{ Toolbar: GridToolbar }}
+                  /></div>}
                 <div class="modal fade" id="addMember" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
@@ -221,14 +144,12 @@ const Member = () => {
                         <AddMember closeModal={closeModalAdd} />
                       </div>
                       <div class="modal-footer">
-                        <button onClick={resfresh} ref={closeButtonEdit} type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button onClick={resfresh} ref={closeButtonAdd} type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                       </div>
                     </div>
                   </div>
                 </div>
-
-
 
                 <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

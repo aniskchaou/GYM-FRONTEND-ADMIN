@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import './DashBoard.css';
-import { drawChart } from './../../../libraries/chart/chart';
-import Member from './../../memberModule/Member/Member';
-import { Line } from 'react-chartjs-2';
-import { Pie } from 'react-chartjs-2';
 import { Bar } from 'react-chartjs-2';
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -13,8 +8,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css'; // a dependency of timegrid
 import '@fullcalendar/timegrid/main.css';
-
-//import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,6 +20,7 @@ import {
   ArcElement,
   BarElement
 } from 'chart.js';
+
 import { chartBarOption, intialChartBarData } from '../../../main/config/chart.bar';
 import expenseHTTPService from '../../../main/services/expenseHTTPService';
 import showMessage from '../../../libraries/messages/messages';
@@ -38,6 +32,7 @@ import activityHTTPServiceCopy from '../../../main/services/activityHTTPService 
 import staffHTTPService from '../../../main/services/staffHTTPService';
 import groupeHTTPService from '../../../main/services/groupeHTTPService';
 import settingsHTTPService from '../../../main/services/settingsHTTPService';
+import { useHistory } from 'react-router-dom';
 
 
 ChartJS.register(
@@ -51,9 +46,6 @@ ChartJS.register(
 );
 
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-
-
 export const data3 = {
   labels,
   datasets: [
@@ -65,14 +57,7 @@ export const data3 = {
     }
   ],
 };
-
-
 const labels3 = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-
-
-
-
 export const options = {
   responsive: true,
   plugins: {
@@ -85,9 +70,6 @@ export const options = {
     },
   },
 };
-
-
-
 export const data2 = {
   labels,
   datasets: [
@@ -128,22 +110,24 @@ export const data = {
   ],
 };
 const DashBoard = () => {
+
+
   const [expenseChart, setExpenseChart] = useState(intialChartBarData);
   const [incomeChart, setIncomeChart] = useState(data2);
   const [memberLine, setmemberLine] = useState(data2);
   const [activityPie, setActivityPie] = useState(data);
   const [attendance, setAttendance] = useState([])
-
-
   const [groupCount, setGroupCount] = useState(0);
   const [memberCount, setMemberCount] = useState(0);
   const [staffCount, setStaffCount] = useState(0);
   const [activityCount, setActivityCount] = useState(0);
   const [dashboardSettings, setDashboardSettings] = useState([]);
-
+  let history = useHistory()
 
   useEffect(() => {
-    // Runs ONCE after initial rendering
+    if (localStorage.getItem('connected') == undefined) {
+      history.push("/login")
+    }
     getExpenseChartData()
     getIncomeChartData()
     getMemberLinetData()
@@ -181,11 +165,9 @@ const DashBoard = () => {
   }
 
   const getAttendencesCalendar = () => {
-
     attendanceHTTPService.getAllAtendances()
       .then(response => {
         setAttendance(response.data);
-
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -198,7 +180,6 @@ const DashBoard = () => {
     expenseHTTPService.getExpenseByDate()
       .then(response => {
         setExpenseChart(response.data);
-
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -210,7 +191,6 @@ const DashBoard = () => {
     memberHTTPService.getAllMemberByDate()
       .then(response => {
         setmemberLine(response.data);
-
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -222,7 +202,6 @@ const DashBoard = () => {
     revenueHTTPService.getAllRevenueByDate()
       .then(response => {
         setIncomeChart(response.data);
-
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -230,11 +209,9 @@ const DashBoard = () => {
   };
 
   const getActivityPieData = () => {
-
     activityHTTPService.getAllActivityByDate()
       .then(response => {
         setActivityPie(response.data);
-
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -258,9 +235,7 @@ const DashBoard = () => {
               <h4 classNameName="card-title"> Dashboard</h4>
             </div>
             <div classNameName="card-body">
-
               <div className="row">
-
                 {dashboardSettings.showSummary == 1 &&
                   <div className="col-lg-3 col-md-6 col-sm-6">
                     <div className="card card-stats">
@@ -345,7 +320,6 @@ const DashBoard = () => {
 
                     </div>
                   </div>
-
                 }
                 {dashboardSettings.showExpenseIncomeCharts == 1 &&
                   <div className="col-md-6">
@@ -369,10 +343,6 @@ const DashBoard = () => {
                     </div>
                   </div>
                 }
-
-
-
-
                 {dashboardSettings.showCalendar == 1 &&
                   <div class="col-lg-12">
                     <div class="card">
@@ -403,25 +373,7 @@ const DashBoard = () => {
                     </div>
                   </div>
                 }
-
-
-
-
               </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
           </div>
         </div>

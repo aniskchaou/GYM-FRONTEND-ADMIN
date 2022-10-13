@@ -1,7 +1,7 @@
 const staffMessage = {
-    add: 'Membre equipe  a été ajouté avec succés',
-    edit: 'Membre equipe  a été modifié avec succés',
-    delete: 'Membre equipe  a été supprimé avec succés'
+    add: 'Item has been successfully added',
+    edit: 'Item has been successfully edited',
+    delete: 'Item has been successfully removed'
 }
 
 export default staffMessage

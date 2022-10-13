@@ -14,6 +14,8 @@ import groupeHTTPService from '../../../main/services/groupeHTTPService'
 
 
 const AddMember = (props) => {
+
+
   const initialState = {
     first_name: "",
     last_name: "",
@@ -45,9 +47,6 @@ const AddMember = (props) => {
   }, []);
 
   const onSubmit = (data) => {
-    //saveMember(data)
-    // MemberTestService.create(data)
-    console.log(data)
     memberHTTPService.createMember(data).then(data => {
       props.closeModal()
       setMember(initialState)
@@ -60,11 +59,9 @@ const AddMember = (props) => {
   }
 
   const getAllStaffs = () => {
-
     staffHTTPService.getAllStaff()
       .then(response => {
         setStaffs(response.data);
-        //forceUpdate()
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -72,11 +69,9 @@ const AddMember = (props) => {
   };
 
   const getAllActivities = () => {
-
     activityHTTPService.getAllActivity()
       .then(response => {
         setActivities(response.data);
-        //forceUpdate()
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -84,11 +79,9 @@ const AddMember = (props) => {
   };
 
   const getTypeSubs = () => {
-
     typeSubsHTTPService.getAllTypeSubs()
       .then(response => {
         setTypeSubs(response.data);
-        //forceUpdate()
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -96,18 +89,14 @@ const AddMember = (props) => {
   };
 
   const getAllGroupes = () => {
-
-    groupeHTTPService.getAllGroupe()
+    groupeHTTPService.getAllGroupes()
       .then(response => {
         setGroupes(response.data);
-        //forceUpdate()
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
       });
   };
-
-
 
   const handleInputChange = event => {
     const { name, value } = event.target;
@@ -176,7 +165,7 @@ const AddMember = (props) => {
             <select onChange={handleInputChange} value={member.type} ref={register({ required: true })}
               id="select2" name="type" class="custom-select">
               {activities.map(item =>
-                <option value={item.id}>{item.name}</option>
+                <option value={item.id}>{item.title}</option>
               )}
             </select>
             <div className="error text-danger">
@@ -290,7 +279,7 @@ const AddMember = (props) => {
             <select onChange={handleInputChange} value={member.type} ref={register({ required: true })}
               id="select" name="type" class="custom-select">
               {typeSubs.map(item =>
-                <option value={item.id}>{item.name}</option>
+                <option value={item.id}>{item.category}</option>
               )}
             </select>
             <div className="error text-danger">
@@ -307,7 +296,7 @@ const AddMember = (props) => {
               id="select3" name="coach" class="custom-select">
 
               {staffs.map(item =>
-                <option value={item.id}>{item.name}</option>
+                <option value={item.id}>{item.first_name}</option>
               )}
             </select>
             <div className="error text-danger">

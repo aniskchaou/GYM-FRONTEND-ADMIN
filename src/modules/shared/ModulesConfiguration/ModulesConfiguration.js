@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './ModulesConfiguration.css';
 import Trainer from '../../../components/Trainer/Trainer';
-import { LoadJS } from '../../../libraries/datatables/datatables';
+
 
 const ModulesConfiguration = () => {
 
@@ -10,11 +10,6 @@ const ModulesConfiguration = () => {
 
   return (
     <div class="container">
-
-
-
-
-
       <div class="row gutters-sm">
         <div class="col-md-4 d-none d-md-block">
           <div class="card">

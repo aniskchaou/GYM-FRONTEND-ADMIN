@@ -10,6 +10,8 @@ import revenueMessage from '../../../main/messages/revenueMessage';
 import showMessage from '../../../libraries/messages/messages';
 import useForceUpdate from 'use-force-update';
 import EditRevenue from '../EditRevenue/EditRevenue';
+import { Button, LinearProgress, Typography } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 const Revenue = () => {
 
@@ -19,7 +21,16 @@ const Revenue = () => {
   const closeButtonEdit = useRef(null);
   const closeButtonAdd = useRef(null);
   const [loading, setLoading] = useState(true);
+  const [updatedItemId, setUpdatedItemId] = useState(0);
+  const [updatedItemIds, setUpdatedItemIds] = useState([]);
+  const [showFilter, setShowFilter] = useState(false);
+  const [showChart, setShowChart] = useState(false);
 
+  const columns = [
+    { field: 'id', headerName: '#', width: 200 },
+    { field: 'name', headerName: 'Name', width: 200 },
+    { field: 'amount', headerName: 'Amount ($)', width: 200 }
+  ];
 
   useEffect(() => {
     LoadJS()
@@ -28,10 +39,11 @@ const Revenue = () => {
 
 
   const getAllPatient = () => {
-
+    setLoading(true)
     revenueHTTPService.getAllRevenue()
       .then(response => {
         setRevenues(response.data);
+        setLoading(false)
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -48,7 +60,7 @@ const Revenue = () => {
     e.preventDefault();
     var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
     if (r) {
-      showMessage('Confirmation', 'patientMessage.delete', 'success')
+      showMessage('Confirmation', revenueMessage.delete, 'success')
       revenueHTTPService.removeRevenue(data).then(data => {
         resfresh()
       }).catch(e => {
@@ -73,42 +85,43 @@ const Revenue = () => {
     closeButtonAdd.current.click()
   }
 
+
+  const handleRowSelection = (e) => {
+    if (e.length == 1) {
+      setUpdatedItemId(e[0])
+      const selectedItem = revenues.find(item => item.id == e[0])
+      setUpdatedItem(selectedItem)
+      console.log(updatedItem);
+    }
+    setUpdatedItemIds(e)
+  }
+
   return (
     <div className="content">
       <div className="row">
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <h4 className="card-title"> Incomes</h4>
+              <h4 className="card-title"><i class="nc-icon nc-refresh-69"></i> Incomes</h4>
             </div>
             <div className="card-body">
+              <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addRevenue" ><i class="fas fa-plus"></i> Create </Button>
+              <Button style={{ color: '#ffa400' }} onClick={e => updateRevenueAction(e, updatedItemId)} type="button" data-toggle="modal" data-target="#edit"><i class="fas fa-edit"></i> Edit</Button>
+              <Button style={{ color: '#ffa400' }} onClick={e => removeRevenueAction(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button>
+              <Button type="button" style={{ color: '#ffa400' }} onClick={() => getAllPatient()}><i class="fas fa-refresh"></i> Reload</Button>
 
-              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addRevenue"><i class="far fa-plus-square"></i> Create</button>
 
-              <table className="table">
-                <thead class=" text-primary">
-                  <tr> <th>Name</th>
-                    <th>Amount</th>
-                    <th>Actions</th></tr>
-
-                </thead>
-                <tbody>
-
-                  {revenues.map(item =>
-                    <tr>
-                      <td>{item.name}</td>
-                      <td>{item.amount} $</td>
-                      <td>
-
-                        <button style={{ margin: "3px" }} onClick={e => updateRevenueAction(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button onClick={e => removeRevenueAction(e, item.id)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                      </td>
-                    </tr>
-
-                  )}
-
-                </tbody>
-              </table>
+              {loading ?
+                <LinearProgress />
+                : <div style={{ height: 400, width: '100%' }}><DataGrid
+                  rows={revenues}
+                  columns={columns}
+                  pageSize={5}
+                  rowsPerPageOptions={[6]}
+                  checkboxSelection
+                  onSelectionModelChange={handleRowSelection}
+                  components={{ Toolbar: GridToolbar }}
+                /></div>}
 
 
               <div class="modal fade" id="addRevenue" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

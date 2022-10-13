@@ -1,5 +1,8 @@
 .Login {
-width:600px; 
-margin:0 auto;
-  
+
+position: fixed;
+    top: 30%;
+    left: 45%;
+    margin-top: -50px;
+    margin-left: -100px;
 }

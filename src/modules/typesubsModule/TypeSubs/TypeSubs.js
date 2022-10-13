@@ -2,18 +2,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './TypeSubs.css';
 import { LoadJS } from '../../../libraries/datatables/datatables';
-
 import useForceUpdate from 'use-force-update';
-import showMessage from '../../../libraries/messages/messages';
-import typeSubMessage from '../../../main/messages/typeSubMessage ';
-import HTTPService from '../../../main/services/HTTPService';
 import EditTypeSubs from '../EditTypeSubs/EditTypeSubs';
 import AddTypeSubs from '../AddTypeSubs/AddTypeSubs';
 import typeSubsHTTPService from '../../../main/services/typeSubsHTTPService'
 import ViewTypeSubs from '../ViewTypeSubs/ViewTypeSubs';
 import { NavLink, useHistory } from 'react-router-dom';
 import memberHTTPService from '../../../main/services/memberHTTPService';
-import ReactTooltip from 'react-tooltip';
+import { Button, LinearProgress, Typography } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import User from '../../../main/config/user';
 
 const TypeSubs = () => {
 
@@ -24,46 +22,48 @@ const TypeSubs = () => {
   const forceUpdate = useForceUpdate();
   const closeButtonEdit = useRef(null);
   const closeButtonAdd = useRef(null);
+  const [singleSelected, setSingleSelected] = useState(false);
   let history = useHistory();
+  const [updatedItemId, setUpdatedItemId] = useState(0);
+  const [updatedItemIds, setUpdatedItemIds] = useState([]);
+  const [showFilter, setShowFilter] = useState(false);
+  const [showChart, setShowChart] = useState(false);
+
+  const columns = [
+    { field: 'id', headerName: '#', width: 200 },
+    { field: 'time_payment', headerName: 'Payment Plan ', width: 200 },
+    { field: 'period', headerName: 'Period (weeks)', width: 200 },
+    { field: 'fee', headerName: 'Enrollment fee ($)', width: 200 },
+    { field: 'amount', headerName: 'Amount ($)', width: 200 },
+    { field: 'category', headerName: 'Subscription Category', width: 200 },
+  ];
+
   useEffect(() => {
     LoadJS()
     getTypeSubs()
     getMembers()
   }, []);
 
-  const getMemberById = (id) => {
-    return members.filter(item => item.id == id)[0]?.name
-
-  }
-
 
   const getTypeSubs = () => {
     setLoading(true)
     typeSubsHTTPService.getAllTypeSubs().then(data => {
       setTypeSubs(data.data);
-      console.log(data.data)
       forceUpdate()
       setLoading(false)
     })
   };
 
-  const resfresh = () => {
-    forceUpdate()
-    getTypeSubs()
-  }
+
 
   const remove = (e, data) => {
     e.preventDefault();
-
-    var response = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
+    var response = window.confirm(User.DELETE_MSG);
     if (response) {
       typeSubsHTTPService.removeTypeSubs(data).then(data => {
-        showMessage('Confirmation', typeSubMessage.delete, 'success')
         getTypeSubs()
-
       })
     }
-
   }
 
   const getMembers = () => {
@@ -74,23 +74,33 @@ const TypeSubs = () => {
 
   const update = (e, data) => {
     e.preventDefault();
-    setUpdatedItem(data)
-    // resfresh()
+    const item = typeSubs.filter(item => item.id == data)
+    setUpdatedItem(item)
   }
 
   const closeModalEdit = (data) => {
-    //resfresh()
     closeButtonEdit.current.click()
-    resfresh()
+    getTypeSubs()
 
   }
 
   const closeModalAdd = (data) => {
-    //resfresh()
     closeButtonAdd.current.click()
-    resfresh()
+    getTypeSubs()
   }
 
+
+  const handleRowSelection = (e) => {
+    if (e.length == 1) {
+      setSingleSelected(true)
+      setUpdatedItemId(e[0])
+      const selectedItem = typeSubs.find(item => item.id == e[0])
+      setUpdatedItem(selectedItem)
+    } else {
+      setSingleSelected(false)
+      setUpdatedItemIds(e)
+    }
+  }
 
   return (
     <div className="content">
@@ -103,49 +113,28 @@ const TypeSubs = () => {
             <div className="card-body">
               <div className="table">
 
-                <NavLink to="add-type-subs" type="button" class="btn btn-success" data-toggle="modal" data-target="#addTypeSubs"><i class="far fa-plus-square"></i>  Create</NavLink>
 
-                <table className="table">
-                  <thead class=" text-primary"><tr>
-                    <th>Payment plan</th>
-                    <th>Period </th>
-                    <th>Fee</th>
-                    <th>Amount</th>
-                    <th>Actions</th>
-                  </tr></thead>
-                  <tbody>
+                <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addTypeSubs" ><i class="fas fa-plus"></i> Create </Button>
+                {singleSelected ? <span><Button style={{ color: '#ffa400' }} onClick={e => update(e, updatedItemId)} type="button" data-toggle="modal" data-target="#edit"><i class="fas fa-edit"></i> Edit</Button>
+                  <Button style={{ color: '#ffa400' }} onClick={e => remove(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button></span> : <span></span>}
+                <Button type="button" style={{ color: '#ffa400' }} onClick={() => getTypeSubs()}><i class="fas fa-refresh"></i> Reload</Button>
 
-                    <ReactTooltip />
-                    {loading ? <div class="d-flex justify-content-center" >
-                      <div class="spinner-border" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div></div> :
-                      typeSubs.map(item =>
-                        <tr>
-                          <td >{item.time_payment}</td>
-                          <td><span class="badge badge-success">{item.period} Months</span></td>
-                          <td>{item.fee} $</td>
-                          <td><span class="badge badge-primary">{item.amount} $</span></td>
-                          <td>
-                            <button data-tip="View" style={{ margin: "3px" }} onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#view" className="button-member btn btn-primary btn-sm"><i class="fas fa-eye" ></i></button>
-                            <button style={{ margin: "3px" }} onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" className="btn btn-warning btn-sm"><i class="fas fa-edit" data-tip="Edit" ></i></button>
-                            <button onClick={e => remove(e, item.id)} type="button" className="btn btn-danger btn-sm"><i class="fas fa-trash-alt" data-tip="Delete"></i></button>
-                          </td>
-                        </tr>
-                      )}
-
-
-                  </tbody>
-
-                </table>
-
-
-
+                {loading ?
+                  <LinearProgress />
+                  : <div style={{ height: 430, width: '100%' }}><DataGrid
+                    rows={typeSubs}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[6]}
+                    checkboxSelection
+                    onSelectionModelChange={handleRowSelection}
+                    components={{ Toolbar: GridToolbar }}
+                  /></div>}
                 <div class="modal fade" id="addTypeSubs" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Nouveau</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">New</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -173,7 +162,7 @@ const TypeSubs = () => {
                         </button>
                       </div>
                       <div class="modal-body">
-                        <EditTypeSubs typeSub={updatedItem} closeModal={closeModalEdit} />
+                        <EditTypeSubs typeSub={updatedItemId} closeModal={closeModalEdit} />
                       </div>
                       <div class="modal-footer">
                         <button ref={closeButtonEdit} type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -194,7 +183,7 @@ const TypeSubs = () => {
                         </button>
                       </div>
                       <div class="modal-body">
-                        <ViewTypeSubs typeSub={updatedItem} />
+                        <ViewTypeSubs typeSub={updatedItemId} />
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -203,8 +192,6 @@ const TypeSubs = () => {
                     </div>
                   </div>
                 </div>
-
-
               </div>
             </div>
           </div>

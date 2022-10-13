@@ -1,7 +1,7 @@
 const paymentMessage = {
-    add: 'Paiement  a été ajouté avec succés',
-    edit: 'Paiement  a été modifié avec succés',
-    delete: 'Paiement  a été supprimé avec succés'
+    add: 'Item has been successfully added',
+    edit: 'Item has been successfully edited',
+    delete: 'Item has been successfully removed'
 }
 
 export default paymentMessage

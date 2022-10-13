@@ -1,7 +1,7 @@
 const productMessage = {
-    add: 'Produit  a été ajouté avec succés',
-    edit: 'Produit  a été modifié avec succés',
-    delete: 'Produit  a été supprimé avec succés'
+    add: 'Item has been successfully added',
+    edit: 'Item has been successfully edited',
+    delete: 'Item has been successfully removed'
 }
 
 export default productMessage

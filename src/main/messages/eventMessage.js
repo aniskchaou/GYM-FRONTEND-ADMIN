@@ -1,7 +1,7 @@
 const eventMessage = {
-    add: 'Evenement a été ajouté avec succés',
-    edit: 'Evenement a été modifié avec succés',
-    delete: 'Evenement a été supprimé avec succés'
+    add: 'Item has been successfully added',
+    edit: 'Item has been successfully edited',
+    delete: 'Item has been successfully removed'
 }
 
 export default eventMessage

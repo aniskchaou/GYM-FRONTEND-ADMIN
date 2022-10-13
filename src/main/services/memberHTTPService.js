@@ -27,6 +27,10 @@ const getCountMember = () => {
     return http.get(`${BASE_URL}/api/count/member`)
 }
 
+const searchMember = (name) => {
+    return http.get(`${BASE_URL}/api/search/member/${name}`)
+}
+
 export default {
     getAllMember,
     createMember,
@@ -34,5 +38,6 @@ export default {
     removeMember,
     getAllMemberByDate,
     getCountMember,
-    getAllMemberById
+    getAllMemberById,
+    searchMember
 };

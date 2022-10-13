@@ -1,7 +1,7 @@
 const bookingMessage = {
-    add: 'Reservation  a été ajouté avec succés',
-    edit: 'Reservation  a été modifié avec succés',
-    delete: 'Reservation  a été supprimé avec succés'
+    add: 'Item has been successfully added',
+    edit: 'Item has been successfully edited',
+    delete: 'Item has been successfully removed'
 }
 
 export default bookingMessage

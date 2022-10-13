@@ -1,6 +1,6 @@
 
 const groupeValidation = {
-    groupe_name: 'Groupe doit etre definie',
+    groupe_name: 'Group name is required',
 
 }
 export default groupeValidation;

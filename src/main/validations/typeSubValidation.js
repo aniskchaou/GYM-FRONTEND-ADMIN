@@ -1,13 +1,13 @@
 
 const typeSubValidation = {
 
-    member: 'Membre doit etre definie',
-    category: 'Categorie doit etre definie',
-    period: 'Periode doit etre definie',
-    amount: 'Montant doit etre definie',
-    description: 'Description doit etre definie',
-    fee: 'Prix doit etre definie',
-    time_payment: 'Temps payment doit etre definie',
+    member: 'Member is required',
+    category: 'Category is required',
+    period: 'Period is requied',
+    amount: 'Amount is required',
+    description: 'Description is required',
+    fee: 'Fee is required',
+    time_payment: 'Payment time is required',
 
 
 }
