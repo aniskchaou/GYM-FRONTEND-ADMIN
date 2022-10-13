@@ -7,17 +7,33 @@ import AddEvent from '../AddEvent/AddEvent';
 import useForceUpdate from 'use-force-update';
 import showMessage from '../../../libraries/messages/messages';
 import eventMessage from '../../../main/messages/eventMessage';
-import EventTestService from '../../../main/mocks/EventTestService';
 import eventHTTPService from '../../../main/services/eventHTTPService';
+import { Button, LinearProgress, Typography } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import User from '../../../main/config/user';
+
 
 const Event = () => {
 
   const [events, setEvents] = useState([]);
   const [updatedItem, setUpdatedItem] = useState({});
   const forceUpdate = useForceUpdate();
-  const [value, setValue] = useState(null);
   const closeButtonEdit = useRef(null);
   const closeButtonAdd = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const [updatedItemId, setUpdatedItemId] = useState(0);
+  const [updatedItemIds, setUpdatedItemIds] = useState([]);
+  const [showFilter, setShowFilter] = useState(false);
+  const [showChart, setShowChart] = useState(false);
+
+  const columns = [
+    { field: 'id', headerName: '#', width: 200 },
+    { field: 'event_name', headerName: 'Name', width: 200 },
+    { field: 'event_date', headerName: 'Date', width: 200 },
+    { field: 'starttime', headerName: 'Start', width: 200 },
+    { field: 'endtime', headerName: 'End', width: 200 }
+  ];
+
 
   useEffect(() => {
     LoadJS()
@@ -26,29 +42,16 @@ const Event = () => {
 
 
   const retrieveEvents = () => {
+    setLoading(true)
     eventHTTPService.getAllEvent()
       .then(response => {
-
         setEvents(response.data);
+        setLoading(false)
       })
       .catch(e => {
         console.log(e);
       });
   };
-
-  const removeOne = (data) => {
-    /*HTTPService.remove(data)
-      .then(response => {
-
-      })
-      .catch(e => {
-
-      });*/
-  }
-
-
-
-
 
   const resfresh = () => {
     retrieveEvents()
@@ -57,16 +60,14 @@ const Event = () => {
 
   const remove = (e, data) => {
     e.preventDefault();
-    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
-    if (r) {
-      showMessage('Confirmation', eventMessage.delete, 'success')
+    var confirm = window.confirm(User.DELETE_MSG);
+    if (confirm) {
+
       eventHTTPService.removeEvent(data).then(data => {
         resfresh()
+        showMessage('Confirmation', eventMessage.delete, 'success')
       })
-      //removeOne(data)
-
     }
-
   }
 
   const update = (e, data) => {
@@ -76,18 +77,23 @@ const Event = () => {
   }
 
   const closeModalEdit = (data) => {
-    //  resfreshComponent()
     closeButtonEdit.current.click()
   }
 
   const closeModalAdd = (data) => {
-    // resfreshComponent()
     closeButtonAdd.current.click()
   }
-  const resfreshComponent = () => {
-    forceUpdate()
-  }
 
+  const handleRowSelection = (e) => {
+    if (e.length == 1) {
+
+      setUpdatedItemId(e[0])
+      const selectedItem = events.find(item => item.id == e[0])
+      setUpdatedItem(selectedItem)
+    }
+    setUpdatedItemIds(e)
+
+  }
 
   return (
     <div className="content">
@@ -95,37 +101,26 @@ const Event = () => {
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <h4 className="card-title"> Events</h4>
+              <h4 className="card-title"><i class="nc-icon nc-bulb-63"></i> Events</h4>
             </div>
             <div className="card-body">
-              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addEvent"><i class="far fa-plus-square"></i> Create</button>
-              <table className="table">
-                <thead class=" text-primary">
-                  <tr> <th>Name</th>
-                    <th>Date </th>
-                    <th>Start</th>
-                    <th>End</th>
-                    <th>Actions</th></tr>
-                </thead>
-                <tbody>
 
+              <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addEvent" ><i class="fas fa-plus"></i> Create </Button>
+              <Button style={{ color: '#ffa400' }} onClick={e => update(e, updatedItemId)} type="button" data-toggle="modal" data-target="#editEvent"><i class="fas fa-edit"></i> Edit</Button>
+              <Button style={{ color: '#ffa400' }} onClick={e => remove(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button>
+              <Button type="button" style={{ color: '#ffa400' }} onClick={() => retrieveEvents()}><i class="fas fa-refresh"></i> Reload</Button>
 
-                  {events.map(item =>
-                    <tr>
-                      <td>{item.event_name}</td>
-                      <td>{item.event_date}</td>
-                      <td>{item.starttime}</td>
-                      <td>{item.endtime}</td><td>
-                        <button style={{ margin: "3px" }} onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button onClick={e => remove(e, item.id)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                      </td>
-                    </tr>
-                  )}
-
-                </tbody>
-              </table>
-
-
+              {loading ?
+                <LinearProgress />
+                : <div style={{ height: 400, width: '100%' }}><DataGrid
+                  rows={events}
+                  columns={columns}
+                  pageSize={5}
+                  rowsPerPageOptions={[6]}
+                  checkboxSelection
+                  onSelectionModelChange={handleRowSelection}
+                  components={{ Toolbar: GridToolbar }}
+                /></div>}
 
               <div class="modal fade" id="addEvent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -149,7 +144,7 @@ const Event = () => {
 
 
 
-              <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal fade" id="editEvent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                   <div class="modal-content">
                     <div class="modal-header">

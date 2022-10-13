@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import settingsHTTPService from '../../../main/services/settingsHTTPService';
 import showMessage from '../../../libraries/messages/messages';
 import React, { useEffect, useState } from 'react';
+
+
 const EditDashboardSettings = () => {
   const { register, handleSubmit, errors } = useForm()
   const [dashboardSettings, setDashboardSettings] = useState();
@@ -12,6 +14,8 @@ const EditDashboardSettings = () => {
   useEffect(() => {
     getDashboardSettings()
   }, [])
+
+
   const handleInputChange = event => {
     const { name, value } = event.target;
     setDashboardSettings({ ...dashboardSettings, [name]: value });
@@ -31,6 +35,8 @@ const EditDashboardSettings = () => {
       showMessage('Confirmation', 'activityMessage.edit', 'success')
     })
   }
+
+
   return (
     <div className="EditDashboardSettings">
       <form onSubmit={handleSubmit(onSubmit)}>

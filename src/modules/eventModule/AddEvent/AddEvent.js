@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form';
 import showMessage from '../../../libraries/messages/messages'
 import eventMessage from '../../../main/messages/eventMessage'
 import eventValidation from '../../../main/validations/eventValidation'
-import EventTestService from '../../../main/mocks/EventTestService';
 import eventHTTPService from '../../../main/services/eventHTTPService';
 
 const AddEvent = (props) => {
+
   const initialState = {
     event_name: "",
     event_date: "",
@@ -20,10 +20,10 @@ const AddEvent = (props) => {
   const [event, setEvent] = useState(initialState);
   const [value, setValue] = useState(null);
 
+
+
   const onSubmit = (data) => {
-    //saveEvent(data)
     eventHTTPService.createEvent(data).then(data => {
-      console.log(data)
       setEvent(initialState)
       setValue(null)
       props.closeModal()
@@ -34,23 +34,12 @@ const AddEvent = (props) => {
 
   }
 
-  const saveEvent = (data) => {
-
-    /* HTTPService.create(data)
-       .then(response => {
-         setEvent(initialState)
-       })
-       .catch(e => {
-         console.log(e);
-       });
-     */
-  };
-
-
   const handleInputChange = event => {
     const { name, value } = event.target;
     setEvent({ ...event, [name]: value });
   };
+
+
   return (
     <div className="AddEvent">
       <form onSubmit={handleSubmit(onSubmit)} method="post" accept-charset="utf-8" class="validateForm form-horizontal"

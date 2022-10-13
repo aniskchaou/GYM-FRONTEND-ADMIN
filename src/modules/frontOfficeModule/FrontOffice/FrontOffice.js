@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import './FrontOffice.css';
 import frontOfficeHTTPService from '../../../main/services/frontOfficeHTTPService';
 import EditFrontOffice from '../EditFrontOffice/EditFrontOffice'
+
+
 const FrontOffice = () => {
   const [frontOffice, setFrontOffice] = useState({});
 
@@ -14,7 +15,6 @@ const FrontOffice = () => {
   const retrieveEvents = () => {
     frontOfficeHTTPService.getFrontOffice()
       .then(response => {
-
         setFrontOffice(response.data);
       })
       .catch(e => {
@@ -29,10 +29,10 @@ const FrontOffice = () => {
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <h4 className="card-title"> Front Office</h4>
+              <h4 className="card-title"><i class="nc-icon nc-money-coins"></i> Front Office</h4>
             </div>
             <div className="card-body">
-              <div className="table-responsive">
+              <div>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editFrontOffice">Edit</button>
                 <a type="button" class="btn btn-warning" href="http://localhost:5000">Website</a>
                 <ul class="list-group list-group-flush">

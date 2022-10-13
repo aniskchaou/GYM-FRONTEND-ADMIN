@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import './EditMember.css';
 import { useForm } from 'react-hook-form';
 import showMessage from '../../../libraries/messages/messages'
 import memberMessage from '../../../main/messages/memberMessage'
 import memberValidation from '../../../main/validations/memberValidation'
-import MemberTestService from '../../../main/mocks/MemberTestService';
 import memberHTTPService from '../../../main/services/memberHTTPService'
 import staffHTTPService from '../../../main/services/staffHTTPService';
 import activityHTTPService from '../../../main/services/activityHTTPService';
 import typeSubsHTTPService from '../../../main/services/typeSubsHTTPService';
 import groupeHTTPService from '../../../main/services/groupeHTTPService'
+
 const EditMember = (props) => {
-  const { register, handleSubmit, errors } = useForm() // initialise the hook
+
+  const { register, handleSubmit, errors } = useForm()
   const [member, setMember] = useState(props.member);
+  const [staffs, setStaffs] = useState([]);
+  const [activities, setActivities] = useState([]);
+  const [groupes, setGroupes] = useState([]);
+  const [typeSubs, setTypeSubs] = useState([]);
 
   useEffect(() => {
     setMember(props.member)
@@ -24,16 +28,8 @@ const EditMember = (props) => {
   }, [props.member]);
 
 
-  const [staffs, setStaffs] = useState([]);
-  const [activities, setActivities] = useState([]);
-  const [groupes, setGroupes] = useState([]);
-  const [typeSubs, setTypeSubs] = useState([]);
-
-
-  const onSubmit = (data) => {
-
-    //MemberTestService.update(props.member, data)
-    memberHTTPService.editMember(props.member.id, data).then(data => {
+  const saveMember = (data) => {
+    memberHTTPService.editMember(props.member, data).then(data => {
       props.closeModal()
       showMessage('Confirmation', memberMessage.edit, 'success')
     })
@@ -46,11 +42,9 @@ const EditMember = (props) => {
   };
 
   const getAllStaffs = () => {
-
     staffHTTPService.getAllStaff()
       .then(response => {
         setStaffs(response.data);
-        //forceUpdate()
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -62,7 +56,6 @@ const EditMember = (props) => {
     activityHTTPService.getAllActivity()
       .then(response => {
         setActivities(response.data);
-        //forceUpdate()
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -70,11 +63,9 @@ const EditMember = (props) => {
   };
 
   const getTypeSubs = () => {
-
     typeSubsHTTPService.getAllTypeSubs()
       .then(response => {
         setTypeSubs(response.data);
-        //forceUpdate()
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -82,11 +73,9 @@ const EditMember = (props) => {
   };
 
   const getAllGroupes = () => {
-
-    groupeHTTPService.getAllGroupe()
+    groupeHTTPService.getAllGroupes()
       .then(response => {
         setGroupes(response.data);
-        //forceUpdate()
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -96,9 +85,9 @@ const EditMember = (props) => {
 
   return (
     <div className="EditMember">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(saveMember)}>
         <div class="form-group row">
-          <label for="text1" class="col-4 col-form-label">First Name</label>
+          <label for="text1" class="col-4 col-form-label">Fullname</label>
           <div class="col-8">
             <input onChange={handleInputChange} value={member.first_name} ref={register({ required: true })}
               id="text1" name="first_name" type="text" class="form-control" />
@@ -155,7 +144,7 @@ const EditMember = (props) => {
             <select onChange={handleInputChange} value={member.type} ref={register({ required: true })}
               id="select2" name="type" class="custom-select">
               {activities.map(item =>
-                <option value={item.id}>{item.name}</option>
+                <option value={item.id}>{item.title}</option>
               )}
             </select>
             <div className="error text-danger">
@@ -269,7 +258,7 @@ const EditMember = (props) => {
             <select onChange={handleInputChange} value={member.type} ref={register({ required: true })}
               id="select" name="type" class="custom-select">
               {typeSubs.map(item =>
-                <option value={item.id}>{item.name}</option>
+                <option value={item.id}>{item.category}</option>
               )}
             </select>
             <div className="error text-danger">
@@ -286,7 +275,7 @@ const EditMember = (props) => {
               id="select3" name="coach" class="custom-select">
 
               {staffs.map(item =>
-                <option value={item.id}>{item.name}</option>
+                <option value={item.id}>{item.first_name}</option>
               )}
             </select>
             <div className="error text-danger">
@@ -298,11 +287,9 @@ const EditMember = (props) => {
         <div class="form-group row">
           <div class="offset-4 col-8">
             <button name="submit" type="submit" class="btn btn-primary"><i class="far fa-save"></i>
-              Sauvegarder</button>
+              Save</button>
           </div>
         </div>
-
-
       </form>
     </div>
   )

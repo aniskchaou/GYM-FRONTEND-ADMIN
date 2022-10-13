@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form';
 import showMessage from '../../../libraries/messages/messages'
 import expenseMessage from '../../../main/messages/expenseMessage'
 import expenseValidation from '../../../main/validations/expenseValidations'
-import ExpenseTestService from '../../../main/mocks/ExpenseTestService';
 import expenseHTTPService from '../../../main/services/expenseHTTPService';
 
 const AddExpense = (props) => {
+
   const initialState = {
     date: '',
     name: '',
@@ -19,8 +19,6 @@ const AddExpense = (props) => {
   const [expense, setExpense] = useState(initialState);
 
   const onSubmit = (data) => {
-    //saveExpense(data)
-    //ExpenseTestService.create(data)
     expenseHTTPService.createExpense(data).then(data => {
       setExpense(initialState)
       props.closeModal()
@@ -87,8 +85,6 @@ const AddExpense = (props) => {
             <button name="submit" type="submit" class="btn btn-primary"><i class="far fa-save"></i>  Save</button>
           </div>
         </div>
-
-
       </form>
     </div>
   )

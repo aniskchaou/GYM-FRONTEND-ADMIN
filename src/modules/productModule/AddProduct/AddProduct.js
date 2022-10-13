@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form';
 import showMessage from '../../../libraries/messages/messages'
 import productMessage from '../../../main/messages/productMessage'
 import productValidation from '../../../main/validations/productValidation'
-import ProductTestService from '../../../main/mocks/ProductTestService';
 import productHTTPService from '../../../main/services/productHTTPService';
 
 const AddProduct = (props) => {
+
 	const initialState = {
 		name: "",
 		price: "",
@@ -19,18 +19,12 @@ const AddProduct = (props) => {
 	const [product, setProduct] = useState(initialState);
 
 	const onSubmit = (data) => {
-		//saveProduct(data)
-		//ProductTestService.create(data)
 		productHTTPService.createProduct(data).then(data => {
 			setProduct(initialState)
 			props.closeModal()
 			showMessage('Confirmation', productMessage.add, 'success')
 		})
-
 	}
-
-
-
 
 	const handleInputChange = event => {
 		const { name, value } = event.target;
@@ -92,7 +86,7 @@ const AddProduct = (props) => {
 
 
 				<div class="col-md-offset-2 col-md-6 add_product_save">
-					<font   ><font   ><input type="submit" value="sauver" name="save_product" class="btn btn-flat btn-success" /></font></font>
+					<font   ><font   ><input type="submit" value="Save" name="save_product" class="btn btn-flat btn-success" /></font></font>
 				</div>
 			</form>
 		</div>

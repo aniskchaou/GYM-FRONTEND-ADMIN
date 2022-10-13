@@ -1,8 +1,8 @@
 
 const productValidation = {
-    product_name: 'Nom de produit doit etre definie',
-    price: 'Prix doit etre definie',
-    quantity: 'Quantité doit etre definie',
+    product_name: 'Product name is required',
+    price: 'Price is required',
+    quantity: 'Quantity is required',
 
 }
 export default productValidation;

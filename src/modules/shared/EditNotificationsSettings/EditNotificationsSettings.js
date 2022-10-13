@@ -7,12 +7,16 @@ import showMessage from '../../../libraries/messages/messages';
 import React, { useEffect, useState } from 'react';
 
 const EditNotificationsSettings = () => {
+
+
   const { register, handleSubmit, errors } = useForm()
   const [notificationsSettings, setNotificationsSettings] = useState();
 
   useEffect(() => {
     getNotificationsSettings()
   }, [])
+
+
   const handleInputChange = event => {
     const { name, value } = event.target;
     setNotificationsSettings({ ...notificationsSettings, [name]: value });

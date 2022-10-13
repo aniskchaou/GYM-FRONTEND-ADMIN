@@ -1,34 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../Header/Header';
 import { NavLink, useHistory } from "react-router-dom"
 import './Navigation.css'
-import User from '../../config/user';
 import settingsHTTPService from '../../services/settingsHTTPService'
-import useForceUpdate from 'use-force-update';
 
 
-const Navigation = (props) => {
+
+const Navigation = ({ connected }) => {
 
   const [showLogo, setShowLogo] = useState(1)
   const history = useHistory()
-  const forceUpdate = useForceUpdate();
+
+
+
   useEffect(() => {
-    // Runs ONCE after initial rendering
     getSystemSettings()
   }, []);
-  const getSystemSettings = () => {
 
+
+  const getSystemSettings = () => {
     settingsHTTPService.getSystemSettings().then(data => {
       setShowLogo(data.data[0].showLogo)
-      //forceUpdate()
-      console.log(data.data[0])
     })
 
   }
 
 
   return (
-    <div style={{ display: (User.CONNECTED_USER ? 'block' : 'none') }} className="sidebar" data-color="white" data-active-color="danger">
+    <div style={{ display: (connected ? 'block' : 'none') }} className="sidebar" data-color="white" data-active-color="danger">
       {showLogo == 1 ? <div className="logo">
 
         <NavLink to="/" className="simple-text logo-normal">
@@ -116,7 +114,7 @@ const Navigation = (props) => {
           </li>
           <li>
             <NavLink activeClassName="activeLink" to="/frontoffice">
-              <i className="nc-icon nc-settings-gear-65"></i>
+              <i className="nc-icon nc-tv-2"></i>
               <p>Front Office</p>
             </NavLink>
           </li>

@@ -1,8 +1,8 @@
 
 const expenseValidation = {
-    date: 'Date doit etre definie',
-    name: 'Fournisseur doit etre defini',
-    amount: 'Montant doit etre defini',
+    date: 'Expense date is required',
+    name: 'Expense name is required',
+    amount: 'Amount is required',
 
 
 }

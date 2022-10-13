@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mui/material": "^5.10.3",
+    "@mui/x-data-grid": "^5.16.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
     "@fullcalendar/core": "^4.4.0",
     "@fullcalendar/daygrid": "^4.4.0",
     "@fullcalendar/interaction": "^4.4.0",

@@ -5,12 +5,12 @@ import { useForm } from 'react-hook-form';
 import showMessage from '../../../libraries/messages/messages'
 import activityMessage from '../../../main/messages/activityMessage'
 import activityValidation from '../../../main/validations/activityValidation'
-import ActivityTestService from '../../../main/mocks/ActivityTestService';
 import activityHTTPService from '../../../main/services/activityHTTPService';
 import typeSubsHTTPService from '../../../main/services/typeSubsHTTPService';
-import memberHTTPService from '../../../main/services/memberHTTPService';
+import staffHTTPService from '../../../main/services/staffHTTPService';
 
 const AddActivity = (props) => {
+
   const initialState = {
     category: '',
     title: '',
@@ -24,45 +24,36 @@ const AddActivity = (props) => {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
-    getAllMember()
+    getAllMembers()
     getTypeSubs()
   }, []);
 
   const onSubmit = (data) => {
-    //saveActivity(data)
-    //ActivityTestService.create(data)
     activityHTTPService.createActivity(data).then(data => {
       props.closeModal()
       setActivity(initialState)
       showMessage('Confirmation', activityMessage.add, 'success')
     }).catch(e => {
-      console.log(e)
+      showMessage('Confirmation', e, 'warning')
     })
 
   }
 
-  const getAllMember = () => {
-
-    memberHTTPService.getAllMember()
+  const getAllMembers = () => {
+    staffHTTPService.getAllStaff()
       .then(response => {
         setMembers(response.data);
-        //forceUpdate()
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Confirmation', e, 'warning')
       });
   };
 
   const getTypeSubs = () => {
-
     typeSubsHTTPService.getAllTypeSubs().then(data => {
       setTypeSubs(data.data);
-
-
     })
   };
-
-
 
   const handleInputChange = event => {
     const { name, value } = event.target;
@@ -110,7 +101,7 @@ const AddActivity = (props) => {
               ref={register({ required: true })} id="select1" name="member" class="custom-select">
 
               {members.map(item =>
-                <option value={item.id}>{item.name}</option>
+                <option value={item.id}>{item.first_name} {item.last_name}</option>
               )}
             </select>
             <div className="error text-danger">
@@ -126,7 +117,7 @@ const AddActivity = (props) => {
             <select onChange={handleInputChange} value={activity.type} ref={register({ required: true })}
               id="select2" name="type" class="custom-select">
               {typeSubs.map(item =>
-                <option value={item.id}>{item.name}</option>
+                <option value={item.id}>{item.time_payment}</option>
               )}
             </select>
             <div className="error text-danger">
@@ -141,12 +132,8 @@ const AddActivity = (props) => {
               Save</button>
           </div>
         </div>
-
-
       </form>
     </div>
-
-
   )
 };
 

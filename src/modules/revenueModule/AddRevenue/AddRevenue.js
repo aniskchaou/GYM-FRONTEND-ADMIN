@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import showMessage from '../../../libraries/messages/messages'
 import revenueMessage from '../../../main/messages/revenueMessage'
 import revenueValidation from '../../../main/validations/revenueValidation'
-import RevenueTestService from '../../../main/mocks/RevenueTestService';
 import revenueHTTPService from '../../../main/services/revenueHTTPService';
 
 const AddRevenue = (props) => {
@@ -19,20 +18,13 @@ const AddRevenue = (props) => {
   const [revenue, setRevenue] = useState(initialState);
 
   const onSubmit = (data) => {
-    //saveRevenue(data)
-    //RevenueTestService.create(data)
-    console.log(data)
     revenueHTTPService.createRevenue(data).then(data => {
-
       setRevenue(initialState)
       props.closeModal()
       showMessage('Confirmation', revenueMessage.add, 'success')
     })
 
   }
-
-
-
 
   const handleInputChange = event => {
     const { name, value } = event.target;

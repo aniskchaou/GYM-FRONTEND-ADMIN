@@ -1,25 +1,19 @@
 
 import React, { useEffect, useState } from 'react';
 import './Presence.css';
-import { LoadJS } from '../../../libraries/datatables/datatables';
-import EditPresence from '../EditPresence/EditPresence';
-import AddPresence from '../AddPresence/AddPresence';
-import useForceUpdate from 'use-force-update';
 import showMessage from '../../../libraries/messages/messages';
-import presenceMessage from '../../../main/messages/presenceMessage';
-import PresenceTestService from '../../../main/mocks/PresenceTestService';
-import HTTPService from '../../../main/services/HTTPService';
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import '@fullcalendar/core/main.css';
-import '@fullcalendar/daygrid/main.css'; // a dependency of timegrid
+import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
 import attendanceHTTPService from '../../../main/services/attendanceHTTPService';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import memberHTTPService from '../../../main/services/memberHTTPService';
+import productMessage from '../../../main/messages/productMessage';
 
 const Presence = () => {
   let yourDate = new Date().toISOString()
@@ -34,35 +28,35 @@ const Presence = () => {
   const [attendance, setAttendance] = useState([])
   const [createAttendance, setCreateAttendance] = useState(initialState)
   const { register, handleSubmit, errors } = useForm()
-  const forceUpdate = useForceUpdate();
   const history = useHistory()
   const [members, setMembers] = useState([]);
+
+
   useEffect(() => {
     getAttendencesCalendar()
     getAllMember()
   }, []);
+
+
   const onSubmit = (data) => {
-    console.log(data)
     attendanceHTTPService.createtendances(data).then(data => {
-      showMessage('Confirmation', data, 'info')
       setCreateAttendance(initialState)
       getAttendencesCalendar()
+      showMessage('Confirmation', productMessage.add, 'success')
       history.replace('/presence')
     }).catch(e => {
-      showMessage('Confirmation', e.message, 'danger')
+      showMessage('Confirmation', e.message, 'warning')
     })
   }
 
 
   const getAttendencesCalendar = () => {
-
     attendanceHTTPService.getAllAtendances()
       .then(response => {
         setAttendance(response.data);
-
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Confirmation', e, 'warning')
       });
   };
 
@@ -73,11 +67,9 @@ const Presence = () => {
   };
 
   const getAllMember = () => {
-
     memberHTTPService.getAllMember()
       .then(response => {
         setMembers(response.data);
-        // forceUpdate()
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -90,34 +82,29 @@ const Presence = () => {
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <h4 className="card-title"> Attendances</h4>
+              <h4 className="card-title"><i class="nc-icon nc-paper"></i> Attendances</h4>
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit(onSubmit)}>
-
                 <div class="form-group row">
                   <label for="text" class="col-4 col-form-label">Member Name</label>
                   <div class="col-8">
                     <select onChange={handleInputChange} value={createAttendance.member} ref={register({ required: true })}
                       id="select" name="member" class="custom-select">
                       {members.map(item =>
-                        <option value={item.id}>{item.name}</option>
+                        <option value={item.first_name + ' ' + item.last_name}>{item.first_name} {item.last_name}</option>
                       )}
                     </select>
                   </div>
                   <input value={createAttendance.date} ref={register({ required: true })}
                     id="hidden" name="date" type="hidden" class="form-control" />
                 </div>
-
-
                 <div class="form-group row">
                   <div class="offset-4 col-8">
                     <button name="submit" type="submit" class="btn btn-primary"><i class="far fa-save"></i> Save</button>
                   </div>
                 </div>
-
               </form>
-
             </div>
 
             <div className="card-body">
@@ -141,11 +128,9 @@ const Presence = () => {
                 events={
                   attendance}
               />
-
             </div>
           </div>
         </div>
-
       </div>
     </div>
   )

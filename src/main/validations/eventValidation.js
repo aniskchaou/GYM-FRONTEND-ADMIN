@@ -1,9 +1,9 @@
 
 const eventValidation = {
-    event_name: "Nom evenement doit etre definie",
-    event_date: "Date evenement doit etre definie",
-    place_id: "Place doit etre definit",
-    starttime: "Heure debut doit etre definie",
-    endtime: "Heure fin doit etre definie",
+    event_name: "Event Name is required",
+    event_date: "Event date is required",
+    place_id: "Place is required",
+    starttime: "Start time is required",
+    endtime: "End time is required",
 }
 export default eventValidation;

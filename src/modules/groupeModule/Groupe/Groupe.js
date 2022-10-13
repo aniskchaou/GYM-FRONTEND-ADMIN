@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 import './Groupe.css';
 import AddGroupe from './../AddGroupe/AddGroupe';
 import { LoadJS } from './../../../libraries/datatables/datatables';
 import EditGroupe from './../EditGroupe/EditGroupe';
 import groupeHTTPService from '../../../main/services/groupeHTTPService';
-import GroupeTestService from '../../../main/mocks/GroupeTestService';
 import showMessage from '../../../libraries/messages/messages';
-import groupeMessage from '../../../main/messages/groupeMessage';
 import useForceUpdate from 'use-force-update';
-
+import { Button, LinearProgress, Typography } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import User from '../../../main/config/user';
 
 const Groupe = () => {
 
@@ -19,6 +18,14 @@ const Groupe = () => {
   const closeButtonEdit = useRef(null);
   const closeButtonAdd = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [updatedItemId, setUpdatedItemId] = useState(0);
+  const [updatedItemIds, setUpdatedItemIds] = useState([]);
+  const [showFilter, setShowFilter] = useState(false);
+  const [showChart, setShowChart] = useState(false);
+  const columns = [
+    { field: 'id', headerName: '#', width: 200 },
+    { field: 'name', headerName: 'Groupe Name', width: 200 }
+  ];
 
 
   useEffect(() => {
@@ -29,7 +36,7 @@ const Groupe = () => {
 
   const getAllGroupes = () => {
     setLoading(true)
-    groupeHTTPService.getAllGroupe()
+    groupeHTTPService.getAllGroupes()
       .then(response => {
         setGroupes(response.data);
         setLoading(false)
@@ -47,11 +54,11 @@ const Groupe = () => {
 
   const removeGroupeAction = (e, data) => {
     e.preventDefault();
-    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
-    if (r) {
-      showMessage('Confirmation', 'patientMessage.delete', 'success')
+    var confirm = window.confirm(User.DELETE_MSG);
+    if (confirm) {
       groupeHTTPService.removeGroupe(data).then(data => {
         resfresh()
+        showMessage('Confirmation', 'patientMessage.delete', 'success')
       }).catch(e => {
         showMessage('Confirmation', e, 'warning')
       });
@@ -74,6 +81,16 @@ const Groupe = () => {
     closeButtonAdd.current.click()
   }
 
+  const handleRowSelection = (e) => {
+    if (e.length == 1) {
+      setUpdatedItemId(e[0])
+      const selectedItem = groupes.find(item => item.id == e[0])
+      setUpdatedItem(selectedItem)
+    }
+    setUpdatedItemIds(e)
+  }
+
+
   return (
     <div className="content">
       <div className="row">
@@ -83,33 +100,24 @@ const Groupe = () => {
               <h4 className="card-title"> <i className="nc-icon nc-badge"></i> Groups</h4>
             </div>
             <div className="card-body">
-              <div className="table-responsive">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addGroupe"><i class="far fa-plus-square"></i>  Create</button>
-
-                <table className="table">
-                  <thead class=" text-primary">
-                    <tr> <th>Groupe Name</th>
-                      <th>Actions</th></tr>
-                  </thead>
-                  <tbody>
-                    {loading ? <div class="d-flex justify-content-center" >
-                      <div class="spinner-border" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div></div> : groupes.map(item =>
-                        <tr>
-                          <td>{item.name}</td>
-                          <td>
-                            <button style={{ margin: "3px" }} onClick={e => updateGroupeAction(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                            <button onClick={e => removeGroupeAction(e, item.id)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                          </td>
-
-                        </tr>
-                      )}
-
-                  </tbody>
-                </table>
+              <div>
+                <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addGroupe" ><i class="fas fa-plus"></i> Create </Button>
+                <Button style={{ color: '#ffa400' }} onClick={e => updateGroupeAction(e, updatedItemId)} type="button" data-toggle="modal" data-target="#edit"><i class="fas fa-edit"></i> Edit</Button>
+                <Button style={{ color: '#ffa400' }} onClick={e => removeGroupeAction(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button>
+                <Button type="button" style={{ color: '#ffa400' }} onClick={() => getAllGroupes()}><i class="fas fa-refresh"></i> Reload</Button>
 
 
+                {loading ?
+                  <LinearProgress />
+                  : <div style={{ height: 430, width: '100%' }}><DataGrid
+                    rows={groupes}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[6]}
+                    checkboxSelection
+                    onSelectionModelChange={handleRowSelection}
+                    components={{ Toolbar: GridToolbar }}
+                  /></div>}
                 <div class="modal fade" id="addGroupe" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
@@ -146,12 +154,10 @@ const Groupe = () => {
                       </div>
                       <div class="modal-footer">
                         <button onClick={resfresh} ref={closeButtonEdit} type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
                       </div>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>

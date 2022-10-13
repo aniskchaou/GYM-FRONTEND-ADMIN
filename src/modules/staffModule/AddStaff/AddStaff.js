@@ -5,11 +5,12 @@ import { useForm } from 'react-hook-form';
 import showMessage from '../../../libraries/messages/messages'
 import staffMessage from '../../../main/messages/staffMessage'
 import staffValidation from '../../../main/validations/staffValidation'
-import StaffTestService from '../../../main/mocks/StaffTestService';
 import staffHTTPService from '../../../main/services/staffHTTPService';
-//import staffHTTPService from '../../../main/services/staff';
+import ReactTooltip from 'react-tooltip';
+
 
 const AddStaff = (props) => {
+
   const initialState = {
     first_name: '',
     last_name: '',
@@ -24,8 +25,6 @@ const AddStaff = (props) => {
   const [staff, setStaff] = useState(initialState);
 
   const onSubmit = (data) => {
-    //saveStaff(data)
-    // StaffTestService.create(data)
     staffHTTPService.createStaff(data).then(data => {
       setStaff(initialState)
       props.closeModal()
@@ -44,6 +43,7 @@ const AddStaff = (props) => {
   return (
     <div className="AddStaff">
 
+      <ReactTooltip />
       <form onSubmit={handleSubmit(onSubmit)}>
 
         <div class="form-group row">
@@ -86,7 +86,7 @@ const AddStaff = (props) => {
 
 
         <div class="form-group row">
-          <label for="select" class="col-4 col-form-label">Role</label>
+          <label for="select" class="col-4 col-form-label">Role <i data-tip="Speciality" class="fa fa-question-circle" aria-hidden="true"></i> </label>
           <div class="col-8">
             <select onChange={handleInputChange} value={staff.role} ref={register({ required: true })}
               id="select" name="role" class="custom-select">

@@ -1,13 +1,13 @@
 
 const staffValidation = {
 
-    date: 'Date doit etre definie',
-    role: 'Role doit etre definie',
-    address: 'Adresse doit etre definie',
-    email: 'Email doit etre definie',
-    mobile: 'Telephone doit etre definie',
-    first_name: 'Nom doit etre definie',
-    last_name: 'Prenom doit etre definie',
+    date: 'Date is required',
+    role: 'Role is required',
+    address: 'Address is required',
+    email: 'Email is required',
+    mobile: 'Telephone is required',
+    first_name: 'First name is required',
+    last_name: 'Last name is required',
 
 
 }

@@ -7,8 +7,9 @@ import AddProduct from '../AddProduct/AddProduct';
 import useForceUpdate from 'use-force-update';
 import showMessage from '../../../libraries/messages/messages';
 import productMessage from '../../../main/messages/productMessage';
-import ProductTestService from '../../../main/mocks/ProductTestService';
 import productHTTPService from '../../../main/services/productHTTPService';
+import { Button, LinearProgress, Typography } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 const Product = () => {
 
@@ -18,7 +19,17 @@ const Product = () => {
   const closeButtonEdit = useRef(null);
   const closeButtonAdd = useRef(null);
   const [loading, setLoading] = useState(true);
+  const [updatedItemId, setUpdatedItemId] = useState(0);
+  const [updatedItemIds, setUpdatedItemIds] = useState([]);
+  const [showFilter, setShowFilter] = useState(false);
+  const [showChart, setShowChart] = useState(false);
 
+  const columns = [
+    { field: 'id', headerName: '#', width: 200 },
+    { field: 'name', headerName: 'Product Name', width: 200 },
+    { field: 'quantity', headerName: 'Quantity', width: 200 },
+    { field: 'price', headerName: 'Price', width: 200 }
+  ];
 
   useEffect(() => {
     LoadJS()
@@ -48,8 +59,8 @@ const Product = () => {
     e.preventDefault();
     var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
     if (r) {
-      //showMessage('Confirmation', 'patientMessage.delete', 'success')
       productHTTPService.removeProduct(data).then(data => {
+        showMessage('Confirmation', productMessage.delete, 'success')
         resfresh()
       }).catch(e => {
         showMessage('Confirmation', e, 'warning')
@@ -73,44 +84,43 @@ const Product = () => {
     closeButtonAdd.current.click()
   }
 
+  const handleRowSelection = (e) => {
+    if (e.length == 1) {
+      setUpdatedItemId(e[0])
+      const selectedItem = products.find(item => item.id == e[0])
+      setUpdatedItem(selectedItem)
+    }
+    setUpdatedItemIds(e)
+  }
+
   return (
     <div className="content">
       <div className="row">
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <h4 className="card-title"> Products</h4>
+              <h4 className="card-title"><i class="nc-icon nc-box-2"></i> Products</h4>
             </div>
             <div className="card-body">
               <div className="table">
-                <table className="table">
-                  <thead class=" text-primary">
-                    <tr><th>Name</th>
-                      <th>Quantity</th>
-                      <th>Price</th>
-                      <th>Actions</th></tr>
+                <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addProduct" ><i class="fas fa-plus"></i> Create </Button>
+                <Button style={{ color: '#ffa400' }} onClick={e => updateProductAction(e, updatedItemId)} type="button" data-toggle="modal" data-target="#edit"><i class="fas fa-edit"></i> Edit</Button>
+                <Button style={{ color: '#ffa400' }} onClick={e => removeProductAction(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button>
+                <Button type="button" style={{ color: '#ffa400' }} onClick={() => getAllPatient()}><i class="fas fa-refresh"></i> Reload</Button>
+
+                {loading ?
+                  <LinearProgress />
+                  : <div style={{ height: 400, width: '100%' }}><DataGrid
+                    rows={products}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[6]}
+                    checkboxSelection
+                    onSelectionModelChange={handleRowSelection}
+                    components={{ Toolbar: GridToolbar }}
+                  /></div>}
 
 
-                  </thead>
-                  <tbody>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addProduct"><i class="far fa-plus-square"></i>  Create</button>
-
-                    {products.map(item =>
-                      <tr>
-                        <td>{item.name}</td>
-                        <td>{item.quantity} kg</td>
-                        <td>{item.price} $</td>
-                        <td>
-                          <button style={{ margin: "3px" }} onClick={e => updateProductAction(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                          <button onClick={e => removeProductAction(e, item.id)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-
-                      </tr>
-                    )}
-
-                  </tbody>
-
-                </table>
 
 
 
@@ -127,7 +137,7 @@ const Product = () => {
                         <AddProduct closeModal={closeModalAdd} />
                       </div>
                       <div class="modal-footer">
-                        <button onClick={resfresh} ref={closeButtonAdd} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button onClick={resfresh} ref={closeButtonAdd} type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                       </div>
                     </div>
@@ -148,8 +158,7 @@ const Product = () => {
                         <EditProduct product={updatedItem} closeModal={closeModalEdit} />
                       </div>
                       <div class="modal-footer">
-                        <button onClick={resfresh} ref={closeButtonEdit} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-
+                        <button onClick={resfresh} ref={closeButtonEdit} type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                       </div>
                     </div>
                   </div>
@@ -158,7 +167,6 @@ const Product = () => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   )

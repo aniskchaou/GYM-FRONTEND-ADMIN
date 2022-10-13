@@ -5,12 +5,12 @@ import { LoadJS } from '../../../libraries/datatables/datatables';
 import EditStaff from '../EditStaff/EditStaff';
 import AddStaff from '../AddStaff/AddStaff';
 import useForceUpdate from 'use-force-update';
-import showMessage from '../../../libraries/messages/messages';
-import staffMessage from '../../../main/messages/staffMessage';
-import StaffTestService from '../../../main/mocks/StaffTestService';
 import HTTPService from '../../../main/services/HTTPService';
 import staffHTTPService from '../../../main/services/staffHTTPService';
 import ViewStaff from '../ViewStaff/ViewStaff';
+import { Button, LinearProgress, Typography } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+
 
 const Staff = () => {
 
@@ -19,23 +19,28 @@ const Staff = () => {
   const forceUpdate = useForceUpdate();
   const closeButtonEdit = useRef(null);
   const closeButtonAdd = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [updatedItemId, setUpdatedItemId] = useState(0);
+  const [updatedItemIds, setUpdatedItemIds] = useState([]);
+  const [showFilter, setShowFilter] = useState(false);
+  const [showChart, setShowChart] = useState(false);
+
+  const columns = [
+    { field: 'id', headerName: '#', width: 200 },
+    { field: 'first_name', headerName: 'First Name', width: 200 },
+    { field: 'last_name', headerName: 'Last Name', width: 200 },
+    { field: 'role', headerName: 'Role', width: 200 },
+    { field: 'email', headerName: 'Email', width: 200 },
+    { field: 'date', headerName: 'Date of birth', width: 200 },
+    { field: 'mobile', headerName: 'Phone', width: 200 },
+    { field: 'address', headerName: 'Address', width: 200 }
+  ];
+
 
   useEffect(() => {
     LoadJS()
     retrieveStaffs()
   }, []);
-
-
-
-  const removeOne = (data) => {
-    HTTPService.remove(data)
-      .then(response => {
-
-      })
-      .catch(e => {
-
-      });
-  }
 
   const closeModalEdit = (data) => {
     resfreshComponent()
@@ -48,7 +53,6 @@ const Staff = () => {
   }
 
   const resfreshComponent = () => {
-    //getAllPatient()
     forceUpdate()
   }
 
@@ -71,15 +75,10 @@ const Staff = () => {
     e.preventDefault();
     var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
     if (r) {
-
-      // StaffTestService.remove(data)
       staffHTTPService.removeStaff(data).then(data => {
         console.log(data)
         resfresh()
-        showMessage('Confirmation', staffMessage.delete, 'success')
       })
-      //removeOne(data)
-
     }
 
   }
@@ -88,6 +87,18 @@ const Staff = () => {
     e.preventDefault();
     setUpdatedItem(data)
     resfresh()
+  }
+
+  const handleRowSelection = (e) => {
+    if (e.length == 1) {
+
+      setUpdatedItemId(e[0])
+      const selectedItem = staffs.find(item => item.id == e[0])
+      setUpdatedItem(selectedItem)
+      console.log(selectedItem);
+    }
+    setUpdatedItemIds(e)
+
   }
 
 
@@ -101,40 +112,23 @@ const Staff = () => {
             </div>
             <div className="card-body">
               <div className="table">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addStaff"><i class="far fa-plus-square"></i>  Create</button>
-                <table className="table">
-                  <thead class=" text-primary">
-                    <tr>
-                      <th>Nom</th>
-                      <th>Role</th>
-                      <th>Date expiration</th>
-                      <th>Mobile</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
 
+                <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addStaff" ><i class="fas fa-plus"></i> Create </Button>
+                <Button style={{ color: '#ffa400' }} onClick={e => update(e, updatedItemId)} type="button" data-toggle="modal" data-target="#edit"><i class="fas fa-edit"></i> Edit</Button>
+                <Button style={{ color: '#ffa400' }} onClick={e => remove(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button>
+                <Button type="button" style={{ color: '#ffa400' }} onClick={() => retrieveStaffs()}><i class="fas fa-refresh"></i> Reload</Button>
 
-                    {staffs.map(item =>
-                      <tr>
-                        <td>{item.first_name}</td>
-                        <td>{item.role}</td>
-                        <td><span class="badge badge-primary">{item.date}</span></td>
-                        <td>{item.mobile}</td>
-                        <td>
-                          <button style={{ margin: "3px" }} onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#view" className="button-member btn btn-primary btn-sm"><i class="fas fa-eye"></i></button>
-                          <button style={{ margin: "3px" }} onClick={e => update(e, item)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                          <button onClick={e => remove(e, item.id)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                      </tr>
-                    )}
-
-                  </tbody>
-
-                </table>
-
-
-
+                {loading ?
+                  <LinearProgress />
+                  : <div style={{ height: 430, width: '100%' }}><DataGrid
+                    rows={staffs}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[6]}
+                    checkboxSelection
+                    onSelectionModelChange={handleRowSelection}
+                    components={{ Toolbar: GridToolbar }}
+                  /></div>}
 
                 <div class="modal fade" id="addStaff" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -191,7 +185,6 @@ const Staff = () => {
                       </div>
                       <div class="modal-footer">
                         <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
                       </div>
                     </div>
                   </div>
@@ -201,7 +194,6 @@ const Staff = () => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   )

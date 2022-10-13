@@ -1,7 +1,7 @@
 const typeSubMessage = {
-    add: 'Type subscribtion  a été ajouté avec succés',
-    edit: 'Type subscribtion  a été modifié avec succés',
-    delete: 'Type subscribtion  a été supprimé avec succés'
+    add: 'Item has been successfully added',
+    edit: 'Item has been successfully edited',
+    delete: 'Item has been successfully removed'
 }
 
 export default typeSubMessage

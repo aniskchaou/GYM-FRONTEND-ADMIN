@@ -28,9 +28,10 @@ import Editprofile from '../../../modules/shared/Editprofile/Editprofile';
 import TypeSubs from '../../../modules/typesubsModule/TypeSubs/TypeSubs';
 import FrontOffice from '../../../modules/frontOfficeModule/FrontOffice/FrontOffice'
 import AddTypeSubs from '../../../modules/typesubsModule/AddTypeSubs/AddTypeSubs';
+import SearchResult from '../../../modules/shared/SearchResult/SearchResult';
 
-const Routes = () => (
-  <div style={{ display: (User.CONNECTED_USER ? 'block' : 'none') }} className="Routes">
+const Routes = ({ connected }) => (
+  <div style={{ display: (connected ? 'block' : 'none') }} className="Routes">
     <Route exact path="/" component={DashBoard} />
     <Route exact path="/dashboard" component={DashBoard} />
     <Route exact path="/activity" component={Activity} />
@@ -55,7 +56,7 @@ const Routes = () => (
     <Route exact path="/login" component={Login} />
     <Route exact path="/profile" component={Profile} />
     <Route exact path="/edit-profile" component={Editprofile} />
-
+    <Route path="/result/:input" component={SearchResult} />
     <Route exact path="/frontoffice" component={FrontOffice} />
     <Route exact path="/add-type-subs" component={AddTypeSubs} />
   </div>

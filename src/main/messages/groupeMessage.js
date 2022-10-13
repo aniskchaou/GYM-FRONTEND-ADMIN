@@ -1,7 +1,7 @@
 const groupeMessage = {
-    add: 'Groupe a été ajouté avec succés',
-    edit: 'Groupe  a été modifié avec succés',
-    delete: 'Groupe  a été supprimé avec succés'
+    add: 'Item has been successfully added',
+    edit: 'Item has been successfully edited',
+    delete: 'Item has been successfully removed'
 }
 
 export default groupeMessage

@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import './EditTypeSubs.css';
-
 import { useForm } from 'react-hook-form';
-
 import showMessage from '../../../libraries/messages/messages';
 import typeSubValidation from '../../../main/validations/typeSubValidation'
 import typeSubMessage from '../../../main/messages/typeSubMessage '
 import typeSubsHTTPService from '../../../main/services/typeSubsHTTPService'
 import ReactTooltip from 'react-tooltip';
 import memberHTTPService from '../../../main/services/memberHTTPService';
+
 const EditTypeSubs = (props) => {
 
-  const { register, handleSubmit, errors } = useForm() // initialise the hook
+  const { register, handleSubmit, errors } = useForm()
   const [typeSub, setTypeSub] = useState(props.typeSub);
   const [members, setMembers] = useState([]);
+
   useEffect(() => {
     setTypeSub(props.typeSub)
     getAllMember()
@@ -22,13 +21,10 @@ const EditTypeSubs = (props) => {
 
 
   const onSubmit = (data) => {
-
-    //TypeSubTestService.update(props.typeSub, data)
-    typeSubsHTTPService.editTypeSubs(props.typeSub.id, data).then(data => {
+    typeSubsHTTPService.editTypeSubs(props.typeSub, data).then(data => {
       props.closeModal()
       showMessage('Confirmation', typeSubMessage.edit, 'success')
     })
-
   }
 
   const handleInputChange = event => {
@@ -37,11 +33,9 @@ const EditTypeSubs = (props) => {
   };
 
   const getAllMember = () => {
-
     memberHTTPService.getAllMember()
       .then(response => {
         setMembers(response.data);
-        // forceUpdate()
       })
       .catch(e => {
         showMessage('Confirmation', e, 'info')
@@ -54,17 +48,13 @@ const EditTypeSubs = (props) => {
     <div className="EditTypeSubs">
       <ReactTooltip />
       <form onSubmit={handleSubmit(onSubmit)}>
-
-
-
-
-
         <div class="form-group row">
           <label for="select" class="col-4 col-form-label">Category</label>
           <div class="col-8">
             <select onChange={handleInputChange} value={typeSub.category} ref={register({ required: true })}
               id="select" name="category" class="custom-select">
-              <option value="Glod">Gold</option>
+              <option value="Sliver">Silver</option>
+              <option value="Gold">Gold</option>
               <option value="Premium">Premium</option>
             </select>
             <div className="error text-danger">

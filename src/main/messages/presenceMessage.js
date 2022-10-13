@@ -1,7 +1,7 @@
 const presenceMessage = {
-    add: 'offre d\'emploi  a été ajouté avec succés',
-    edit: 'offre d\'emploi  a été modifié avec succés',
-    delete: 'offre d\'emploi  a été supprimé avec succés'
+    add: 'Item has been successfully added',
+    edit: 'Item has been successfully edited',
+    delete: 'Item has been successfully removed'
 }
 
 export default presenceMessage

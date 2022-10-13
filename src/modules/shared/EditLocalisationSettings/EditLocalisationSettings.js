@@ -8,12 +8,14 @@ import React, { useEffect, useState } from 'react';
 
 
 const EditLocalisationSettings = () => {
+
   const { register, handleSubmit, errors } = useForm()
   const [localisationSettings, setLocalisationSettings] = useState();
 
   useEffect(() => {
     getDLocalisationSettings()
   }, [])
+
   const handleInputChange = event => {
     const { name, value } = event.target;
     setLocalisationSettings({ ...localisationSettings, [name]: value });
@@ -33,6 +35,8 @@ const EditLocalisationSettings = () => {
       showMessage('Confirmation', 'activityMessage.edit', 'success')
     })
   }
+
+
   return (
     <div className="EditDashboardSettings">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -42,8 +46,8 @@ const EditLocalisationSettings = () => {
             <select onChange={handleInputChange} value={localisationSettings?.language} ref={register({ required: true })}
               id="select2" name="language" class="custom-select">
 
-              <option value="1">Yes</option>
-              <option value="0">No</option>
+              <option value="English">English</option>
+
             </select>
           </div>
         </div>
@@ -51,11 +55,11 @@ const EditLocalisationSettings = () => {
         <div class="form-group row">
           <label for="select2" class="col-4 col-form-label">Currency</label>
           <div class="col-8">
-            <select onChange={handleInputChange} value={localisationSettings?.showCalendar} ref={register({ required: true })}
+            <select onChange={handleInputChange} value={localisationSettings?.currency} ref={register({ required: true })}
               id="select2" name="showCalendar" class="custom-select">
 
-              <option value="1">Yes</option>
-              <option value="0">No</option>
+              <option value="USD">USD</option>
+
             </select>
           </div>
         </div>
@@ -66,8 +70,8 @@ const EditLocalisationSettings = () => {
             <select onChange={handleInputChange} value={localisationSettings?.currencySymbol} ref={register({ required: true })}
               id="select2" name="currencySymbol" class="custom-select">
 
-              <option value="1">Yes</option>
-              <option value="0">No</option>
+              <option value="$">$</option>
+
             </select>
           </div>
         </div>
@@ -78,8 +82,8 @@ const EditLocalisationSettings = () => {
             <select onChange={handleInputChange} value={localisationSettings?.dateFormat} ref={register({ required: true })}
               id="select2" name="dateFormat" class="custom-select">
 
-              <option value="1">Yes</option>
-              <option value="0">No</option>
+              <option value="dd//mm/yyyy">dd//mm/yyyy</option>
+              <option value="dd-mm-yyyy">dd-mm-yyyy</option>
             </select>
           </div>
         </div>

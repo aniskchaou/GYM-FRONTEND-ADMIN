@@ -18,9 +18,7 @@ const EditEvent = (props) => {
 
 
   const onSubmit = (data) => {
-
-    // EventTestService.update(props.event, data)
-    eventHTTPService.editEvent(props.event.id, data).then(data => {
+    eventHTTPService.editEvent(props.event, data).then(data => {
       props.closeModal()
       showMessage('Confirmation', eventMessage.edit, 'success')
     })
@@ -31,7 +29,6 @@ const EditEvent = (props) => {
     const { name, value } = event.target;
     setEventt({ ...eventt, [name]: value });
   };
-
 
 
   return (

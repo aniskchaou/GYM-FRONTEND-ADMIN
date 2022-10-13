@@ -1,7 +1,7 @@
 const activityMessage = {
-    add: 'Activité a été ajouté avec succés',
-    edit: 'Activité a été modifié avec succés',
-    delete: 'Activité a été supprimé avec succés'
+    add: 'Item has been successfully added',
+    edit: 'Item has been successfully edited',
+    delete: 'Item has been successfully removed'
 }
 
 export default activityMessage

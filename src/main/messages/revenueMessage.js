@@ -1,7 +1,7 @@
 const revenueMessage = {
-    add: 'Revenue  a été ajouté avec succés',
-    edit: 'Revenue  a été modifié avec succés',
-    delete: 'Revenue  a été supprimé avec succés'
+    add: 'Item has been successfully added',
+    edit: 'Item has been successfully edited',
+    delete: 'Item has been successfully removed'
 }
 
 export default revenueMessage

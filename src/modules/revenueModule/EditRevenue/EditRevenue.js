@@ -5,9 +5,11 @@ import { useForm } from 'react-hook-form';
 import showMessage from '../../../libraries/messages/messages'
 import revenueMessage from '../../../main/messages/revenueMessage'
 import revenueValidation from '../../../main/validations/revenueValidation'
-import RevenueTestService from '../../../main/mocks/RevenueTestService';
+
 import revenueHTTPService from '../../../main/services/revenueHTTPService'
+
 const EditRevenue = (props) => {
+
   const { register, handleSubmit, errors } = useForm() // initialise the hook
   const [revenue, setRevenue] = useState(props.revenue);
 
@@ -17,8 +19,6 @@ const EditRevenue = (props) => {
 
 
   const onSubmit = (data) => {
-
-    //RevenueTestService.update(props.revenue, data)
     revenueHTTPService.editRevenue(props.revenue.id, data).then(data => {
       props.closeModal()
       showMessage('Confirmation', revenueMessage.edit, 'success')
