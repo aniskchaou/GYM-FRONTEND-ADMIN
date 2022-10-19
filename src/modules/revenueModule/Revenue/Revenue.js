@@ -12,6 +12,10 @@ import useForceUpdate from 'use-force-update';
 import EditRevenue from '../EditRevenue/EditRevenue';
 import { Button, LinearProgress, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import IncomeSummary from '../IncomeSummary/IncomeSummary';
+import IncomeBarChart from '../IncomeBarChart/IncomeBarChart';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
+import User from '../../../main/config/user';
 
 const Revenue = () => {
 
@@ -46,7 +50,7 @@ const Revenue = () => {
         setLoading(false)
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -58,13 +62,13 @@ const Revenue = () => {
 
   const removeRevenueAction = (e, data) => {
     e.preventDefault();
-    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
+    var r = window.confirm(User.DELETE_MSG);
     if (r) {
       showMessage('Confirmation', revenueMessage.delete, 'success')
       revenueHTTPService.removeRevenue(data).then(data => {
         resfresh()
       }).catch(e => {
-        showMessage('Confirmation', e, 'warning')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
     }
   }
@@ -105,11 +109,13 @@ const Revenue = () => {
               <h4 className="card-title"><i class="nc-icon nc-refresh-69"></i> Incomes</h4>
             </div>
             <div className="card-body">
+              <IncomeSummary />
               <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addRevenue" ><i class="fas fa-plus"></i> Create </Button>
               <Button style={{ color: '#ffa400' }} onClick={e => updateRevenueAction(e, updatedItemId)} type="button" data-toggle="modal" data-target="#edit"><i class="fas fa-edit"></i> Edit</Button>
               <Button style={{ color: '#ffa400' }} onClick={e => removeRevenueAction(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button>
               <Button type="button" style={{ color: '#ffa400' }} onClick={() => getAllPatient()}><i class="fas fa-refresh"></i> Reload</Button>
-
+              <Button style={{ color: '#ffa400' }} data-toggle="modal" data-target="#chart" type="button" ><i class="fas fa-chart-bar"></i> Analytics</Button>
+              <IncomeBarChart />
 
               {loading ?
                 <LinearProgress />

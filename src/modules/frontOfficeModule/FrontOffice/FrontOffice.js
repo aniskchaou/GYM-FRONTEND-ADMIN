@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './FrontOffice.css';
 import frontOfficeHTTPService from '../../../main/services/frontOfficeHTTPService';
 import EditFrontOffice from '../EditFrontOffice/EditFrontOffice'
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
+import showMessage from '../../../libraries/messages/messages';
+import User from '../../../main/config/user';
 
 
 const FrontOffice = () => {
@@ -18,7 +21,7 @@ const FrontOffice = () => {
         setFrontOffice(response.data);
       })
       .catch(e => {
-        console.log(e);
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -34,7 +37,7 @@ const FrontOffice = () => {
             <div className="card-body">
               <div>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editFrontOffice">Edit</button>
-                <a type="button" target="_blank" class="btn btn-warning" href="https://gym-client.herokuapp.com/">Website</a>
+                <a type="button" class="btn btn-warning" href={User.BACKOFFICE_URL}>Website</a>
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">Home Section Title : {frontOffice.sliderTitle}</li>
                   <li class="list-group-item">Left Button : {frontOffice.leftButtonTitle} </li>

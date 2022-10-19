@@ -23,25 +23,7 @@ const Exercice = () => {
   }, []);
 
 
-  const getAll = () => {
-    HTTPService.getAll()
-      .then(response => {
-        setExercices(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
 
-  const removeOne = (data) => {
-    HTTPService.remove(data)
-      .then(response => {
-
-      })
-      .catch(e => {
-
-      });
-  }
 
 
 
@@ -55,23 +37,7 @@ const Exercice = () => {
     forceUpdate()
   }
 
-  const remove = (e, data) => {
-    e.preventDefault();
-    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
-    if (r) {
-      showMessage('Confirmation', exerciceMessage.delete, 'success')
-      ExerciceTestService.remove(data)
-      //removeOne(data)
-      resfresh()
-    }
 
-  }
-
-  const update = (e, data) => {
-    e.preventDefault();
-    setUpdatedItem(data)
-    resfresh()
-  }
 
 
   return (

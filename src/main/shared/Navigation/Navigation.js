@@ -71,7 +71,7 @@ const Navigation = ({ connected }) => {
           </li>
           <li>
             <NavLink activeClassName="activeLink" to="/member">
-              <i className="nc-icon nc-single-02"></i>
+              <i className="nc-icon nc-badge"></i>
               <p>Members</p>
             </NavLink>
           </li>

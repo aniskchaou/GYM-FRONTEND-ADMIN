@@ -7,6 +7,7 @@ import paymentValidation from '../../../main/validations/paymentValidation'
 import paymentHTTPService from '../../../main/services/paymentHTTPService'
 import typeSubsHTTPService from '../../../main/services/typeSubsHTTPService';
 import memberHTTPService from '../../../main/services/memberHTTPService';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 const EditPayment = (props) => {
 
   const { register, handleSubmit, errors } = useForm() // initialise the hook
@@ -40,7 +41,7 @@ const EditPayment = (props) => {
         setTypeSubs(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -50,7 +51,7 @@ const EditPayment = (props) => {
         setMembers(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 

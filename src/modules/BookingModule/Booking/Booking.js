@@ -9,6 +9,7 @@ import showMessage from '../../../libraries/messages/messages';
 import bookingMessage from '../../../main/messages/bookingMessage';
 import BookingTestService from '../../../main/mocks/BookingTestService';
 import HTTPService from '../../../main/services/HTTPService';
+import User from '../../../main/config/user';
 
 const Booking = () => {
 
@@ -57,7 +58,7 @@ const Booking = () => {
 
   const remove = (e, data) => {
     e.preventDefault();
-    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
+    var r = window.confirm(User.DELETE_MSG);
     if (r) {
       showMessage('Confirmation', bookingMessage.delete, 'success')
       BookingTestService.remove(data)

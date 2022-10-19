@@ -10,6 +10,9 @@ import useForceUpdate from 'use-force-update';
 import expenseHTTPService from '../../../main/services/expenseHTTPService';
 import { Button, LinearProgress, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import ExpenseSummary from '../ExpenseSummary/ExpenseSummary';
+import ExpenseBarChart from '../ExpenseBarChart/ExpenseBarChart';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 const Expense = () => {
 
@@ -64,7 +67,7 @@ const Expense = () => {
         showMessage('Confirmation', expenseMessage.delete, 'success')
         resfresh()
       }).catch(e => {
-        showMessage('Confirmation', e, 'warning')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
     }
   }
@@ -105,12 +108,13 @@ const Expense = () => {
               <h4 className="card-title"><i class="nc-icon nc-money-coins"></i> Expenses</h4>
             </div>
             <div className="card-body">
-
+              <ExpenseSummary />
               <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addExpense" ><i class="fas fa-plus"></i> Create </Button>
               <Button style={{ color: '#ffa400' }} onClick={e => updateExpenseAction(e, updatedItemId)} type="button" data-toggle="modal" data-target="#edit"><i class="fas fa-edit"></i> Edit</Button>
               <Button style={{ color: '#ffa400' }} onClick={e => removeExpenseAction(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button>
               <Button type="button" style={{ color: '#ffa400' }} onClick={() => getAllExpenses()}><i class="fas fa-refresh"></i> Reload</Button>
-
+              <Button style={{ color: '#ffa400' }} data-toggle="modal" data-target="#chart" type="button" ><i class="fas fa-chart-bar"></i> Analytics</Button>
+              <ExpenseBarChart />
               {loading ?
                 <LinearProgress />
                 : <div style={{ height: 400, width: '100%' }}><DataGrid

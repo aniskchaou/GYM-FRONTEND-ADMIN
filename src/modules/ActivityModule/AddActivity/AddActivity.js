@@ -8,6 +8,7 @@ import activityValidation from '../../../main/validations/activityValidation'
 import activityHTTPService from '../../../main/services/activityHTTPService';
 import typeSubsHTTPService from '../../../main/services/typeSubsHTTPService';
 import staffHTTPService from '../../../main/services/staffHTTPService';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 const AddActivity = (props) => {
 
@@ -34,7 +35,7 @@ const AddActivity = (props) => {
       setActivity(initialState)
       showMessage('Confirmation', activityMessage.add, 'success')
     }).catch(e => {
-      showMessage('Confirmation', e, 'warning')
+      showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
     })
 
   }
@@ -45,7 +46,7 @@ const AddActivity = (props) => {
         setMembers(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'warning')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -71,8 +72,9 @@ const AddActivity = (props) => {
           <div class="col-8">
             <select onChange={handleInputChange} value={activity.category} ref={register({ required: true })}
               id="select" name="category" class="custom-select">
-              <option value="Gymnastique">Gymnastique</option>
+              <option value="Yoga">Yoga</option>
               <option value="Fitness">Fitness</option>
+              <option value="Workout">Workout</option>
             </select>
             <div className="error text-danger">
               {errors.category && activityValidation.category}

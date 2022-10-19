@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router';
 import userHTTPService from '../../services/userHTTPService';
 import showMessage from '../../../libraries/messages/messages';
+import { HTTP_ERR_MESSAGE } from '../../messages/generic.message';
 
 
 const Login = ({ handleClick }) => {
@@ -33,7 +34,7 @@ const Login = ({ handleClick }) => {
         }
       })
       .catch(e => {
-        showMessage('Error', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
         console.log(e)
       });
 
@@ -62,7 +63,7 @@ const Login = ({ handleClick }) => {
                 <input name="password" onChange={handleInputChange} value={activity.password} ref={register({ required: true })} type="password" placeholder="Username" class="form-control" /></div>
               <div class="update ml-auto mr-auto">
                 <button class="btn btn-primary btn-round" type="submit" >Sign in</button>
-                <a href="https://gym-client.herokuapp.com/" class="btn btn-warning btn-round" type="button" >Return</a>
+                <a href={User.BACKOFFICE_URL} class="btn btn-warning btn-round" type="button" >Return</a>
               </div>
             </form>
           </div>

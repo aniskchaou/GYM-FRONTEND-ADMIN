@@ -20,10 +20,20 @@ const removeRevenue = id => {
     return http.delete(`${BASE_URL}/api/revenue/${id}`);
 };
 
+const getTotalIncome = () => {
+    return http.get(`${BASE_URL}/api/count/income/all`)
+}
+
+const getTodayIncome = () => {
+    return http.get(`${BASE_URL}/api/count/income/today`)
+}
+
 export default {
     getAllRevenue,
     createRevenue,
     editRevenue,
     removeRevenue,
-    getAllRevenueByDate
+    getAllRevenueByDate,
+    getTotalIncome,
+    getTodayIncome
 };

@@ -8,6 +8,7 @@ import paymentValidation from '../../../main/validations/paymentValidation'
 import paymentHTTPService from '../../../main/services/paymentHTTPService';
 import memberHTTPService from '../../../main/services/memberHTTPService';
 import typeSubsHTTPService from '../../../main/services/typeSubsHTTPService';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 const AddPayment = (props) => {
 
@@ -43,7 +44,7 @@ const AddPayment = (props) => {
         setTypeSubs(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -53,7 +54,7 @@ const AddPayment = (props) => {
         setMembers(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 

@@ -16,9 +16,23 @@ const removeEvent = id => {
     return http.delete(`${BASE_URL}/api/event/${id}`);
 };
 
+const getTotalEvent = () => {
+    return http.get(`${BASE_URL}/api/count/event/all`)
+}
+
+const getTodayEvent = () => {
+    return http.get(`${BASE_URL}/api/count/event/today`)
+}
+
+const getEventByDate = () => {
+    return http.get(`${BASE_URL}/api/count/event/eventbydate`)
+}
 export default {
     getAllEvent,
     createEvent,
     editEvent,
-    removeEvent
+    removeEvent,
+    getTotalEvent,
+    getTodayEvent,
+    getEventByDate
 };

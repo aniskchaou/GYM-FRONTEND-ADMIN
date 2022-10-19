@@ -4,6 +4,7 @@ import memberHTTPService from '../../../main/services/memberHTTPService';
 import showMessage from '../../../libraries/messages/messages';
 import { LinearProgress } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 const SearchResult = (props) => {
 
@@ -38,7 +39,7 @@ const SearchResult = (props) => {
         setMembers(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 

@@ -78,8 +78,9 @@ const EditStaff = (props) => {
           <div class="col-8">
             <select onChange={handleInputChange} value={staff.role} ref={register({ required: true })}
               id="select" name="role" class="custom-select">
-              <option value="rabbit">Yoga</option>
-              <option value="duck">Fitness</option>
+              <option value="Yoga">Yoga</option>
+              <option value="Fitness">Fitness</option>
+              <option value="Workout">Workout</option>
             </select>
             <div className="error text-danger">
               {errors.role && staffValidation.role}

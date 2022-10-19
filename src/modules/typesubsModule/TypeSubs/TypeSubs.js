@@ -12,6 +12,8 @@ import memberHTTPService from '../../../main/services/memberHTTPService';
 import { Button, LinearProgress, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import User from '../../../main/config/user';
+import SubscriptionSummary from '../SubscriptionSummary/SubscriptionSummary';
+import SubscriptionPieChart from '../SubscriptionPieChart/SubscriptionPieChart';
 
 const TypeSubs = () => {
 
@@ -111,6 +113,7 @@ const TypeSubs = () => {
               <h4 className="card-title"><i className="nc-icon nc-bullet-list-67"></i> Subscription Types</h4>
             </div>
             <div className="card-body">
+              <SubscriptionSummary />
               <div className="table">
 
 
@@ -118,6 +121,7 @@ const TypeSubs = () => {
                 {singleSelected ? <span><Button style={{ color: '#ffa400' }} onClick={e => update(e, updatedItemId)} type="button" data-toggle="modal" data-target="#edit"><i class="fas fa-edit"></i> Edit</Button>
                   <Button style={{ color: '#ffa400' }} onClick={e => remove(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button></span> : <span></span>}
                 <Button type="button" style={{ color: '#ffa400' }} onClick={() => getTypeSubs()}><i class="fas fa-refresh"></i> Reload</Button>
+                <Button style={{ color: '#ffa400' }} data-toggle="modal" data-target="#chart" type="button" ><i class="fas fa-chart-bar"></i> Analytics</Button>
 
                 {loading ?
                   <LinearProgress />
@@ -192,6 +196,8 @@ const TypeSubs = () => {
                     </div>
                   </div>
                 </div>
+
+                <SubscriptionPieChart />
               </div>
             </div>
           </div>

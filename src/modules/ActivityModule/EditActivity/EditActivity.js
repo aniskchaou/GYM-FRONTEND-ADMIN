@@ -63,8 +63,9 @@ const EditActivity = (props) => {
             <select onChange={handleInputChange} value={activity.category}
               ref={register({ required: true })}
               id="select" name="category" class="custom-select">
-              <option value="Gymnastique">Gymnastique</option>
+              <option value="Yoga">Yoga</option>
               <option value="Fitness">Fitness</option>
+              <option value="Workout">Workout</option>
             </select>
             <div className="error text-danger">
               {errors.category && activityValidation.category}

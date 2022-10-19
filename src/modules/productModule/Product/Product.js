@@ -10,6 +10,8 @@ import productMessage from '../../../main/messages/productMessage';
 import productHTTPService from '../../../main/services/productHTTPService';
 import { Button, LinearProgress, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
+import User from '../../../main/config/user';
 
 const Product = () => {
 
@@ -45,7 +47,7 @@ const Product = () => {
         setLoading(false);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -57,13 +59,13 @@ const Product = () => {
 
   const removeProductAction = (e, data) => {
     e.preventDefault();
-    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
+    var r = window.confirm(User.DELETE_MSG);
     if (r) {
       productHTTPService.removeProduct(data).then(data => {
         showMessage('Confirmation', productMessage.delete, 'success')
         resfresh()
       }).catch(e => {
-        showMessage('Confirmation', e, 'warning')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
     }
   }

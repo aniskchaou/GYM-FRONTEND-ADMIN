@@ -11,6 +11,9 @@ import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { Button, CircularProgress, LinearProgress, Typography } from '@mui/material';
 import activityMessage from '../../../main/messages/activityMessage';
 import User from '../../../main/config/user';
+import ActivitySummary from '../ActivitySummary/ActivitySummary';
+import ActivityPieChart from '../ActivityPieChart/ActivityPieChart';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 
 
@@ -55,7 +58,7 @@ const Activity = () => {
         setLoading(false)
       })
       .catch(e => {
-        showMessage('Error', e, 'warning')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -73,7 +76,8 @@ const Activity = () => {
         resfresh()
         showMessage('Confirmation', activityMessage.delete, 'success')
       }).catch(e => {
-        showMessage('Confirmation', e, 'warning')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
+
       });
     }
   }
@@ -104,11 +108,14 @@ const Activity = () => {
               <h4 className="card-title"><i class="nc-icon nc-tile-56"></i> Activities</h4>
             </div>
             <div className="card-body">
+
               <div>
                 <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addActivity" ><i class="fas fa-plus"></i> Create </Button>
                 <Button style={{ color: '#ffa400' }} onClick={e => updateActivityAction(e, updatedItemId)} type="button" data-toggle="modal" data-target="#editActivity"><i class="fas fa-edit"></i> Edit</Button>
                 <Button style={{ color: '#ffa400' }} onClick={e => removeActivityAction(e, updatedItemIds)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button>
                 <Button style={{ color: '#ffa400' }} type="button" onClick={() => getAllActivities()}><i class="fas fa-refresh"></i> Reload</Button>
+
+
                 <br /><br />
                 {loading ?
                   <LinearProgress />

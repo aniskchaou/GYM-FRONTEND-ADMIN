@@ -11,6 +11,7 @@ import staffHTTPService from '../../../main/services/staffHTTPService';
 import activityHTTPService from '../../../main/services/activityHTTPService';
 import typeSubsHTTPService from '../../../main/services/typeSubsHTTPService';
 import groupeHTTPService from '../../../main/services/groupeHTTPService'
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 
 const AddMember = (props) => {
@@ -64,7 +65,7 @@ const AddMember = (props) => {
         setStaffs(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -74,7 +75,7 @@ const AddMember = (props) => {
         setActivities(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -84,7 +85,7 @@ const AddMember = (props) => {
         setTypeSubs(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -94,7 +95,7 @@ const AddMember = (props) => {
         setGroupes(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 

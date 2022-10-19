@@ -92,6 +92,7 @@ const AddStaff = (props) => {
               id="select" name="role" class="custom-select">
               <option value="Yoga">Yoga</option>
               <option value="Fitness">Fitness</option>
+              <option value="Workout">Workout</option>
             </select>
             <div className="error text-danger">
               {errors.role && staffValidation.role}

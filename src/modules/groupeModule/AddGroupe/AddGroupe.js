@@ -7,6 +7,7 @@ import groupeMessage from '../../../main/messages/groupeMessage'
 import groupeValidation from '../../../main/validations/groupeValidation'
 import groupeHTTPService from '../../../main/services/groupeHTTPService';
 import ReactTooltip from 'react-tooltip';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 const AddGroupe = (props) => {
 
@@ -24,7 +25,7 @@ const AddGroupe = (props) => {
       showMessage('Confirmation', groupeMessage.add, 'success')
       props.closeModal(data)
     }).catch(e => {
-      console.log(e)
+      showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
     })
 
   }

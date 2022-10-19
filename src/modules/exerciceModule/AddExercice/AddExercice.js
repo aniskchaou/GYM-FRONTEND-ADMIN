@@ -6,6 +6,7 @@ import showMessage from '../../../libraries/messages/messages'
 import exerciceMessage from '../../../main/messages/exerciceMessage'
 import ExerciceTestService from '../../../main/mocks/ExerciceTestService';
 import HTTPService from '../../../main/services/HTTPService';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 const AddExercice = () => {
   const initialState = {
@@ -34,7 +35,7 @@ const AddExercice = () => {
         setExercice(initialState)
       })
       .catch(e => {
-        console.log(e);
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
 
   };

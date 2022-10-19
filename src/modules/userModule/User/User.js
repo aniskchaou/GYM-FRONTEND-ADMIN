@@ -9,6 +9,7 @@ import showMessage from '../../../libraries/messages/messages';
 import userMessage from '../../../main/messages/userMessage';
 import UserTestService from '../../../main/mocks/UserTestService';
 import HTTPService from '../../../main/services/HTTPService';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 const User = () => {
 
@@ -29,7 +30,7 @@ const User = () => {
         setUsers(response.data);
       })
       .catch(e => {
-        console.log(e);
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -57,7 +58,7 @@ const User = () => {
 
   const remove = (e, data) => {
     e.preventDefault();
-    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
+    var r = window.confirm("");
     if (r) {
       showMessage('Confirmation', userMessage.delete, 'success')
       UserTestService.remove(data)

@@ -10,6 +10,10 @@ import memberHTTPService from '../../../main/services/memberHTTPService';
 import ViewMember from '../ViewMember/ViewMember';
 import { Button, LinearProgress, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import MemberSummary from '../MemberSummary/MemberSummary';
+import MemberBarChart from '../MemberBarChart/MemberBarChart';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
+import User from '../../../main/config/user';
 
 const Member = () => {
 
@@ -53,7 +57,7 @@ const Member = () => {
         forceUpdate()
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -65,13 +69,13 @@ const Member = () => {
 
   const removeMemberAction = (e, data) => {
     e.preventDefault();
-    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
+    var r = window.confirm(User.DELETE_MSG);
     if (r) {
       memberHTTPService.removeMember(data).then(data => {
         showMessage('Confirmation', memberMessage.delete, 'success')
         resfresh()
       }).catch(e => {
-        showMessage('Confirmation', e, 'warning')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
     }
   }
@@ -114,12 +118,14 @@ const Member = () => {
             </div>
             <div className="card-body">
               <div className="table">
+                <MemberSummary />
 
                 <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addMember" ><i class="fas fa-plus"></i> Create </Button>
                 <Button style={{ color: '#ffa400' }} onClick={e => updateMemberAction(e, updatedItemId)} type="button" data-toggle="modal" data-target="#edit"><i class="fas fa-edit"></i> Edit</Button>
                 <Button style={{ color: '#ffa400' }} onClick={e => removeMemberAction(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button>
                 <Button type="button" style={{ color: '#ffa400' }} onClick={() => getAllMember()}><i class="fas fa-refresh"></i> Reload</Button>
-
+                <Button style={{ color: '#ffa400' }} data-toggle="modal" data-target="#chart" type="button" ><i class="fas fa-chart-bar"></i> Analytics</Button>
+                <MemberBarChart />
                 {loading ?
                   <LinearProgress />
                   : <div style={{ height: 430, width: '100%' }}><DataGrid
