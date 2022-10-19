@@ -18,18 +18,7 @@ const Footer = ({ connected }) => {
   return (
     <footer style={{ display: (connected ? 'block' : 'none') }} className="footer footer-black  footer-white ">
 
-      {footerSettings.enableFooter === 1 && <div className="container-fluid">
-        <div className="row">
-          <nav className="footer-nav">
 
-          </nav>
-          <div className="credits ml-auto">
-            <span className="copyright">
-              Developed by Delta dev Software
-            </span>
-          </div>
-        </div>
-      </div>}
     </footer>
   )
 };
