@@ -11,6 +11,9 @@ import eventHTTPService from '../../../main/services/eventHTTPService';
 import { Button, LinearProgress, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import User from '../../../main/config/user';
+import EventSummary from '../EventSummary/EventSummary';
+import EventBarChart from '../EventBarChart/EventBarChart';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 
 const Event = () => {
@@ -49,7 +52,7 @@ const Event = () => {
         setLoading(false)
       })
       .catch(e => {
-        console.log(e);
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -104,12 +107,13 @@ const Event = () => {
               <h4 className="card-title"><i class="nc-icon nc-bulb-63"></i> Events</h4>
             </div>
             <div className="card-body">
-
+              <EventSummary />
               <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addEvent" ><i class="fas fa-plus"></i> Create </Button>
               <Button style={{ color: '#ffa400' }} onClick={e => update(e, updatedItemId)} type="button" data-toggle="modal" data-target="#editEvent"><i class="fas fa-edit"></i> Edit</Button>
               <Button style={{ color: '#ffa400' }} onClick={e => remove(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button>
               <Button type="button" style={{ color: '#ffa400' }} onClick={() => retrieveEvents()}><i class="fas fa-refresh"></i> Reload</Button>
-
+              <Button style={{ color: '#ffa400' }} data-toggle="modal" data-target="#chart" type="button" ><i class="fas fa-chart-bar"></i> Analytics</Button>
+              <EventBarChart />
               {loading ?
                 <LinearProgress />
                 : <div style={{ height: 400, width: '100%' }}><DataGrid

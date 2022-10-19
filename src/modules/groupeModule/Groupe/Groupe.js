@@ -9,6 +9,7 @@ import useForceUpdate from 'use-force-update';
 import { Button, LinearProgress, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import User from '../../../main/config/user';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 const Groupe = () => {
 
@@ -42,7 +43,7 @@ const Groupe = () => {
         setLoading(false)
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -60,7 +61,7 @@ const Groupe = () => {
         resfresh()
         showMessage('Confirmation', 'patientMessage.delete', 'success')
       }).catch(e => {
-        showMessage('Confirmation', e, 'warning')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
     }
   }

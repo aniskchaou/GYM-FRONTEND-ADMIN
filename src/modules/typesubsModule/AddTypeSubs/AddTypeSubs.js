@@ -11,6 +11,7 @@ import { LoadJS } from '../../../libraries/datatables/datatables';
 import memberHTTPService from '../../../main/services/memberHTTPService';
 import ReactTooltip from 'react-tooltip';
 import { useHistory } from 'react-router-dom';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 const AddTypeSubs = (props) => {
 
@@ -47,7 +48,7 @@ const AddTypeSubs = (props) => {
         setMembers(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'warning')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -68,7 +69,7 @@ const AddTypeSubs = (props) => {
             <div class="col-8">
               <select onChange={handleInputChange} value={job.category} ref={register({ required: true })}
                 id="select" name="category" class="custom-select">
-                <option value="Sliver">Silver</option>
+                <option value="Silver">Silver</option>
                 <option value="Gold">Gold</option>
                 <option value="Premium">Premium</option>
               </select>

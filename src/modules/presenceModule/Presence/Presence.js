@@ -14,6 +14,8 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import memberHTTPService from '../../../main/services/memberHTTPService';
 import productMessage from '../../../main/messages/productMessage';
+import AttendanceSummary from '../AttendanceSummary/AttendanceSummary';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 const Presence = () => {
   let yourDate = new Date().toISOString()
@@ -45,7 +47,7 @@ const Presence = () => {
       showMessage('Confirmation', productMessage.add, 'success')
       history.replace('/presence')
     }).catch(e => {
-      showMessage('Confirmation', e.message, 'warning')
+      showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
     })
   }
 
@@ -56,7 +58,7 @@ const Presence = () => {
         setAttendance(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'warning')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -72,7 +74,7 @@ const Presence = () => {
         setMembers(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -85,6 +87,7 @@ const Presence = () => {
               <h4 className="card-title"><i class="nc-icon nc-paper"></i> Attendances</h4>
             </div>
             <div className="card-body">
+              <AttendanceSummary />
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div class="form-group row">
                   <label for="text" class="col-4 col-form-label">Member Name</label>

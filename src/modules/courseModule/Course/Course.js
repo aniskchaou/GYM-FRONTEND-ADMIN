@@ -9,6 +9,7 @@ import showMessage from '../../../libraries/messages/messages';
 import courseMessage from '../../../main/messages/courseMessage';
 import CourseTestService from '../../../main/mocks/CourseTestService';
 import HTTPService from '../../../main/services/HTTPService';
+import User from '../../../main/config/user';
 
 const Course = () => {
 
@@ -58,7 +59,7 @@ const Course = () => {
 
   const remove = (e, data) => {
     e.preventDefault();
-    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
+    var r = window.confirm(User.DELETE_MSG);
     if (r) {
       showMessage('Confirmation', courseMessage.delete, 'success')
       CourseTestService.remove(data)

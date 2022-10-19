@@ -8,8 +8,16 @@ const getAllAtendances = () => {
 const createtendances = (data) => {
     return http.post(`${BASE_URL}/api/attendance`, data)
 }
+const getTotalAttendance = () => {
+    return http.get(`${BASE_URL}/api/count/attendance/all`)
+}
 
+const getTodayAttendance = () => {
+    return http.get(`${BASE_URL}/api/count/attendance/today`)
+}
 export default {
     getAllAtendances,
-    createtendances
+    createtendances,
+    getTotalAttendance,
+    getTodayAttendance
 };

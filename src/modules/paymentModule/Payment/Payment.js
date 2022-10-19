@@ -11,6 +11,8 @@ import PaymentTestService from '../../../main/mocks/PaymentTestService';
 import paymentHTTPService from '../../../main/services/paymentHTTPService';
 import { Button, LinearProgress, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
+import User from '../../../main/config/user';
 
 
 const Payment = () => {
@@ -47,7 +49,7 @@ const Payment = () => {
         setLoading(false)
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -59,13 +61,13 @@ const Payment = () => {
 
   const removePaymentAction = (e, data) => {
     e.preventDefault();
-    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
+    var r = window.confirm(User.DELETE_MSG);
     if (r) {
       showMessage('Confirmation', paymentMessage.delete, 'success')
       paymentHTTPService.removePayment(data).then(data => {
         resfresh()
       }).catch(e => {
-        showMessage('Confirmation', e, 'warning')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
     }
   }

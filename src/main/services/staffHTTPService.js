@@ -20,10 +20,30 @@ const getCountStaff = () => {
     return http.get(`${BASE_URL}/api/count/staff`)
 }
 
+const getAll = () => {
+    return http.get(`${BASE_URL}/api/count/staff/all`)
+}
+
+const getWorkOut = () => {
+    return http.get(`${BASE_URL}/api/count/staff/workout`)
+}
+
+const getAllFitness = () => {
+    return http.get(`${BASE_URL}/api/count/staff/fitness`)
+}
+
+const getAllYoga = () => {
+    return http.get(`${BASE_URL}/api/count/staff/yoga`)
+}
 export default {
     getAllStaff,
     createStaff,
     editStaff,
     removeStaff,
-    getCountStaff
+    getCountStaff,
+    getAll,
+    getWorkOut,
+    getAllFitness,
+    getAllYoga
 };
+

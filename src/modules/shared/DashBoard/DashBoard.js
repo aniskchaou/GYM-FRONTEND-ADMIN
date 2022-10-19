@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './DashBoard.css';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -33,6 +33,8 @@ import staffHTTPService from '../../../main/services/staffHTTPService';
 import groupeHTTPService from '../../../main/services/groupeHTTPService';
 import settingsHTTPService from '../../../main/services/settingsHTTPService';
 import { useHistory } from 'react-router-dom';
+import typeSubsHTTPService from '../../../main/services/typeSubsHTTPService';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 
 ChartJS.register(
@@ -123,6 +125,12 @@ const DashBoard = () => {
   const [activityCount, setActivityCount] = useState(0);
   const [dashboardSettings, setDashboardSettings] = useState([]);
   let history = useHistory()
+  const [silver, setSilver] = useState(0);
+  const [gold, setGold] = useState(0);
+  const [premium, setPremium] = useState(0);
+  const [workout, setWorkout] = useState(0);
+  const [fitness, setFitness] = useState(0);
+  const [yoga, setYoga] = useState(0);
 
   useEffect(() => {
     if (localStorage.getItem('connected') == undefined) {
@@ -138,6 +146,27 @@ const DashBoard = () => {
     getStaffCount()
     getGroupCount()
     getDashboardSettings()
+
+    typeSubsHTTPService.getGold().then(data => {
+      setGold(data.data.gold)
+    })
+    typeSubsHTTPService.getPremium().then(data => {
+      setPremium(data.data.premium)
+    })
+    typeSubsHTTPService.getSilver().then(data => {
+      setSilver(data.data.silver)
+    })
+
+    staffHTTPService.getAllFitness().then(data => {
+      setFitness(data.data.fitness)
+    })
+    staffHTTPService.getAllYoga().then(data => {
+      setYoga(data.data.yoga)
+    })
+    staffHTTPService.getWorkOut().then(data => {
+      setWorkout(data.data.workout)
+    })
+
   }, []);
 
   const getActivityCount = () => {
@@ -170,7 +199,7 @@ const DashBoard = () => {
         setAttendance(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -182,7 +211,7 @@ const DashBoard = () => {
         setExpenseChart(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -193,7 +222,7 @@ const DashBoard = () => {
         setmemberLine(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -204,7 +233,7 @@ const DashBoard = () => {
         setIncomeChart(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -214,7 +243,7 @@ const DashBoard = () => {
         setActivityPie(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -343,6 +372,62 @@ const DashBoard = () => {
                     </div>
                   </div>
                 }
+                <div className="col-md-6">
+                  <div className="card">
+                    <div className="card-body">
+
+                      <h4 className="mb-3">Subscription types</h4>
+                      <Pie data={{
+                        labels: ['Premium', 'Silver', 'Gold'],
+                        datasets: [
+                          {
+                            label: '# of Votes',
+                            data: [gold, premium, silver],
+                            backgroundColor: [
+                              'rgba(255, 99, 132, 0.2)',
+                              'rgba(54, 162, 235, 0.2)',
+                              'rgba(255, 206, 86, 0.2)'
+                            ],
+                            borderColor: [
+                              'rgba(255, 99, 132, 1)',
+                              'rgba(54, 162, 235, 1)',
+                              'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1,
+                          },
+                        ],
+                      }} />
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="card">
+                    <div className="card-body">
+
+                      <h4 className="mb-3">Staffs</h4>
+                      <Pie data={{
+                        labels: ['Workout', 'Fitness', 'Yoga'],
+                        datasets: [
+                          {
+                            label: '# of Votes',
+                            data: [workout, fitness, yoga],
+                            backgroundColor: [
+                              'rgba(255, 99, 132, 0.2)',
+                              'rgba(54, 162, 235, 0.2)',
+                              'rgba(255, 206, 86, 0.2)'
+                            ],
+                            borderColor: [
+                              'rgba(255, 99, 132, 1)',
+                              'rgba(54, 162, 235, 1)',
+                              'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1,
+                          },
+                        ],
+                      }} />
+                    </div>
+                  </div>
+                </div>
                 {dashboardSettings.showCalendar == 1 &&
                   <div class="col-lg-12">
                     <div class="card">

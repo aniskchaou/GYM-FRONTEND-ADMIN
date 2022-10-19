@@ -19,11 +19,19 @@ const removeExpense = id => {
 const getExpenseByDate = () => {
     return http.get(`${BASE_URL}/api/expensebydate`)
 }
+const getTotalExpense = () => {
+    return http.get(`${BASE_URL}/api/count/expense/all`)
+}
 
+const getTodayExpense = () => {
+    return http.get(`${BASE_URL}/api/count/expense/today`)
+}
 export default {
     getAllExpense,
     createExpense,
     editExpense,
     removeExpense,
-    getExpenseByDate
+    getExpenseByDate,
+    getTotalExpense,
+    getTodayExpense
 };

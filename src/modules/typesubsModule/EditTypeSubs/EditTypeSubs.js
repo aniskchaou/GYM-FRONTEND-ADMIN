@@ -7,6 +7,7 @@ import typeSubMessage from '../../../main/messages/typeSubMessage '
 import typeSubsHTTPService from '../../../main/services/typeSubsHTTPService'
 import ReactTooltip from 'react-tooltip';
 import memberHTTPService from '../../../main/services/memberHTTPService';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
 
 const EditTypeSubs = (props) => {
 
@@ -38,7 +39,7 @@ const EditTypeSubs = (props) => {
         setMembers(response.data);
       })
       .catch(e => {
-        showMessage('Confirmation', e, 'info')
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 

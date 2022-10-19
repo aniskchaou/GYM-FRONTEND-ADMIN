@@ -10,6 +10,11 @@ import staffHTTPService from '../../../main/services/staffHTTPService';
 import ViewStaff from '../ViewStaff/ViewStaff';
 import { Button, LinearProgress, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import StaffSummary from '../StaffSummary/StaffSummary';
+import StaffPieChart from '../StaffPieChart/StaffPieChart';
+import { HTTP_ERR_MESSAGE } from '../../../main/messages/generic.message';
+import showMessage from '../../../libraries/messages/messages';
+import User from '../../../main/config/user';
 
 
 const Staff = () => {
@@ -62,7 +67,7 @@ const Staff = () => {
         setStaffs(response.data);
       })
       .catch(e => {
-        console.log(e);
+        showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
       });
   };
 
@@ -73,7 +78,7 @@ const Staff = () => {
 
   const remove = (e, data) => {
     e.preventDefault();
-    var r = window.confirm("Etes-vous sûr que vous voulez supprimer ?");
+    var r = window.confirm(User.DELETE_MSG);
     if (r) {
       staffHTTPService.removeStaff(data).then(data => {
         console.log(data)
@@ -104,19 +109,23 @@ const Staff = () => {
 
   return (
     <div className="content">
+
       <div className="row">
+
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
               <h4 className="card-title"> <i className="nc-icon nc-single-02"></i> Staff</h4>
             </div>
             <div className="card-body">
+              <StaffSummary />
               <div className="table">
 
                 <Button style={{ color: '#ffa400' }} type="button" data-toggle="modal" data-target="#addStaff" ><i class="fas fa-plus"></i> Create </Button>
                 <Button style={{ color: '#ffa400' }} onClick={e => update(e, updatedItemId)} type="button" data-toggle="modal" data-target="#edit"><i class="fas fa-edit"></i> Edit</Button>
                 <Button style={{ color: '#ffa400' }} onClick={e => remove(e, updatedItemId)} type="button" ><i class="fas fa-trash-alt"></i> Remove</Button>
                 <Button type="button" style={{ color: '#ffa400' }} onClick={() => retrieveStaffs()}><i class="fas fa-refresh"></i> Reload</Button>
+                <Button style={{ color: '#ffa400' }} data-toggle="modal" data-target="#chart" type="button" ><i class="fas fa-chart-bar"></i>Analytics</Button>
 
                 {loading ?
                   <LinearProgress />
@@ -189,6 +198,7 @@ const Staff = () => {
                     </div>
                   </div>
                 </div>
+                <StaffPieChart />
 
               </div>
             </div>

@@ -61,7 +61,7 @@ const Header = ({ connected, handleClick }) => {
               <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                 <NavLink className="dropdown-item" to="/profile"> Profil</NavLink>
                 <NavLink className="dropdown-item" to="/configuration">Settings</NavLink>
-                <a className="dropdown-item" href="http://localhost:5000">Website</a>
+                <a className="dropdown-item" href={User.BACKOFFICE_URL}>Website</a>
                 <a onClick={logout} className="dropdown-item" href="#">Log out</a>
               </div>
             </li>
