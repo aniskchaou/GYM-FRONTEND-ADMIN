@@ -24,8 +24,8 @@ const EditNotificationsSettings = () => {
 
   const getNotificationsSettings = () => {
     settingsHTTPService.getNotificationSettings().then(data => {
-      console.log(data.data[0])
-      setNotificationsSettings(data.data[0])
+      console.log(data?.data[0])
+      setNotificationsSettings(data?.data[0])
 
     })
   }

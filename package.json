@@ -16,7 +16,6 @@
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.2.2",
     "axios": "^0.21.0",
-    "bootstrap": "^4.5.3",
     "chart.js": "^3.8.2",
     "choices.js": "^10.1.0",
     "express": "^4.17.1",

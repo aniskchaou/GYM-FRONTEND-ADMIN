@@ -20,7 +20,7 @@ const Login = ({ handleClick }) => {
 
 
   const onSubmit = (data) => {
-    userHTTPService.login({ username: activity.username, password: activity.password })
+/*     userHTTPService.login({ username: activity.username, password: activity.password })
       .then(response => {
         setActivity(userInit)
         if (Object.keys(response.data).length !== 0) {
@@ -36,8 +36,12 @@ const Login = ({ handleClick }) => {
       .catch(e => {
         showMessage('Error', HTTP_ERR_MESSAGE, 'warning')
         console.log(e)
-      });
+      }); */
 
+       handleClick(true)
+          //User.USER_DETAIL = response.data
+          localStorage.setItem('connected', User.CONNECTED_USER);
+          history.push("/dashboard")
 
   }
 

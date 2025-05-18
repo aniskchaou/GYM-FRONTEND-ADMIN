@@ -23,7 +23,7 @@ const EditLocalisationSettings = () => {
 
   const getDLocalisationSettings = () => {
     settingsHTTPService.getLocalisationSettings().then(data => {
-      setLocalisationSettings(data.data[0])
+      setLocalisationSettings(data?.data[0])
 
     })
   }

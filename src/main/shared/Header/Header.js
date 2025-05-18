@@ -49,8 +49,8 @@ const Header = ({ connected, handleClick }) => {
           <span className="navbar-toggler-bar navbar-kebab"></span>
         </button>
         <div className="collapse navbar-collapse justify-content-end" id="navigation">
-          {headerSettings.enbaleSearchBar == 1 &&
-            <SearchBar />
+          {/* headerSettings.enbaleSearchBar == 1 &&
+            <SearchBar /> */
           }
           <ul className="navbar-nav">
             <li className="nav-item btn-rotate dropdown">

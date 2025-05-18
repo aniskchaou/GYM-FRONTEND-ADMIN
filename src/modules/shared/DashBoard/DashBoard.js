@@ -249,7 +249,7 @@ const DashBoard = () => {
 
   const getDashboardSettings = () => {
     settingsHTTPService.getDashboardSettings().then(data => {
-      setDashboardSettings(data.data[0])
+      setDashboardSettings(data?.data[0])
       console.log(dashboardSettings)
 
     })
@@ -265,7 +265,7 @@ const DashBoard = () => {
             </div>
             <div classNameName="card-body">
               <div className="row">
-                {dashboardSettings.showSummary == 1 &&
+                {dashboardSettings?.showSummary == 1 &&
                   <div className="col-lg-3 col-md-6 col-sm-6">
                     <div className="card card-stats">
                       <div className="card-body ">
@@ -286,7 +286,7 @@ const DashBoard = () => {
 
                     </div>
                   </div>}
-                {dashboardSettings.showSummary == 1 &&
+                {dashboardSettings?.showSummary == 1 &&
                   <div className="col-lg-3 col-md-6 col-sm-6">
                     <div className="card card-stats">
                       <div className="card-body ">
@@ -307,7 +307,7 @@ const DashBoard = () => {
 
                     </div>
                   </div>}
-                {dashboardSettings.showSummary == 1 &&
+                {dashboardSettings?.showSummary == 1 &&
                   <div className="col-lg-3 col-md-6 col-sm-6">
                     <div className="card card-stats">
                       <div className="card-body ">
@@ -328,7 +328,7 @@ const DashBoard = () => {
 
                     </div>
                   </div>}
-                {dashboardSettings.showSummary == 1 &&
+                {dashboardSettings?.showSummary == 1 &&
                   <div className="col-lg-3 col-md-6 col-sm-6">
                     <div className="card card-stats">
                       <div className="card-body ">
@@ -350,7 +350,7 @@ const DashBoard = () => {
                     </div>
                   </div>
                 }
-                {dashboardSettings.showExpenseIncomeCharts == 1 &&
+                {dashboardSettings?.showExpenseIncomeCharts == 1 &&
                   <div className="col-md-6">
                     <div className="card">
                       <div className="card-body">
@@ -361,7 +361,7 @@ const DashBoard = () => {
                     </div>
                   </div>
                 }
-                {dashboardSettings.showExpenseIncomeCharts == 1 &&
+                {dashboardSettings?.showExpenseIncomeCharts == 1 &&
                   <div className="col-md-6">
                     <div className="card">
                       <div className="card-body">
@@ -428,7 +428,7 @@ const DashBoard = () => {
                     </div>
                   </div>
                 </div>
-                {dashboardSettings.showCalendar == 1 &&
+                {dashboardSettings?.showCalendar == 1 &&
                   <div class="col-lg-12">
                     <div class="card">
                       <div class="card-body">

@@ -27,24 +27,24 @@ const Member = () => {
   const [updatedItemIds, setUpdatedItemIds] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showChart, setShowChart] = useState(false);
-  const columns = [
-    { field: 'id', headerName: '#', width: 200 },
-    { field: 'first_name', headerName: 'First Name', width: 200 },
-    { field: 'last_name', headerName: 'Last Name', width: 200 },
-    { field: 'birth_date', headerName: 'Birth Date', width: 200 },
-    { field: 'activity', headerName: 'Activity', width: 200 },
-    { field: 'address', headerName: 'Address', width: 200 },
-    { field: 'weight', headerName: 'Weight', width: 200 },
-    { field: 'size', headerName: 'Size', width: 200 },
-    { field: 'start_date', headerName: 'Start', width: 200 },
-    { field: 'end_date', headerName: 'End', width: 200 },
-    { field: 'type', headerName: 'Type', width: 200 },
-    { field: 'groupe', headerName: 'Group', width: 200 },
-    { field: 'coach', headerName: 'Coach', width: 200 }
-  ];
+const columns = [
+  { field: 'id', headerName: '#', width: 100 },
+  { field: 'firstName', headerName: 'First Name', width: 150 },
+  { field: 'lastName', headerName: 'Last Name', width: 150 },
+  { field: 'email', headerName: 'Email', width: 200 },
+  { field: 'phone', headerName: 'Phone', width: 150 },
+  { field: 'dateOfBirth', headerName: 'Birth Date', width: 150 },
+  { field: 'gender', headerName: 'Gender', width: 100 },
+  { field: 'membership', headerName: 'Membership', width: 200 },
+  { field: 'preferences', headerName: 'Preferences', width: 200 },
+  { field: 'wearableDevice', headerName: 'Device', width: 200 },
+  { field: 'workoutHistory', headerName: 'Workout History', width: 250 },
+  { field: 'aiRecommendations', headerName: 'AI Recommendations', width: 250 }
+];
+
 
   useEffect(() => {
-    LoadJS()
+    //LoadJS()
     getAllMember()
   }, []);
 

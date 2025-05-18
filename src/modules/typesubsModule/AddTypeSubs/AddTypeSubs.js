@@ -26,6 +26,32 @@ const AddTypeSubs = (props) => {
     time_payment: ""
   };
 
+  const [pricing, setPricing] = useState('');
+  const [duration, setDuration] = useState('');
+  const [enrollment, setEnrollment] = useState('');
+  const [accessToTrainingTimes, setAccessToTrainingTimes] = useState(1);
+
+  const [cost, setCost] = useState('');
+  const [frequency, setFrequency] = useState('');
+  const [frequencyType, setFrequencyType] = useState('');
+  const [signUpFee, setSignUpFee] = useState('');
+  const [chargeLateFees, setChargeLateFees] = useState(false);
+  const [lateFeesAfter, setLateFeesAfter] = useState('');
+
+  const [membershipFeeOnRenewal, setMembershipFeeOnRenewal] = useState(false);
+  const [documents, setDocuments] = useState(null);
+
+  const [limitedDuration, setLimitedDuration] = useState('');
+  const [cancellationFee, setCancellationFee] = useState('');
+
+  const [periodicStart, setPeriodicStart] = useState('');
+  const [periodicEnd, setPeriodicEnd] = useState('');
+
+  const [maxMembers, setMaxMembers] = useState(1);
+  const [availableForSignup, setAvailableForSignup] = useState(false);
+  const [availableInPortal, setAvailableInPortal] = useState(false);
+  const [canBookSessions, setCanBookSessions] = useState(false);
+
   const { register, handleSubmit, errors } = useForm()
   const [job, setJob] = useState(initialState);
   const [members, setMembers] = useState([]);
@@ -55,6 +81,12 @@ const AddTypeSubs = (props) => {
   const handleInputChange = event => {
     const { name, value } = event.target;
     setJob({ ...job, [name]: value });
+  };
+
+
+
+  const handleDocumentsChange = (e) => {
+      setDocuments(e.target.files[0]);
   };
 
 
@@ -159,6 +191,12 @@ const AddTypeSubs = (props) => {
             </div>
           </div>
 
+
+
+         
+
+        
+
           <div class="form-group row">
             <div class="offset-4 col-8">
               <button name="submit" type="submit" class="btn btn-primary"><i class="far fa-save"></i>
@@ -166,6 +204,194 @@ const AddTypeSubs = (props) => {
             </div>
           </div>
         </form>
+
+
+        <label>
+                Pricing:
+                <select value={pricing} onChange={(e) => setPricing(e.target.value)}>
+                    <option value="">Select Pricing</option>
+                    <option value="Recurring">Recurring</option>
+                    <option value="OneTime">One Time</option>
+                    <option value="PerSession">Per-Session</option>
+                    <option value="Trial">Trial</option>
+                </select>
+            </label>
+
+            {pricing === 'Recurring' && (
+                <>
+                    <label>
+                        Cost:
+                        <input type="number" value={cost} onChange={(e) => setCost(e.target.value)} />
+                    </label>
+                    <br />
+                    <label>
+                        Frequency Every:
+                        <input type="number" value={frequency} onChange={(e) => setFrequency(e.target.value)} />
+                        <select value={frequencyType} onChange={(e) => setFrequencyType(e.target.value)}>
+                            <option value="Days">Days</option>
+                            <option value="Weeks">Weeks</option>
+                            <option value="Months">Months</option>
+                            <option value="Years">Years</option>
+                        </select>
+                    </label>
+                    <br />
+                    <label>
+                        Sign-Up Fee:
+                        <input type="number" value={signUpFee} onChange={(e) => setSignUpFee(e.target.value)} />
+                    </label>
+                    <br />
+                    <label>
+                        Charge Late Fees:
+                        <input type="checkbox" checked={chargeLateFees} onChange={(e) => setChargeLateFees(e.target.checked)} />
+                    </label>
+                    <br />
+                    {chargeLateFees && (
+                        <label>
+                            After: <input type="number" value={lateFeesAfter} onChange={(e) => setLateFeesAfter(e.target.value)} /> days
+                        </label>
+                    )}
+                </>
+            )}
+
+            {pricing === 'OneTime' && (
+                <>
+                    <label>
+                        Cost:
+                        <input type="number" value={cost} onChange={(e) => setCost(e.target.value)} />
+                    </label>
+                    <br />
+                    <label>
+                        Sign-Up Fee:
+                        <input type="number" value={signUpFee} onChange={(e) => setSignUpFee(e.target.value)} />
+                    </label>
+                    <br />
+                    <label>
+                        Charge Late Fees:
+                        <input type="checkbox" checked={chargeLateFees} onChange={(e) => setChargeLateFees(e.target.checked)} />
+                    </label>
+                    <br />
+                    <label>
+                        Charge Membership Fee Again on Auto Renewal:
+                        <input type="checkbox" checked={membershipFeeOnRenewal} onChange={(e) => setMembershipFeeOnRenewal(e.target.checked)} />
+                    </label>
+                </>
+            )}
+
+            {(pricing === 'PerSession' || pricing === 'Trial') && (
+                <>
+                    <label>
+                        Cost:
+                        <input type="number" value={cost} onChange={(e) => setCost(e.target.value)} />
+                    </label>
+                    <br />
+                    <label>
+                        Sign-Up Fee:
+                        <input type="number" value={signUpFee} onChange={(e) => setSignUpFee(e.target.value)} />
+                    </label>
+                    <br />
+                    <label>
+                        Charge Late Fees:
+                        <input type="checkbox" checked={chargeLateFees} onChange={(e) => setChargeLateFees(e.target.checked)} />
+                    </label>
+                </>
+            )}
+
+            <br />
+            <label>
+                Documents:
+                <input type="file" onChange={handleDocumentsChange} />
+            </label>
+
+            <br />
+            <label>
+                Duration:
+                <select value={duration} onChange={(e) => setDuration(e.target.value)}>
+                    <option value="">Select Duration</option>
+                    <option value="Ongoing">Ongoing</option>
+                    <option value="LimitedDuration">Limited Duration</option>
+                    <option value="Periodic">Periodic</option>
+                </select>
+            </label>
+
+            {duration === 'LimitedDuration' && (
+                <>
+                    <label>
+                        Duration (Months or Days):
+                        <input type="text" value={limitedDuration} onChange={(e) => setLimitedDuration(e.target.value)} />
+                    </label>
+                    <br />
+                    <label>
+                        Cancellation Fee:
+                        <input type="number" value={cancellationFee} onChange={(e) => setCancellationFee(e.target.value)} />
+                    </label>
+                </>
+            )}
+
+            {duration === 'Periodic' && (
+                <>
+                    <label>
+                        Start:
+                        <input type="date" value={periodicStart} onChange={(e) => setPeriodicStart(e.target.value)} />
+                    </label>
+                    <br />
+                    <label>
+                        End:
+                        <input type="date" value={periodicEnd} onChange={(e) => setPeriodicEnd(e.target.value)} />
+                    </label>
+                    <br />
+                    <label>
+                        Cancellation Fee:
+                        <input type="number" value={cancellationFee} onChange={(e) => setCancellationFee(e.target.value)} />
+                    </label>
+                </>
+            )}
+
+            <br />
+            <label>
+                Access To Training Times:
+                <input type="number" value={accessToTrainingTimes} min="1" max="10" onChange={(e) => setAccessToTrainingTimes(e.target.value)} />
+                <select value={frequencyType} onChange={(e) => setFrequencyType(e.target.value)}>
+                    <option value="Days">Days</option>
+                    <option value="Weeks">Weeks</option>
+                </select>
+            </label>
+            
+            <br />
+            <label>
+                Enrollment:
+                <select value={enrollment} onChange={(e) => setEnrollment(e.target.value)}>
+                    <option value="unlimited">Unlimited</option>
+                    <option value="limited">Limited</option>
+                </select>
+            </label>
+
+            {enrollment === 'limited' && (
+                <>
+                    <label>
+                        Maximum Members:
+                        <input type="number" value={maxMembers} min="1" max="10" onChange={(e) => setMaxMembers(e.target.value)} />
+                    </label>
+                    <br />
+                    <label>
+                        Available for selection on the sign-up form:
+                        <input type="checkbox" checked={availableForSignup} onChange={(e) => setAvailableForSignup(e.target.checked)} />
+                    </label>
+                    <br />
+                    <label>
+                        Available for selection in the member portal:
+                        <input type="checkbox" checked={availableInPortal} onChange={(e) => setAvailableInPortal(e.target.checked)} />
+                    </label>
+                    <br />
+                    <label>
+                        Members can book sessions:
+                        <input type="checkbox" checked={canBookSessions} onChange={(e) => setCanBookSessions(e.target.checked)} />
+                    </label>
+                </>
+            )}
+
+
+
+
       </div>
     </div>
   )

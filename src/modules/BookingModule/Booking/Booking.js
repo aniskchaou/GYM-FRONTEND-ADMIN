@@ -105,7 +105,26 @@ const Booking = () => {
                       </div>
                       <div class="modal-footer">
                         <button onClick={resfresh} type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-
+                        <div className="booking">
+      <div className="booking-item">
+        <strong>Member:</strong> 
+      </div>
+      <div className="booking-item">
+        <strong>Trainer:</strong> 
+      </div>
+      <div className="booking-item">
+        <strong>Activity/Event:</strong> 
+      </div>
+      <div className="booking-item">
+        <strong>Date:</strong> 
+      </div>
+      <div className="booking-item">
+        <strong>Time:</strong> 
+      </div>
+      <div className="booking-item">
+        <strong>Status:</strong> 
+      </div>
+    </div>
                       </div>
                     </div>
                   </div>

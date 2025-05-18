@@ -289,6 +289,17 @@ const AddMember = (props) => {
           </div>
         </div>
 
+        <div class="form-group row">
+          <label for="select" class="col-4 col-form-label">Type</label>
+          <div class="col-8">
+            <select  id="select" name="type" class="custom-select">
+             <option value="Member">Member</option>
+             <option valie="Visitor">Visitor</option>
+            </select>
+           
+          </div>
+        </div>
+
 
         <div class="form-group row">
           <label for="select3" class="col-4 col-form-label">Coach</label>

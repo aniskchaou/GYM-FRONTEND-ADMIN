@@ -21,8 +21,8 @@ const EditEmailSettings = () => {
 
   const getEmailSettings = () => {
     settingsHTTPService.getEmailSettings().then(data => {
-      console.log(data.data[0])
-      setEmailSettings(data.data[0])
+      console.log(data?.data[0])
+      setEmailSettings(data?.data[0])
 
     })
   }

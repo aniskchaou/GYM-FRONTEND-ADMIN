@@ -41,17 +41,18 @@ const TypeSubs = () => {
   ];
 
   useEffect(() => {
-    LoadJS()
+    //LoadJS()
     getTypeSubs()
     getMembers()
   }, []);
+  
 
 
   const getTypeSubs = () => {
     setLoading(true)
     typeSubsHTTPService.getAllTypeSubs().then(data => {
       setTypeSubs(data.data);
-      forceUpdate()
+      //forceUpdate()
       setLoading(false)
     })
   };

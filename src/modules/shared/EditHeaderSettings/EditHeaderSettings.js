@@ -21,7 +21,7 @@ const EditHeaderSettings = () => {
 
   const getHeaderSettings = () => {
     settingsHTTPService.getHeaderSettings().then(data => {
-      setHeaderSettings(data.data[0])
+      setHeaderSettings(data?.data[0])
 
     })
   }

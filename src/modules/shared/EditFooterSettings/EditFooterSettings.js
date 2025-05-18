@@ -22,7 +22,7 @@ const EditFooterSettings = () => {
 
   const getFooterSettings = () => {
     settingsHTTPService.getFooterSettings().then(data => {
-      setFooterSettings(data.data[0])
+      setFooterSettings(data?.data[0])
 
     })
   }
